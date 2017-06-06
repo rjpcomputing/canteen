@@ -3,15 +3,15 @@
 </div>
 <div class="modal-body">
 	<form name="loginForm" novalidate>
-		<div ng-class="username ? 'has-success' : 'has-error'" class="form-group has-feedback">
-			<label for="username">Username</label>
-			<input ng-model="username" type="text" class="form-control" name="username" placeholder="Username" required>
-<!--			<span ng-class="username ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+		<div ng-class="email ? 'has-success' : 'has-error'" class="form-group has-feedback">
+			<label for="email">Email</label>
+			<input ng-model="email" type="text" class="form-control" name="email" placeholder="email" required>
+			<span ng-class="email ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>
 		</div>
 		<div ng-class="password ? 'has-success' : 'has-error'" class="form-group has-feedback">
 			<label for="password">Password</label>
 			<input ng-model="password" type="password" class="form-control" name="password" placeholder="Password" required>
-<!--			<span ng-class="password ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+			<span ng-class="password ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>
 		</div>
 		<div class="clearfix" style="margin-top: 10px;">
 			<button ng-click="Login()" ng-disabled="loginForm.$invalid" class="btn btn-primary pull-right">Login</button>

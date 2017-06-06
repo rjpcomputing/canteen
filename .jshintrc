@@ -1,0 +1,6 @@
+{
+	//"devel": true,
+	"browser": true,
+	"predef": ["angular"],
+	"esversion": 6
+}

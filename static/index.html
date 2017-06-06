@@ -10,7 +10,9 @@
 		<link rel="shortcut icon" href="favicon.ico?v=1">
 		<link rel="stylesheet" href="vendor/bootstrap/css/jumbotron-narrow.css" />
 		<link rel="stylesheet" href="vendor/bootstrap/css/themes/sandstone/bootstrap.min.css" />
+		<link rel='stylesheet' href='vendor/angular-loading-bar/0.7.1/loading-bar.min.css' />
 		<link rel="stylesheet" href="default.css" />
+		<link rel="stylesheet" href="print-style.css" type="text/css" media="print" />
 		<title>Canteen</title>
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -37,10 +39,11 @@
 						<ul class="nav navbar-nav">
 							<li ui-sref-active="active"><a href ui-sref="store">Store</a></li>
 							<li ui-sref-active="active"><a href ui-sref="supply">Supply</a></li>
+							<li ui-sref-active="active"><a href ui-sref="supply">Setup</a></li>
 							<li ui-sref-active="active"><a href ng-click="ShowAboutDialog()">About</a></li>
 							<li ui-sref-active="active" ng-if="IsAdmin()"><a href ui-sref="admin">Admin</a></li>
 						</ul>
-						<form class="navbar-form navbar-right">
+						<!--<form class="navbar-form navbar-right">
 							<div class="form-group">
 								<input type="text" placeholder="Email" class="form-control">
 							</div>
@@ -48,7 +51,18 @@
 								<input type="password" placeholder="Password" class="form-control">
 							</div>
 							<button type="submit" class="btn btn-success">Sign in</button>
-						</form>
+						</form>-->
+						<div ng-if="currentUser.firstname" uib-dropdown class="navbar-form navbar-right">
+							<button type="button" class="btn btn-warning btn-user-options" style="margin-left: 15px;" uib-dropdown-toggle>
+								<span class="glyphicon glyphicon-user"></span>
+								<span> {{currentUser.firstname}} {{currentUser.lastname}} </span>
+							</button>
+							<ul class="dropdown-menu" role="menu">
+								<li><a ui-sref="users-profile( { id: currentUser.id } )">View Profile</a></li>
+								<li class="divider"></li>
+								<li ng-click="Logout()"><a href="#/">Sign out</a></li>
+							</ul>
+						</div>
 					</div><!--/.navbar-collapse -->
 				</div>
 			</nav>
@@ -62,13 +76,32 @@
 			</footer>
 		</div>
 
+		<script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
+		<script>
+			// Initialize Firebase
+			var config =
+			{
+				apiKey: "AIzaSyDno25_gIAnJWJoM7oK-QCcM2w_zfFvXPs",
+				authDomain: "canteen-13d35.firebaseapp.com",
+				databaseURL: "https://canteen-13d35.firebaseio.com",
+				projectId: "canteen-13d35",
+				storageBucket: "canteen-13d35.appspot.com",
+				messagingSenderId: "835685886186"
+			};
+			firebase.initializeApp(config);
+		</script>
 		<script src="common/iecheck.js"></script>
 		<script src="vendor/angular/angular.min.js"></script>
-		<script src="vendor/angular/angular-route.min.js"></script>
+		<script src="vendor/angular/angular-resource.min.js"></script>
+		<!--<script src="vendor/angular/angular-route.min.js"></script>-->
 		<script src="vendor/angular/angular-cookies.min.js"></script>
 		<script src="vendor/angular/angular-animate.min.js"></script>
 		<script src="vendor/angular-ui/bootstrap/2.3.1/ui-bootstrap-tpls-2.3.1.min.js"></script>
-		<script src="app.js"></script>
+		<script src="vendor/angular-ui/router/1.0.3/angular-ui-router.min.js"></script>
+		<script src='vendor/angular-loading-bar/0.7.1/loading-bar.min.js'></script>
+		<script src="common/services.js"></script>
 		<script src="common/about/about.js"></script>
+		<script src="common/login/login.js"></script>
+		<script src="app.js"></script>
 	</body>
 </html>

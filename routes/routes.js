@@ -1,3 +1,8 @@
+const express = require( "express" );
+const apiRouter = express.Router();
+const config = require( "../config" );
+const UsersController = require( "../controllers/user" );
+
 var appRouter = function( app )
 {
 	//app.get( "/", function( req, res )
@@ -5,7 +10,7 @@ var appRouter = function( app )
 		//res.send("Hello World");
 	//} );
 
-	app.get( "/api/account", function( req, res )
+	app.get( "/api/user/:id", function( req, res )
 	{
 		var accountMock =
 		{
@@ -28,17 +33,7 @@ var appRouter = function( app )
 		}
 	} );
 
-	app.post( "/api/account", function( req, res )
-	{
-		if ( !req.body.username || !req.body.password || !req.body.twitter )
-		{
-			return res.send( { "status": "error", "message": "missing a parameter" } );
-		}
-		else
-		{
-			return res.send( req.body );
-		}
-	} );
+	app.post( "/api/user/login",  UsersController.Login );
 
 	// Angular.js Application -------------------------------------------------
     app.get( "*", function( req, res )

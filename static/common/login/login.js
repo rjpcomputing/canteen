@@ -1,5 +1,4 @@
-angular.module( "Traction.Login", ["ui.router", "ui.bootstrap.modal.dialog", "ngCookies", "Traction.Services"] )
-
+angular.module( "Canteen.Login", ["ui.bootstrap", "Canteen.Services"] )
 
 .controller( "LoginDialogCtrl", [ "$scope", "$uibModalInstance", "Users",
 function( $scope, $uibModalInstance, Users )

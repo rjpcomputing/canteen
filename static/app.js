@@ -1,8 +1,8 @@
 ( function()
 {
-	var appVersion = "16.12-1";
-
-	angular.module( "CanteenApp", [ "Canteen.About", "ui.bootstrap", "ngRoute", "ngAnimate", "ngCookies" ] )
+	var appVersion = "17.06-dev";
+	//
+	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
 
 	//.config(['$routeProvider', '$locationProvider',
 	  //function($routeProvider, $locationProvider) {
@@ -15,13 +15,12 @@
 		//$locationProvider.html5Mode(true);
 	//}])
 
-	.controller( "AppCtrl", [ "$scope", "$location", "$cookies", "$http", "$timeout", "$uibModal",
+	.controller( "AppCtrl", [ "$scope", "$location", "$cookies", "$http", "$timeout", "$uibModal", 
 	function ( $scope, $location, $cookies, $http, $timeout, $uibModal )
 	{
 		$scope.version = appVersion;
 		$scope.currentUser = {};
 		$scope.userCookieName = "user";
-		$scope.displayCookieName = "display";
 
 		$scope.ShowAboutDialog = function()
 		{
@@ -47,7 +46,7 @@
 			{
 				$scope.currentUser = userDetails;
 				$cookies.putObject( $scope.userCookieName, $scope.currentUser );
-				$state.go( "tickets" );
+				$state.go( "shop" );
 			});
 		};
 
@@ -57,21 +56,6 @@
 			if ( userDetails )
 			{
 				$scope.currentUser = userDetails;
-				// Get any new details
-				//Users.get( { id: userDetails.id }, function( data, status, headers )
-				//{
-					//$scope.currentUser = data;
-					//var cookieDetails = {
-						//id: data.id,
-						//firstname: data.firstname,
-						//lastname: data.lastname,
-						//username: data.username,
-						//email: data.email,
-						//ignore_own_changes: data.ignore_own_changes
-					//};
-//
-					//$cookies.putObject( $scope.userCookieName, cookieDetails );
-				//} );
 			}
 			else
 			{
@@ -90,6 +74,7 @@
 				return false;
 			}
 		};
+
 		$scope.IsAdmin = function()
 		{
 			if ( $scope.currentUser && $scope.currentUser.is_admin )
@@ -105,9 +90,7 @@
 		$scope.Logout = function( userid )
 		{
 			$cookies.remove( $scope.userCookieName );
-			$cookies.remove( $scope.displayCookieName );
 			$scope.currentUser = {};
-			$scope.display = {};
 			$scope.LoadUserDetails();
 		};
 
@@ -119,33 +102,6 @@
 		else
 		{
 			//console.log( "|> App Initializing..." );
-			// Initialize display cookie
-			if ( !$cookies.getObject( $scope.displayCookieName ) )
-			{
-				var initialDisplayValues =
-				{
-					store:
-					{
-						display: "active",
-						sort:
-						{
-							reverse: true,
-							type: "id"
-						}
-					},
-					Supply:
-					{
-						display: "active",
-						sort:
-						{
-							reverse: true,
-							type: 'id'
-						}
-					}
-				};
-				$cookies.putObject( $scope.displayCookieName, initialDisplayValues );
-			}
-			$scope.display = $cookies.getObject( $scope.displayCookieName );
 			$scope.LoadUserDetails();
 		}
 	} ]);
