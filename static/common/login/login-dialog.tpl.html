@@ -1,21 +1,27 @@
 <div class="modal-header">
-	<h3 class="modal-title">Sign In</h3>
+	<h3 class="modal-title">{{loginLabel}}</h3>
+	
 </div>
 <div class="modal-body">
 	<form name="loginForm" novalidate>
 		<div ng-class="email ? 'has-success' : 'has-error'" class="form-group has-feedback">
 			<label for="email">Email</label>
-			<input ng-model="email" type="text" class="form-control" name="email" placeholder="email" required>
-			<span ng-class="email ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>
+			<input ng-model="email" type="text" class="form-control" name="email" placeholder="Email" required>
+			<!--<span ng-class="email ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
 		</div>
 		<div ng-class="password ? 'has-success' : 'has-error'" class="form-group has-feedback">
 			<label for="password">Password</label>
 			<input ng-model="password" type="password" class="form-control" name="password" placeholder="Password" required>
-			<span ng-class="password ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>
+			<!--<span ng-class="password ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
 		</div>
 		<div class="clearfix" style="margin-top: 10px;">
-			<button ng-click="Login()" ng-disabled="loginForm.$invalid" class="btn btn-primary pull-right">Login</button>
-			<div ng-show="errorMessage" class="alert alert-danger pull-left" style="margin-bottom: 0px; padding: 10px 15px;">{{errorMessage}}</div>
+			<div ng-show="errorMessage" class="pull-left">
+				<div class="alert alert-danger" style="margin-bottom: 0px; padding: 12px 10px;">{{errorMessage}}</div>
+			</div>
+			<button ng-click="Submit()" ng-disabled="loginForm.$invalid" class="btn btn-primary pull-right">{{loginLabel}}</button>
 		</div>
 	</form>
+</div>
+<div class="modal-footer">
+	<a href ng-click="LoginToggle()" class="pull-left"> {{loginToggleLabel}}</a>
 </div>

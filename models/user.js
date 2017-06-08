@@ -1,9 +1,3 @@
-/**
- * Homelink Cloud user model
- *
- * Author:	R. Pusztai <ryan.pusztai@gentex.com>
- * Date:	05/19/2017
- */
 // let async = require( "async" );
 
 module.exports = function ( db )
@@ -17,8 +11,6 @@ module.exports = function ( db )
 
 	UsersModel.GetByEmail = function( email )
 	{
-console.log( "EMAIL:", email );
-		
 		return db.one( "SELECT * FROM users WHERE email = $1", email );
 	};
 

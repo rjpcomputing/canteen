@@ -1,8 +1,12 @@
-var express = require( "express" );
-var bodyParser = require( "body-parser" );
-let morgan = require( "morgan" );
+const firebase		= require( "firebase" );
+const express		= require( "express" );
+const bodyParser	= require( "body-parser" );
+const morgan		= require( "morgan" );
+const config		= require( "./config" );
 
-var app = express();
+firebase.initializeApp( config.firebase );
+
+const app = express();
 
 app.use( express.static( __dirname + "/static" ) );		// set the static files location /static/img will be /img for users
 app.use( bodyParser.json() );
@@ -38,7 +42,7 @@ console.log( "err.status", err.status );
 	res.send( errorStucture );
 } );
 
-var server = app.listen( process.env.PORT || 8080, function ()
+var server = app.listen( config.server.port, function ()
 {
     console.log( "Listening on port %s...", server.address().port );
 } );

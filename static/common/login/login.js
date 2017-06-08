@@ -1,26 +1,81 @@
-angular.module( "Canteen.Login", ["ui.bootstrap", "Canteen.Services"] )
+angular.module( "Canteen.Login", ["ui.bootstrap"] )
 
-.controller( "LoginDialogCtrl", [ "$scope", "$uibModalInstance", "Users",
+.controller( "LoginDialogCtrl", [ "$scope", "$uibModalInstance",
 function( $scope, $uibModalInstance, Users )
 {
-	$scope.Login = function()
-	{
-		$scope.errorMessage = "";		// Clear the errors
+	$scope.loginLabel = "Sign In";
+	$scope.loginToggleLabel = "Create a new account";
+	$scope.shouldSignUp = false;
+	$scope.errorMessage = "";		// Clear the errors
 
-		var fd = new FormData();
-		fd.append( "username", $scope.username );
-		fd.append( "password", $scope.password );
-		Users.login( fd, function( data, status, headers )
+	let SignUp = function()
+	{
+		firebase.auth().createUserWithEmailAndPassword( $scope.email, $scope.password )
+		.then( () => $uibModalInstance.close( "close" ) )
+		.catch( error =>
 		{
-			location.reload();
-			$uibModalInstance.close( data );
-		},
-		function( errorDetails )
-		{
-			$scope.errorMessage = "Error Occurred! Invalid username or password. " + errorDetails.data.userMessage + ".";
+			$scope.errorMessage = "Error Occurred! " + error.message;
 
 			console.log( "Error Occurred!" );
-			console.log( errorDetails.data );
+			console.log( error );
+			
+			$scope.$digest();
+		} );
+	};
+
+	let SignIn = function()
+	{
+		firebase.auth().signInWithEmailAndPassword( $scope.email, $scope.password )
+		.then( () => $uibModalInstance.close( "close" ) )
+		.catch( error =>
+		{
+			$scope.errorMessage = "Error Occurred! " + error.message;
+
+			console.log( "Error Occurred!" );
+			console.log( error );
+
+			$scope.$digest();
+		} );
+	};
+
+	$scope.LoginToggle = function()
+	{
+		$scope.shouldSignUp = !$scope.shouldSignUp;
+		if ( $scope.shouldSignUp )
+		{
+			$scope.loginLabel = "Add User";
+			$scope.loginToggleLabel = "Sign In";
+		}
+		else
+		{
+			$scope.loginLabel = "Sign In";
+			$scope.loginToggleLabel = "Create a new account";
+		}
+	};
+	
+	$scope.Submit = function()
+	{
+		if ( $scope.shouldSignUp )
+		{
+			SignUp();
+		}
+		else
+		{
+			SignIn();
+		}
+	};
+
+	let LoginAnonymously = function()
+	{
+		firebase.auth().signInAnonymously()
+		.catch( error =>
+		{
+			$scope.errorMessage = "Error Occurred! " + error.message;
+
+			console.log( "Error Occurred!" );
+			console.log( error );
+			
+			$scope.$digest();
 		} );
 	};
 

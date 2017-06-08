@@ -5,13 +5,14 @@ module.exports =
 		host: "localhost",
 		port: process.env.PORT || 8080
 	},
-	database:
+	firebase:
 	{
-		host: "",
-		port: 1234,
-		database: process.env.DATABASE || "hlcloud_sandbox",
-		user: "username",
-		password: "password",
+		apiKey: "AIzaSyDno25_gIAnJWJoM7oK-QCcM2w_zfFvXPs",
+		authDomain: "canteen-13d35.firebaseapp.com",
+		databaseURL: "https://canteen-13d35.firebaseio.com",
+		projectId: "canteen-13d35",
+		storageBucket: "canteen-13d35.appspot.com",
+		messagingSenderId: "835685886186"
 	},
 	key:
 	{

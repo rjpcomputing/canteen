@@ -2,24 +2,29 @@
 {
 	var appVersion = "17.06-dev";
 	//
-	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
+	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Setup", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
 
-	//.config(['$routeProvider', '$locationProvider',
-	  //function($routeProvider, $locationProvider) {
-		//$routeProvider
-		  //.when('/about', {
-			//templateUrl: 'common/about/about-dialog.tpl.html',
-			//controller: 'AboutDialogCtrl'
-		  //});
-//
-		//$locationProvider.html5Mode(true);
-	//}])
+	.config( ["$stateProvider", function ( $stateProvider )
+	{
+		$stateProvider
+		.state( "store",
+		{
+			url: "/",
+			templateUrl: "store/store.html"
+		} )
+		.state( "setup",
+		{
+			url: "/setup",
+			controller: "SetupCtrl",
+			templateUrl: "setup/setup.html"
+		} );
+	} ])
 
-	.controller( "AppCtrl", [ "$scope", "$location", "$cookies", "$http", "$timeout", "$uibModal", 
-	function ( $scope, $location, $cookies, $http, $timeout, $uibModal )
+	.controller( "AppCtrl", [ "$scope", "$state", "$cookies", "$http", "$timeout", "$uibModal", 
+	function ( $scope, $state, $cookies, $http, $timeout, $uibModal )
 	{
 		$scope.version = appVersion;
-		$scope.currentUser = {};
+		$scope.currentUser = { isLoggedIn: false };
 		$scope.userCookieName = "user";
 
 		$scope.ShowAboutDialog = function()
@@ -44,8 +49,10 @@
 
 			modalInstance.result.then( function( userDetails )
 			{
-				$scope.currentUser = userDetails;
-				$cookies.putObject( $scope.userCookieName, $scope.currentUser );
+console.log( "[DEBUG]", "login complete" );
+				
+				// $scope.currentUser = userDetails;
+				// $cookies.putObject( $scope.userCookieName, $scope.currentUser );
 				$state.go( "shop" );
 			});
 		};
@@ -60,18 +67,14 @@
 			else
 			{
 				$scope.ShowLoginDialog();
-			}
-		};
+				// firebase.auth().signInAnonymously()
+				// .catch( error =>
+				// {
+				// 	$scope.errorMessage = "Error Occurred! " + error.message;
 
-		$scope.IsLoggedIn = function()
-		{
-			if ( $scope.currentUser && $scope.currentUser.id )
-			{
-				return true;
-			}
-			else
-			{
-				return false;
+				// 	console.log( "Error Occurred!" );
+				// 	console.log( error );
+				// } );
 			}
 		};
 
@@ -89,10 +92,50 @@
 
 		$scope.Logout = function( userid )
 		{
-			$cookies.remove( $scope.userCookieName );
-			$scope.currentUser = {};
-			$scope.LoadUserDetails();
+			firebase.auth().signOut()
+			.then( () =>
+			{
+				$cookies.remove( $scope.userCookieName );
+				$scope.currentUser = { isLoggedIn: false };
+				$scope.LoadUserDetails();
+			} )
+			.catch( error =>
+			{
+				$scope.errorMessage = "Error Occurred! " + error.message;
+
+				console.log( "Error Occurred!" );
+				console.log( error );
+			} );
 		};
+
+		firebase.auth().onAuthStateChanged( function ( user )
+		{
+			if ( user )
+			{
+console.log( "[DEBUG] User logged in", user );
+
+				// User is signed in.
+				$scope.currentUser =
+				{
+					id: user.uid,
+					displayName: user.displayName,
+					email: user.email,
+					phoneNumber: user.phoneNumber,
+					photoURL: user.photoURL,
+					isAnonymous: user.isAnonymous,
+					isLoggedIn: true,
+				};
+
+				$cookies.putObject( $scope.userCookieName, $scope.currentUser );
+			}
+			else
+			{
+				// User is signed out.
+				$scope.currentUser = { isLoggedIn: false, };
+			}
+
+			$scope.$digest(); // Deal with any Angular scope changes
+		} );
 
 		if( navigator.sayswho.search( "IE" ) != -1 )
 		{
