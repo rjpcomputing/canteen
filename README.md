@@ -14,3 +14,8 @@ Installed themes include:
 * [slate](http://bootswatch.com/slate)
 * [spacelab](http://bootswatch.com/spacelab)
 * [united](http://bootswatch.com/united)
+
+## Hosts
+* [Firebase](https://console.firebase.google.com/u/1/project/canteen-13d35/overview) - User management
+* [AWS](https://us-east-2.console.aws.amazon.com/elasticbeanstalk/home?region=us-east-2#/application/overview?applicationName=Canteen) - Node.js and Postgres hosting
+* [OpenShift](https://console.starter-us-west-2.openshift.com/console/project/canteen) - OBSOLETE - Node.js and Postgres hosting

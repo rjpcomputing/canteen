@@ -14,6 +14,14 @@ module.exports =
 		storageBucket: "canteen-13d35.appspot.com",
 		messagingSenderId: "835685886186"
 	},
+	database:
+	{
+		host: "canteen-dev.c1swmxb4odfq.us-east-2.rds.amazonaws.com",
+		port: 5432,
+		database: process.env.DATABASE || "canteen_sandbox",
+		user: "canteen",
+		password: "c4nt33n1",
+	},
 	key:
 	{
 		privateKey: "1pz5#Z8U2%Z5$7ileP", // NEVER CHANGE
