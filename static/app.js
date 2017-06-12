@@ -12,6 +12,11 @@
 			url: "/",
 			templateUrl: "store/store.html"
 		} )
+		.state( "user-profile",
+		{
+			url: "/profile",
+			templateUrl: "profile/profile.html"
+		} )
 		.state( "setup",
 		{
 			url: "/setup",

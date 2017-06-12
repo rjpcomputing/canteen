@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Personal info</h3>
+	</div>
+	<ul class="list-group">
+		<li ng-show="currentUser.displayName" class="list-group-item">Name<span class="badge progress-bar-info">{{currentUser.displayName}}</span></li>
+		<li class="list-group-item">Email<span class="badge progress-bar-info">{{currentUser.email}}</span></li>
+		<li ng-show="currentUser.phoneNumber" class="list-group-item">Phone #<span class="badge progress-bar-info">{{currentUser.phoneNumber}}</span></li>
+		<li ng-show="currentUser.photoURL" class="list-group-item"><img ng-src="{{currentUser.photoURL}}" alt="User Photo"></li>
+	</ul>
+</div>
