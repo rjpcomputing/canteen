@@ -22,6 +22,12 @@
 			url: "/setup",
 			controller: "SetupCtrl",
 			templateUrl: "setup/setup.html"
+		} )
+		.state( "event",
+		{
+			url: "/event/:id",
+			controller: "EventCtrl",
+			templateUrl: "setup/event.html"
 		} );
 	} ])
 

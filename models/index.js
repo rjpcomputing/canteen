@@ -4,5 +4,6 @@ let db = pgp( config.database );
 
 module.exports =
 {
-	User: require( "./user" )( db ),
+	Customer: require( "./customer" )( db ),
+	Event: require( "./event" )( db ),
 };

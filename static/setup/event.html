@@ -1,0 +1,41 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">"<strong>{{event.description}}</strong>" Details</h3>
+	</div>
+	<ul class="list-group">
+		<li class="list-group-item">Start Date<span class="badge progress-bar-info">{{event.start_date | date}}</span></li>
+		<li class="list-group-item">End Date<span class="badge progress-bar-info">{{event.end_date | date}}</span></li>
+		<li class="list-group-item">Created At<span class="badge progress-bar-info">{{event.created_at | date}}</span></li>
+	</ul>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-sm-8">
+				<h3 class="panel-title">Customers &nbsp;<a href ng-hide="isReadOnly" ng-click="AddCustomerToEvent()"><span class="glyphicon glyphicon-plus-sign" uib-tooltip="Add Customer To Event"></span></a></h1>
+			</div>
+			<div class="col-sm-4">
+				<input ng-model="customerFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 2px 15px;"/>
+			</div>
+		</div>
+	</div>
+	<table ng-show="customers" ng-controller="EventsCtrl" class="table table-hover">
+		<thead>
+			<tr>
+				<!--<th>#</th>-->
+				<th>Name</th>
+				<th>Starting Balance</th>
+				<th>Balance</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="customer in customers | filter: customerFilter as customerFilterResults">
+				<!--<td>{{customer.id}}</td>-->
+				<td>{{customer.name}}</td>
+				<td>{{customer.starting_balance | currency}}</td>
+				<td>{{customer.balance | currency}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

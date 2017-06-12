@@ -1,4 +1,4 @@
-angular.module( "Canteen.Setup", ["ui.bootstrap"] )
+angular.module( "Canteen.Setup", ["ui.bootstrap", "Canteen.Services"] )
 
 
 .controller( "SetupCtrl", [ "$scope",
@@ -8,16 +8,46 @@ function( $scope )
 	
 } ])
 
-.controller( "EventsCtrl", [ "$scope",
-function( $scope )
+.controller( "EventCtrl", [ "$scope", "$stateParams", "Event",
+function( $scope, $stateParams, Event )
 {
-	let date = new Date();
+	$scope.loading = true;
+	console.log( "[EventCtrl]" );
+	let GetEvent = ( eventId ) => Event.get( { id: eventId }, ( data, headers ) => $scope.event = data ).$promise;
 	
-	$scope.events =
-	[
-		{ id: 1, name: "Elementry Girls Week 1", start_date: date.setDate(date.getDate()-10), end_date: date.setDate(date.getDate()+10) },
-		{ id: 2, name: "Elementry Boys Week 1", start_date: date.setDate(new Date().getDate()-20), end_date: date.setDate(new Date().getDate()+20) },
-		{ id: 3, name: "Middle School Girls Week 1", start_date: date.setDate(new Date().getDate()-30), end_date: new Date().setDate(date.getDate()+30) },
-		{ id: 4, name: "Middle School Boys Week 1", start_date: date.setDate(new Date().getDate()-40), end_date: new Date().setDate(date.getDate()+40) },
-	];
-} ] )
+	GetEvent( $stateParams.id )
+	.then( () => $scope.loading = false )
+	.catch( errorDetails =>
+	{
+		if ( errorDetails )
+		{
+			$scope.errorMessage = "Error Occurred! " + errorDetails;
+		}
+
+		console.log( "Error Occurred!" );
+		console.log( errorDetails.data || errorDetails );
+	} );
+} ])
+
+.controller( "EventsCtrl", [ "$scope", "$state", "Event",
+function( $scope, $state, Event )
+{
+	$scope.loading = true;
+
+	let GetAllEvents = ( order ) => Event.query( {}, ( data, headers ) => $scope.events = data ).$promise;
+
+	$scope.GotoEventDetails = ( eventId ) => $state.go( "event", { id: eventId } );
+
+	GetAllEvents()
+	.then( () => $scope.loading = false )
+	.catch( errorDetails =>
+	{
+		if ( errorDetails )
+		{
+			$scope.errorMessage = "Error Occurred! " + errorDetails;
+		}
+
+		console.log( "Error Occurred!" );
+		console.log( errorDetails.data || errorDetails );
+	} );
+} ] );

@@ -1,10 +1,13 @@
 const express = require( "express" );
 const apiRouter = express.Router();
 const config = require( "../config" );
-const UsersController = require( "../controllers/user" );
-// const UsersController = require( "../controllers/user" );
+const CustomerController = require( "../controllers/customer" );
+const EventController = require( "../controllers/event" );
 
-// apiRouter.post( "/user/login",  UsersController.Login );
+apiRouter.get( "/customer",  CustomerController.GetAll );
+apiRouter.get( "/customer/:id",  CustomerController.Get );
+apiRouter.get( "/event",  EventController.GetAll );
+apiRouter.get( "/event/:id",  EventController.Get );
 
 // -- 
 

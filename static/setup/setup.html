@@ -5,26 +5,26 @@
 				<h1 class="panel-title">Events &nbsp;<a href ng-hide="isReadOnly" ng-click="NewEvent()"><span class="glyphicon glyphicon-plus-sign" uib-tooltip="Add Event"></span></a></h1>
 			</div>
 			<div class="col-sm-4">
-				<input ng-model="eventFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 2px 15px;"/>
+				<input ng-model="eventFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 2px 15px;"/>
 			</div>
 		</div>
 	</div>
 	<div class="panel-body">
 		<p>Events are camp events, like weeks of camp and rental days. To add more events click the '+' icon above</p>
 	</div>
-	<table ng-controller="EventsCtrl" class="table">
+	<table ng-controller="EventsCtrl" class="table table-hover">
 		<thead>
 			<tr>
-				<th>ID</th>
+				<th>#</th>
 				<th>Name</th>
 				<th>Start Date</th>
 				<th>End Date</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="event in events | filter: eventFilter as eventFilterResults">
+			<tr ng-repeat="event in events | filter: eventFilter as eventFilterResults" ng-click="GotoEventDetails( event.id )" class="clickable">
 				<td>{{event.id}}</td>
-				<td>{{event.name}}</td>
+				<td>{{event.description}}</td>
 				<td>{{event.start_date | date}}</td>
 				<td>{{event.end_date | date}}</td>
 			</tr>
