@@ -45,7 +45,6 @@ angular.module( "Canteen.CustomersTable", ["ui.bootstrap", "Canteen.Services"] )
 			this.newCustomerStartingBalance = customer.starting_balance;
 			this.newCustomerBalance = customer.balance;
 		};
-console.log( "[onUpdate]", this.onUpdate );
 
 		this.DeleteCustomer = ( customer ) => Customer.get( { id: customer.id }, ( c ) => c.$delete( { id: c.id }, () => this.onUpdate() ) );
 	} ]
