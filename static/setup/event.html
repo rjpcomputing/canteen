@@ -1,12 +1,7 @@
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">"<strong>{{event.description}}</strong>" Details</h3>
-	</div>
-	<ul class="list-group">
-		<li class="list-group-item">Start Date<span class="badge progress-bar-info">{{event.start_date | date}}</span></li>
-		<li class="list-group-item">End Date<span class="badge progress-bar-info">{{event.end_date | date}}</span></li>
-		<li class="list-group-item">Created At<span class="badge progress-bar-info">{{event.created_at | date}}</span></li>
-	</ul>
+<div class="page-header" style="margin-top: 0px;">
+	<h1>{{event.description}} <small>{{event.start_date | date}} - {{event.end_date | date}}</small>
+		<small><div href uib-tooltip="Create At: {{event.created_at | date}}" tooltip-placement="left" class="pull-right"><span class="glyphicon glyphicon-info-sign"></span></div></small>
+	</h1>
 </div>
 
 <div class="panel panel-default">

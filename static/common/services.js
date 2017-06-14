@@ -16,6 +16,6 @@ canteenService.factory( "Customer", ["$resource", function( $resource )
 	return $resource( "api/customer/:id/:cmd", {},
 	{
 		post: { method:"POST", isArray: false, transformRequest: [], headers: { "Content-Type": undefined } },
-		update: { method:"POST", params: { cmd: "update" }, isArray: false, transformRequest: [], headers: { "Content-Type": undefined } }
+		update: { method:"POST", isArray: false, transformRequest: [], headers: { "Content-Type": undefined } }
 	} );
 } ]);

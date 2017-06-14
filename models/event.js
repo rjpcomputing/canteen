@@ -19,9 +19,19 @@ module.exports = function ( db )
 		return db.any( "SELECT * FROM event" );
 	};
 
-	EventModel.New = function ( release )
+	EventModel.Create = function( event )
 	{
-		console.log( "[EventModel.New]" );
+		return db.one( "INSERT INTO event ( description, start_date, end_date ) VALUES( $(description), $(start_date), $(end_date) ) RETURNING id", event );
+	};
+
+	EventModel.Update = function( event )
+	{
+		return db.none( "UPDATE event SET description = $(description), start_date = $(start_date), end_date = $(end_date) WHERE id = $(id)", event );
+	};
+
+	EventModel.Delete = function( id )
+	{
+		return db.none( "DELETE FROM event WHERE id = $1", id );
 	};
 
 	return EventModel;

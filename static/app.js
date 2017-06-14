@@ -35,6 +35,7 @@
 	function ( $scope, $state, $cookies, $http, $timeout, $uibModal )
 	{
 		$scope.version = appVersion;
+		$scope.isCollapsed = true;
 		$scope.currentUser = { isLoggedIn: false };
 		$scope.userCookieName = "user";
 

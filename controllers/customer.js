@@ -35,3 +35,39 @@ exports.GetAll = ( req, res ) =>
 		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error requesting all customers", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };
+
+exports.New = ( req, res ) =>
+{
+	CustomerModel.Create( req.body )
+	.then( () => res.send( { success: true, message: "Customer created" } ) )
+	.catch( ( err ) =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error creating customer", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};
+
+exports.Update = ( req, res ) =>
+{
+	CustomerModel.Update( req.body )
+	.then( () => res.send( { success: true, message: "Customer updated" } ) )
+	.catch( ( err ) =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error updating customer", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};
+
+exports.Delete = ( req, res ) =>
+{
+	CustomerModel.Delete( req.params.id )
+	.then( ( data ) =>
+	{
+		res.send( { success: true, message: "Customer updated" } );
+	} )
+	.catch( ( err ) =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error updating customer", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};

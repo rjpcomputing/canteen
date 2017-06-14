@@ -1,33 +1,135 @@
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<div class="row">
-			<div class="col-sm-8">
-				<h1 class="panel-title">Events &nbsp;<a href ng-hide="isReadOnly" ng-click="NewEvent()"><span class="glyphicon glyphicon-plus-sign" uib-tooltip="Add Event"></span></a></h1>
+<div ng-show="errorMessage">
+	<div class="alert alert-danger" role="alert">{{errorMessage}}</div>
+</div>
+<div ng-hide="errorMessage" class="row">
+	<div class="col-md-6">
+		<div ng-controller="EventsCtrl" class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-sm-8">
+						<h1 class="panel-title">Events &nbsp;<a href ng-hide="isReadOnly" ng-click="isAddEventFormCollapsed = !isAddEventFormCollapsed"><span class="glyphicon glyphicon-plus-sign" uib-tooltip="Add Event"></span></a></h1>
+					</div>
+					<div ng-show="events" class="col-sm-4">
+						<input ng-model="eventFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 2px 15px;"/>
+					</div>
+				</div>
 			</div>
-			<div class="col-sm-4">
-				<input ng-model="eventFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 2px 15px;"/>
+			<div class="panel-body">
+				<p>To add more events click the '+' icon above</p>
+				<p>Events are camp events, like weeks of camp and rental days.</p>
+				<div uib-collapse="isAddEventFormCollapsed" class="collapse">
+					<hr>
+					<form name="addEventForm" novalidate>
+						<div class="row">
+							<div ng-class="eventName ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
+								<label for="eventName">Name</label>
+								<input ng-model="eventName" type="text" class="form-control" name="eventName" placeholder="Name" required>
+								<!--<span ng-class="eventName ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+							</div>
+							<div ng-class="eventStartDate ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
+								<label for="eventStartDate">Start Date</label>
+								<input ng-model="eventStartDate" type="date" class="form-control" name="eventStartDate" placeholder="Start Date" required>
+								<!--<span ng-class="eventStartDate ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+							</div>
+							<div ng-class="eventEndDate ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
+								<label for="eventEndDate">End Date</label>
+								<input ng-model="eventEndDate" type="date" class="form-control" name="eventEndDate" placeholder="End Date" required>
+								<!--<span ng-class="eventEndDate ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+							</div>
+						</div>
+						<br>
+						<button type="submit" ng-click="AddEvent()" ng-disabled="addEventForm.$invalid" class="btn btn-default btn-sm pull-right">Add Event</button>
+					</form>
+				</div>
 			</div>
+			<table ng-show="events" class="table table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Start Date</th>
+						<th>End Date</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="event in events | filter: eventFilter as eventFilterResults" ng-click="GotoEventDetails( event.id )" class="clickable">
+						<td>{{event.id}}</td>
+						<td>{{event.description}}</td>
+						<td>{{event.start_date | date}}</td>
+						<td>{{event.end_date | date}}</td>
+						<td><button ng-click="DeleteEvent( $event, event )" class="btn btn-danger btn-xs">Delete</button></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
-	<div class="panel-body">
-		<p>Events are camp events, like weeks of camp and rental days. To add more events click the '+' icon above</p>
+	<div class="col-md-6">
+		<div ng-controller="CustomersCtrl" class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-sm-8">
+						<h1 class="panel-title">Customers &nbsp;<a href ng-hide="isReadOnly" ng-click="isAddCustomerFormCollapsed = !isAddCustomerFormCollapsed"><span class="glyphicon glyphicon-plus-sign" uib-tooltip="Add Customer"></span></a></h1>
+					</div>
+					<div ng-show="customers" class="col-sm-4">
+						<input ng-model="customerFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 2px 15px;"/>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<p>To add more customers click the '+' icon above.</p>
+				<p>Customers are camp workers, campers, and staff. Customers need to be added to Events. You can add them to an event once you click on the specific event in the <strong>Events</strong> panel.</p>
+				<div uib-collapse="isAddCustomerFormCollapsed" class="collapse">
+					<hr>
+					<form name="addCustomerForm" novalidate>
+						<div class="row">
+							<div ng-class="customerName ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-6">
+								<label for="customerName">Name</label>
+								<input ng-model="customerName" type="text" class="form-control" name="customerName" placeholder="Full Name" required>
+								<!--<span ng-class="customerName ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+							</div>
+							<div ng-class="customerStartingBalance ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-6">
+								<label for="customerStartingBalance">Starting Balance</label>
+								<input ng-model="customerStartingBalance" type="text" class="form-control" name="customerStartingBalance" placeholder="$20.00" format="currency" required>
+								<!--<span ng-class="customerStartingBalance ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+							</div>
+						</div>
+						<br>
+						<button type="submit" ng-click="AddCustomer()" ng-disabled="addCustomerForm.$invalid" class="btn btn-default btn-sm pull-right">Add Customer</button>
+					</form>
+				</div>
+			</div>
+			<table ng-show="customers" class="table table-hover">
+				<thead>
+					<tr>
+						<!--<th>#</th>-->
+						<th>Name</th>
+						<th>Start Balance</th>
+						<th>Balance</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="customer in customers | filter: customerFilter as customerFilterResults">
+						<!--<td>{{customer.id}}</td>-->
+						<td>{{customer.name}}</td>
+						<td ng-hide="customer.editing">{{customer.starting_balance | currency}}</td>
+						<td ng-hide="customer.editing">{{customer.balance | currency}}</td>
+						<td ng-show="customer.editing"><input ng-model="customer.new_starting_balance" type="text" class="form-control input-sm"></td>
+						<td ng-show="customer.editing"><input ng-model="customer.new_balance" type="text" class="form-control input-sm"></td>
+						<td>
+							<div ng-hide="customer.editing" class="btn-group btn-group-xs">
+								<button ng-click="StartEditing( customer )" title="Edit {{customer.name}}" class="btn btn-default">Edit</button>
+								<button ng-click="DeleteCustomer( customer )" title="Delete" class="btn btn-danger">Delete</button>
+							</div>
+							<div ng-show="customer.editing" class="btn-group btn-group-xs">
+								<button ng-click="EditCustomer( customer )" title="Done" class="btn btn-primary">Ok</a>
+								<button ng-click="CancelEditing( customer )" class="btn btn-warning">Cancel</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
-	<table ng-controller="EventsCtrl" class="table table-hover">
-		<thead>
-			<tr>
-				<th>#</th>
-				<th>Name</th>
-				<th>Start Date</th>
-				<th>End Date</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="event in events | filter: eventFilter as eventFilterResults" ng-click="GotoEventDetails( event.id )" class="clickable">
-				<td>{{event.id}}</td>
-				<td>{{event.description}}</td>
-				<td>{{event.start_date | date}}</td>
-				<td>{{event.end_date | date}}</td>
-			</tr>
-		</tbody>
-	</table>
 </div>

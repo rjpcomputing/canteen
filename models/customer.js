@@ -16,12 +16,32 @@ module.exports = function ( db )
 
 	CustomerModel.GetAll = function()
 	{
-		return db.any( "SELECT * FROM customer" );
+		return db.any( "SELECT * FROM customer ORDER BY name ASC" );
 	};
 
-	CustomerModel.New = function ( release )
+	CustomerModel.Create = function( customer )
 	{
-		console.log( "[CustomerModel.New]" );
+		return db.one( "INSERT INTO customer ( name, starting_balance, balance ) VALUES( $(name), $(starting_balance), $(balance) ) RETURNING id", customer );
+	};
+
+	CustomerModel.Update = function( customer )
+	{
+		return db.none( "UPDATE customer SET name = $(name), starting_balance = $(starting_balance), balance = $(balance) WHERE id = $(id)", customer );
+	};
+
+	CustomerModel.UpdateStartingBalance = function( customer )
+	{
+		return db.none( "UPDATE customer SET starting_balance = $(starting_balance) WHERE id = $(id)", customer );
+	};
+
+	CustomerModel.UpdateBalance = function( customer )
+	{
+		return db.none( "UPDATE customer SET balance = $(balance) WHERE id = $(id)", customer );
+	};
+
+	CustomerModel.Delete = function( id )
+	{
+		return db.none( "DELETE FROM customer WHERE id = $1", id );
 	};
 
 	return CustomerModel;

@@ -28,10 +28,46 @@ exports.GetByDescription = ( req, res ) =>
 exports.GetAll = ( req, res ) =>
 {
 	EventModel.GetAll()
-	.then( events => res.send( events ) )
+	.then( ( events ) => res.send( events ) )
 	.catch( err =>
 	{
 		console.error( err );
 		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error requesting all events", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};
+
+exports.New = ( req, res ) =>
+{
+	EventModel.Create( req.body )
+	.then( () => res.send( { success: true, message: "Event created" } ) )
+	.catch( ( err ) =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error creating event", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};
+
+exports.Update = ( req, res ) =>
+{
+	EventModel.Update( req.body )
+	.then( () => res.send( { success: true, message: "Event updated" } ) )
+	.catch( ( err ) =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error updating event", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};
+
+exports.Delete = ( req, res ) =>
+{
+	EventModel.Delete( req.params.id )
+	.then( ( data ) =>
+	{
+		res.send( { success: true, message: "Event updated" } );
+	} )
+	.catch( ( err ) =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error updating event", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };
