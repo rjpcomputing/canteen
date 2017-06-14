@@ -45,7 +45,6 @@
 			<table ng-show="events" class="table table-hover">
 				<thead>
 					<tr>
-						<th>#</th>
 						<th>Name</th>
 						<th>Start Date</th>
 						<th>End Date</th>
@@ -54,7 +53,6 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="event in events | filter: eventFilter as eventFilterResults" ng-click="GotoEventDetails( event.id )" class="clickable">
-						<td>{{event.id}}</td>
 						<td>{{event.description}}</td>
 						<td>{{event.start_date | date}}</td>
 						<td>{{event.end_date | date}}</td>

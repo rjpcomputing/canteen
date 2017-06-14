@@ -3,7 +3,6 @@ angular.module( "Canteen.Setup", ["ui.bootstrap", "Canteen.Services"] )
 .controller( "SetupCtrl", [ "$scope",
 function( $scope )
 {
-	console.log( "[SetupCtrl]" );
 } ])
 
 .controller( "EventCtrl", [ "$scope", "$stateParams", "Event",

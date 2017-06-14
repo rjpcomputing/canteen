@@ -16,7 +16,7 @@ module.exports = function ( db )
 
 	EventModel.GetAll = function()
 	{
-		return db.any( "SELECT * FROM event" );
+		return db.any( "SELECT * FROM event ORDER BY start_date ASC" );
 	};
 
 	EventModel.Create = function( event )
