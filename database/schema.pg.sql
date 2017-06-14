@@ -1,4 +1,4 @@
--- ----------------------------------------------------------------------------
+﻿-- ----------------------------------------------------------------------------
 -- Initial import script used to populate a Postgres database
 -- with the minimum structure used by Canteen.
 --
@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS sale_product CASCADE;
 DROP TRIGGER IF EXISTS update_event_updated_at ON event;
 DROP TRIGGER IF EXISTS update_product_updated_at ON product;
 DROP TRIGGER IF EXISTS update_customer_updated_at ON customer;
+DROP TRIGGER IF EXISTS update_sale_updated_at ON customer;
 
 -- FUNCTIONS ------------------------------------------------------------------
 --
@@ -38,47 +39,48 @@ $$ language 'plpgsql';
 -- TABLES ---------------------------------------------------------------------
 --
 CREATE TABLE event (
-	id								BIGSERIAL PRIMARY KEY NOT NULL,
-	created_at						TIMESTAMP DEFAULT now(),
-	updated_at						TIMESTAMP DEFAULT now(),
-	description						TEXT NOT NULL,
-	start_date						TIMESTAMP NOT NULL,
-	end_date						TIMESTAMP NOT NULL,
-	CONSTRAINT unique_event 		UNIQUE ( description, start_date, end_date )
+	id									BIGSERIAL PRIMARY KEY NOT NULL,
+	created_at							TIMESTAMP DEFAULT now(),
+	updated_at							TIMESTAMP DEFAULT now(),
+	description							TEXT NOT NULL,
+	start_date							TIMESTAMP NOT NULL,
+	end_date							TIMESTAMP NOT NULL,
+	CONSTRAINT unique_event 			UNIQUE ( description, start_date, end_date )
 );
 
 CREATE TABLE product (
-	id								BIGSERIAL PRIMARY KEY NOT NULL,
-	created_at						TIMESTAMP DEFAULT now(),
-	updated_at						TIMESTAMP DEFAULT now(),
-	name							TEXT NOT NULL,
-	description						TEXT DEFAULT NULL,
-	cost							FLOAT NOT NULL,
-	stock							INTEGER DEFAULT 0
+	id									BIGSERIAL PRIMARY KEY NOT NULL,
+	created_at							TIMESTAMP DEFAULT now(),
+	updated_at							TIMESTAMP DEFAULT now(),
+	name								TEXT NOT NULL,
+	description							TEXT DEFAULT NULL,
+	cost								FLOAT NOT NULL,
+	stock								INTEGER DEFAULT 0
 );
 
 CREATE TABLE customer (
-	id								BIGSERIAL PRIMARY KEY NOT NULL,
-	created_at						TIMESTAMP DEFAULT now(),
-	updated_at						TIMESTAMP DEFAULT now(),
-	name							TEXT NOT NULL,
-	starting_balance				FLOAT DEFAULT 0.0,
-	balance							FLOAT DEFAULT 0.0,
-	CONSTRAINT unique_customer		UNIQUE ( name )
+	id									BIGSERIAL PRIMARY KEY NOT NULL,
+	created_at							TIMESTAMP DEFAULT now(),
+	updated_at							TIMESTAMP DEFAULT now(),
+	name								TEXT NOT NULL,
+	starting_balance					FLOAT DEFAULT 0.0,
+	balance								FLOAT DEFAULT 0.0,
+	CONSTRAINT unique_customer			UNIQUE ( name )
 );
 
 CREATE TABLE event_customer (
-	id								BIGSERIAL PRIMARY KEY NOT NULL,
-	event_id						BIGINT NOT NULL REFERENCES event(id) ON DELETE CASCADE,
-	customer_id						BIGINT NOT NULL REFERENCES customer(id) ON DELETE CASCADE
+	id									BIGSERIAL PRIMARY KEY NOT NULL,
+	event_id							BIGINT NOT NULL REFERENCES event(id) ON DELETE CASCADE,
+	customer_id							BIGINT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
+	CONSTRAINT unique_event_customer	UNIQUE ( event_id, customer_id )
 );
 
 CREATE TABLE sale (
-	id								BIGSERIAL PRIMARY KEY NOT NULL,
-	created_at						TIMESTAMP DEFAULT now(),
-	updated_at						TIMESTAMP DEFAULT now(),
-	customer_id						BIGINT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
-	product_id						BIGINT NOT NULL REFERENCES product(id) ON DELETE CASCADE
+	id									BIGSERIAL PRIMARY KEY NOT NULL,
+	created_at							TIMESTAMP DEFAULT now(),
+	updated_at							TIMESTAMP DEFAULT now(),
+	customer_id							BIGINT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
+	product_id							BIGINT NOT NULL REFERENCES product(id) ON DELETE CASCADE
 );
 
 -- PERMISSIONS ----------------------------------------------------------------

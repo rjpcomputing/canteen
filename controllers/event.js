@@ -6,7 +6,7 @@ const EventModel = require( "../models" ).Event;
 exports.Get = ( req, res ) =>
 {
 	EventModel.Get( req.params.id )
-	.then( event => res.send( event ) )
+	.then( ( event ) => res.send( event ) )
 	.catch( err =>
 	{
 		console.error( err );
@@ -14,10 +14,21 @@ exports.Get = ( req, res ) =>
 	} );
 };
 
+exports.GetCustomers = ( req, res ) =>
+{
+	EventModel.GetCustomers( req.params.id )
+	.then( ( customers ) => res.send( {success: true, message: "Customers in event", customers: customers } ) )
+	.catch( err =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error requesting customers for event", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};
+
 exports.GetByDescription = ( req, res ) =>
 {
 	EventModel.GetAllByDescription( req.params.description )
-	.then( event => res.send( event ) )
+	.then( ( event ) => res.send( event ) )
 	.catch( err =>
 	{
 		console.error( err );
@@ -49,7 +60,9 @@ exports.New = ( req, res ) =>
 
 exports.AddCustomer = ( req, res ) =>
 {
-	EventModel.AddCustomer( req.body )
+	console.log( "[AddCustomer]", req.params );
+	
+	EventModel.AddCustomer( req.params.id, req.params.customerid )
 	.then( () => res.send( { success: true, message: "Customer added to event" } ) )
 	.catch( ( err ) =>
 	{

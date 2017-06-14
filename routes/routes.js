@@ -13,6 +13,7 @@ apiRouter.post( "/customer/:id",  CustomerController.Update );
 apiRouter.delete( "/customer/:id",  CustomerController.Delete );
 apiRouter.get( "/event",  EventController.GetAll );
 apiRouter.get( "/event/:id",  EventController.Get );
+apiRouter.get( "/event/:id/customer",  EventController.GetCustomers );
 apiRouter.post( "/event",  EventController.New );
 apiRouter.post( "/event/:id",  EventController.Update );
 apiRouter.delete( "/event/:id",  EventController.Delete );

@@ -2,7 +2,7 @@
 {
 	var appVersion = "17.06-dev";
 	//
-	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Setup", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
+	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Setup", "Canteen.CustomersTable", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
 
 	.config( ["$stateProvider", function ( $stateProvider )
 	{

@@ -1,0 +1,29 @@
+<table ng-show="$ctrl.customers.length > 0" class="table table-hover" style="margin-bottom: 0px;">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Start Balance</th>
+			<th>Balance</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="customer in $ctrl.customers | filter: $ctrl.filter as customerFilterResults">
+			<td>{{customer.name}}</td>
+			<td ng-hide="customer.editing">{{customer.starting_balance | currency}}</td>
+			<td ng-hide="customer.editing">{{customer.balance | currency}}</td>
+			<td ng-show="customer.editing"><input ng-model="customer.new_starting_balance" type="text" class="form-control input-sm"></td>
+			<td ng-show="customer.editing"><input ng-model="customer.new_balance" type="text" class="form-control input-sm"></td>
+			<td>
+				<div ng-hide="customer.editing" class="btn-group btn-group-xs">
+					<button ng-click="$ctrl.StartEditing( customer )" title="Edit {{customer.name}}" class="btn btn-default">Edit</button>
+					<button ng-click="$ctrl.DeleteCustomer( customer )" title="Delete" class="btn btn-danger">Delete</button>
+				</div>
+				<div ng-show="customer.editing" class="btn-group btn-group-xs">
+					<button ng-click="$ctrl.EditCustomer( customer )" title="Done" class="btn btn-primary">Ok</a>
+					<button ng-click="$ctrl.CancelEditing( customer )" class="btn btn-warning">Cancel</a>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>

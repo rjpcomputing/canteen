@@ -3,7 +3,7 @@
 		<small><div href uib-tooltip="Create At: {{event.created_at | date}}" tooltip-placement="left" class="pull-right"><span class="glyphicon glyphicon-info-sign"></span></div></small>
 	</h1>
 </div>
-
+<customer-panel helptext="customerHelpText" customers="customers"></customer-panel>
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<div class="row">
@@ -21,37 +21,22 @@
 		<div uib-collapse="isAddCustomerFormCollapsed" class="collapse">
 			<hr>
 			<form name="addCustomerForm" novalidate>
-				<div ng-class="customerName ? 'has-success' : 'has-error'" class="form-group-sm has-feedback">
-					<label for="customerName">Name
-						<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-						<div ng-show="noResults"><i class="glyphicon glyphicon-remove"></i> No Results Found</div>
+				<div ng-class="IsObject( customerToAdd ) ? 'has-success' : 'has-error'" class="form-group-sm has-feedback">
+					<label for="customerToAdd">
+						Name &nbsp;&nbsp;
+						<small>
+							<span ng-show="loadingLocations" class="glyphicon glyphicon-refresh text-muted"></span>
+							<span ng-show="noResults" class="text-muted"><i class="glyphicon glyphicon-remove text-danger"></i> No Results Found</span>
+						</small>
 					</label>
-					<pre>Model: {{customerName | json}}</pre>
-					<input ng-model="customerName" type="text" ng-model-options="modelOptions" uib-typeahead="customer as customer.name for customer in GetCustomers( $viewValue )" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" name="customerName" placeholder="Full Name" required>
-					<!--<span ng-class="customerName ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+					<input ng-model="customerToAdd" type="text" ng-model-options="{ debounce: { default: 400 } }" uib-typeahead="customer as customer.name for customer in GetCustomersByName( $viewValue )" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" name="customerToAdd" placeholder="Full Name" autocomplete="off" required>
+					<!--<span ng-class="customerToAdd ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
 				</div>
 
 				<br>
-				<button type="submit" ng-click="AddCustomer()" ng-disabled="addCustomerForm.$invalid" class="btn btn-default btn-sm pull-right">Add Customer</button>
+				<button type="submit" ng-click="AddCustomer( customerToAdd )" ng-disabled="addCustomerForm.$invalid || !IsObject( customerToAdd )" class="btn btn-default btn-sm pull-right">Add Customer</button>
 			</form>
 		</div>
 	</div>
-	<table ng-show="customers" class="table table-hover">
-		<thead>
-			<tr>
-				<!--<th>#</th>-->
-				<th>Name</th>
-				<th>Starting Balance</th>
-				<th>Balance</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="customer in customers | filter: customerFilter as customerFilterResults">
-				<!--<td>{{customer.id}}</td>-->
-				<td>{{customer.name}}</td>
-				<td>{{customer.starting_balance | currency}}</td>
-				<td>{{customer.balance | currency}}</td>
-			</tr>
-		</tbody>
-	</table>
+	<customers-table customers="customers" filter="customerFilter" on-update="GetEventsCustomers( event.id )"></customers-table>
 </div>

@@ -97,37 +97,7 @@
 					</form>
 				</div>
 			</div>
-			<table ng-show="customers" class="table table-hover">
-				<thead>
-					<tr>
-						<!--<th>#</th>-->
-						<th>Name</th>
-						<th>Start Balance</th>
-						<th>Balance</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="customer in customers | filter: customerFilter as customerFilterResults">
-						<!--<td>{{customer.id}}</td>-->
-						<td>{{customer.name}}</td>
-						<td ng-hide="customer.editing">{{customer.starting_balance | currency}}</td>
-						<td ng-hide="customer.editing">{{customer.balance | currency}}</td>
-						<td ng-show="customer.editing"><input ng-model="customer.new_starting_balance" type="text" class="form-control input-sm"></td>
-						<td ng-show="customer.editing"><input ng-model="customer.new_balance" type="text" class="form-control input-sm"></td>
-						<td>
-							<div ng-hide="customer.editing" class="btn-group btn-group-xs">
-								<button ng-click="StartEditing( customer )" title="Edit {{customer.name}}" class="btn btn-default">Edit</button>
-								<button ng-click="DeleteCustomer( customer )" title="Delete" class="btn btn-danger">Delete</button>
-							</div>
-							<div ng-show="customer.editing" class="btn-group btn-group-xs">
-								<button ng-click="EditCustomer( customer )" title="Done" class="btn btn-primary">Ok</a>
-								<button ng-click="CancelEditing( customer )" class="btn btn-warning">Cancel</a>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<customers-table customers="customers" filter="customerFilter" on-update="GetAllCustomers()"></customers-table>
 		</div>
 	</div>
 </div>

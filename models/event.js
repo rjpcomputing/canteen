@@ -9,6 +9,17 @@ module.exports = function ( db )
 		return db.one( "SELECT * FROM event WHERE id = $1", eventId );
 	};
 
+	EventModel.GetCustomers = function( eventId )
+	{
+		let query =
+		`SELECT customer.id as id, customer.created_at as created_at, customer.updated_at as updated_at, customer.name as name, customer.starting_balance as starting_balance, customer.balance as balance
+		FROM event_customer, customer
+		WHERE event_customer.event_id = $1 AND event_customer.customer_id = customer.id
+		ORDER BY name ASC`;
+		
+		return db.any( query, eventId );
+	};
+
 	EventModel.GetByDescription = function( description )
 	{
 		return db.one( "SELECT * FROM event WHERE description = $1", description );
