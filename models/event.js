@@ -24,6 +24,11 @@ module.exports = function ( db )
 		return db.one( "INSERT INTO event ( description, start_date, end_date ) VALUES( $(description), $(start_date), $(end_date) ) RETURNING id", event );
 	};
 
+	EventModel.AddCustomer = function( eventId, customerId )
+	{
+		return db.one( "INSERT INTO event_customer ( event_id, customer_id ) VALUES( $1, $2 ) RETURNING id", [ eventId, customerId ] );
+	};
+
 	EventModel.Update = function( event )
 	{
 		return db.none( "UPDATE event SET description = $(description), start_date = $(start_date), end_date = $(end_date) WHERE id = $(id)", event );

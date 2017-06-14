@@ -13,8 +13,9 @@ canteenService.factory( "Event", ["$resource", function( $resource )
 
 canteenService.factory( "Customer", ["$resource", function( $resource )
 {
-	return $resource( "api/customer/:id/:cmd", {},
+	return $resource( "api/customer/:id/:cmd/:opt", {},
 	{
+		byname: { method: "GET", params: { id: "byname" }, isArray: false },
 		post: { method:"POST", isArray: false, transformRequest: [], headers: { "Content-Type": undefined } },
 		update: { method:"POST", isArray: false, transformRequest: [], headers: { "Content-Type": undefined } }
 	} );

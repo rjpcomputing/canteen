@@ -5,11 +5,27 @@ function( $scope )
 {
 } ])
 
-.controller( "EventCtrl", [ "$scope", "$stateParams", "Event",
-function( $scope, $stateParams, Event )
+.controller( "EventCtrl", [ "$scope", "$stateParams", '$http', "Event", "Customer",
+function( $scope, $stateParams, $http, Event, Customer )
 {
 	$scope.loading = true;
+	$scope.isAddCustomerFormCollapsed = true;
+
+	$scope.modelOptions =
+	{
+		debounce: {
+			default: 300,
+			blur: 250
+		}
+	};
+
 	let GetEvent = ( eventId ) => Event.get( { id: eventId }, ( data, headers ) => $scope.event = data ).$promise;
+
+	$scope.GetCustomers = ( name ) =>
+	{
+		return Customer.byname( { cmd: name } ).$promise
+		.then( ( data, headers ) => data.customers )
+	};
 	
 	GetEvent( $stateParams.id )
 	.then( () => $scope.loading = false )

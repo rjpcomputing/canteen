@@ -8,14 +8,35 @@
 	<div class="panel-heading">
 		<div class="row">
 			<div class="col-sm-8">
-				<h3 class="panel-title">Customers &nbsp;<a href ng-hide="isReadOnly" ng-click="AddCustomerToEvent()"><span class="glyphicon glyphicon-plus-sign" uib-tooltip="Add Customer To Event"></span></a></h1>
+				<h3 class="panel-title">Customers &nbsp;<a href ng-hide="isReadOnly" ng-click="isAddCustomerFormCollapsed = !isAddCustomerFormCollapsed"><span class="glyphicon glyphicon-plus-sign" uib-tooltip="Add Customer To Event"></span></a></h1>
 			</div>
 			<div class="col-sm-4">
 				<input ng-model="customerFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 2px 15px;"/>
 			</div>
 		</div>
 	</div>
-	<table ng-show="customers" ng-controller="EventsCtrl" class="table table-hover">
+	<div class="panel-body">
+		<p>To add more customers click the '+' icon above.</p>
+		<p>Customers are camp workers, campers, and staff that are in this event.</p>
+		<div uib-collapse="isAddCustomerFormCollapsed" class="collapse">
+			<hr>
+			<form name="addCustomerForm" novalidate>
+				<div ng-class="customerName ? 'has-success' : 'has-error'" class="form-group-sm has-feedback">
+					<label for="customerName">Name
+						<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+						<div ng-show="noResults"><i class="glyphicon glyphicon-remove"></i> No Results Found</div>
+					</label>
+					<pre>Model: {{customerName | json}}</pre>
+					<input ng-model="customerName" type="text" ng-model-options="modelOptions" uib-typeahead="customer as customer.name for customer in GetCustomers( $viewValue )" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" name="customerName" placeholder="Full Name" required>
+					<!--<span ng-class="customerName ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+				</div>
+
+				<br>
+				<button type="submit" ng-click="AddCustomer()" ng-disabled="addCustomerForm.$invalid" class="btn btn-default btn-sm pull-right">Add Customer</button>
+			</form>
+		</div>
+	</div>
+	<table ng-show="customers" class="table table-hover">
 		<thead>
 			<tr>
 				<!--<th>#</th>-->

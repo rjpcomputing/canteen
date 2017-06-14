@@ -16,12 +16,12 @@ exports.Get = ( req, res ) =>
 
 exports.GetByName = ( req, res ) =>
 {
-	CustomerModel.GetAllByName( req.params.email )
+	CustomerModel.GetByName( req.params.name )
 	.then( customer => res.send( customer ) )
 	.catch( err =>
 	{
 		console.error( err );
-		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error requesting user by name", error: req.app.get( "env" ) === "development" ? err : {} } );
+		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error requesting customer by name", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };
 
@@ -33,6 +33,17 @@ exports.GetAll = ( req, res ) =>
 	{
 		console.error( err );
 		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error requesting all customers", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};
+
+exports.GetAllByName = ( req, res ) =>
+{
+	CustomerModel.GetAllByName( req.params.name )
+	.then( customers => res.send( { success: true, message: "Customers with '" + req.params.name + "'", customers: customers } ) )
+	.catch( err =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error requesting customers by name", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };
 

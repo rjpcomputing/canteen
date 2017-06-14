@@ -47,6 +47,17 @@ exports.New = ( req, res ) =>
 	} );
 };
 
+exports.AddCustomer = ( req, res ) =>
+{
+	EventModel.AddCustomer( req.body )
+	.then( () => res.send( { success: true, message: "Customer added to event" } ) )
+	.catch( ( err ) =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error adding customer to event", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};
+
 exports.Update = ( req, res ) =>
 {
 	EventModel.Update( req.body )

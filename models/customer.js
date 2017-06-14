@@ -19,6 +19,11 @@ module.exports = function ( db )
 		return db.any( "SELECT * FROM customer ORDER BY name ASC" );
 	};
 
+	CustomerModel.GetAllByName = function( name )
+	{
+		return db.any( "SELECT * FROM customer WHERE name ILIKE $1", "%" + name + "%" );
+	};
+
 	CustomerModel.Create = function( customer )
 	{
 		return db.one( "INSERT INTO customer ( name, starting_balance, balance ) VALUES( $(name), $(starting_balance), $(balance) ) RETURNING id", customer );
