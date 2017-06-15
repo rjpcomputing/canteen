@@ -1,0 +1,46 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="row">
+			<div class="col-sm-8">
+				<h1 class="panel-title">Products &nbsp;<a href ng-click="isAddProductFormCollapsed = !isAddProductFormCollapsed"><span class="glyphicon glyphicon-plus-sign" uib-tooltip="Add Product"></span></a></h1>
+			</div>
+			<div class="col-sm-4">
+				<input ng-model="productFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 2px 15px;"/>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<p>To add more products click the '+' icon above.</p>
+		<p>Products can be anything you sell at the "store". They can be specific like "Twix" and "3 Musketeers" or generic like just "candy".</p>
+		<div uib-collapse="isAddProductFormCollapsed" class="collapse">
+			<hr>
+			<form name="addProductForm" novalidate>
+				<div class="row">
+					<div ng-class="productName ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
+						<label for="productName">Name</label>
+						<input ng-model="productName" type="text" class="form-control" name="productName" placeholder="Name" required>
+						<!--<span ng-class="productName ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+					</div>
+					<div ng-class="productDescription ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
+						<label for="productDescription">Description</label>
+						<input ng-model="productDescription" type="date" class="form-control" name="productDescription" placeholder="Description">
+						<!--<span ng-class="productDescription ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+					</div>
+					<div ng-class="productPrice ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
+						<label for="productPrice">End Date</label>
+						<input ng-model="productPrice" type="date" class="form-control" name="productPrice" placeholder="Price" required>
+						<!--<span ng-class="productPrice ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+					</div>
+					<!--<div ng-class="productCountInStock ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
+						<label for="productCountInStock">Description</label>
+						<input ng-model="productCountInStock" type="date" class="form-control" name="productCountInStock" placeholder="Amount in stock">
+						<span ng-class="productCountInStock ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>
+					</div>-->
+				</div>
+				<br>
+				<button type="submit" ng-click="AddProduct()" ng-disabled="addProductForm.$invalid" class="btn btn-default btn-sm pull-right">Add Product</button>
+			</form>
+		</div>
+	</div>
+	<customers-table customers="products" filter="productFilter" on-update="GetAllProducts()"></customers-table>
+</div>

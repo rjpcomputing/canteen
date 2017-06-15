@@ -3,12 +3,11 @@
 		<small><div href uib-tooltip="Create At: {{event.created_at | date}}" tooltip-placement="left" class="pull-right"><span class="glyphicon glyphicon-info-sign"></span></div></small>
 	</h1>
 </div>
-<customer-panel helptext="customerHelpText" customers="customers"></customer-panel>
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<div class="row">
 			<div class="col-sm-8">
-				<h3 class="panel-title">Customers &nbsp;<a href ng-hide="isReadOnly" ng-click="isAddCustomerFormCollapsed = !isAddCustomerFormCollapsed"><span class="glyphicon glyphicon-plus-sign" uib-tooltip="Add Customer To Event"></span></a></h1>
+				<h3 class="panel-title">Customers &nbsp;<a href ng-click="isAddCustomerFormCollapsed = !isAddCustomerFormCollapsed"><span class="glyphicon glyphicon-plus-sign" uib-tooltip="Add Customer To Event"></span></a></h1>
 			</div>
 			<div class="col-sm-4">
 				<input ng-model="customerFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 2px 15px;"/>

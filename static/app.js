@@ -2,7 +2,7 @@
 {
 	var appVersion = "17.06-dev";
 	//
-	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Setup", "Canteen.CustomersTable", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
+	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Setup", "Canteen.Supply", "Canteen.CustomersTable", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
 
 	.config( ["$stateProvider", "$urlRouterProvider", function ( $stateProvider, $urlRouterProvider )
 	{
@@ -16,6 +16,12 @@
 		{
 			url: "/profile",
 			templateUrl: "profile/profile.html"
+		} )
+		.state( "supply",
+		{
+			url: "/supply",
+			controller: "SupplyCtrl",
+			templateUrl: "supply/supply.html"
 		} )
 		.state( "setup",
 		{
@@ -125,8 +131,6 @@ console.log( "[DEBUG]", "login complete" );
 		{
 			if ( user )
 			{
-console.log( "[DEBUG] User logged in", user );
-
 				// User is signed in.
 				$scope.currentUser =
 				{

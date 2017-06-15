@@ -54,7 +54,7 @@ CREATE TABLE product (
 	updated_at							TIMESTAMP DEFAULT now(),
 	name								TEXT NOT NULL,
 	description							TEXT DEFAULT NULL,
-	cost								FLOAT NOT NULL,
+	price								FLOAT NOT NULL,
 	stock								INTEGER DEFAULT 0
 );
 
