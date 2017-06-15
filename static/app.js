@@ -4,7 +4,7 @@
 	//
 	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Setup", "Canteen.CustomersTable", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
 
-	.config( ["$stateProvider", function ( $stateProvider )
+	.config( ["$stateProvider", "$urlRouterProvider", function ( $stateProvider, $urlRouterProvider )
 	{
 		$stateProvider
 		.state( "store",
@@ -29,6 +29,7 @@
 			controller: "EventCtrl",
 			templateUrl: "setup/event.html"
 		} );
+		$urlRouterProvider.otherwise( "/" );
 	} ])
 
 	.controller( "AppCtrl", [ "$scope", "$state", "$cookies", "$http", "$timeout", "$uibModal", 
