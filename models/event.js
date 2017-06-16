@@ -40,6 +40,11 @@ module.exports = function ( db )
 		return db.one( "INSERT INTO event_customer ( event_id, customer_id ) VALUES( $1, $2 ) RETURNING id", [ eventId, customerId ] );
 	};
 
+	EventModel.DeleteCustomer = function( eventId, customerId )
+	{
+		return db.none( "DELETE FROM event_customer WHERE event_id = $1 AND customer_id = $2", [ eventId, customerId ] );
+	};
+
 	EventModel.Update = function( event )
 	{
 		return db.none( "UPDATE event SET description = $(description), start_date = $(start_date), end_date = $(end_date) WHERE id = $(id)", event );

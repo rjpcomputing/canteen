@@ -7,7 +7,8 @@ angular.module( "Canteen.CustomersTable", ["ui.bootstrap", "Canteen.Services"] )
 	{
 		customers: "=",
 		filter: "=",
-		onUpdate: "&"
+		onUpdate: "&",
+		onDelete: "="
 	},
 	controller: [ "Customer", function( Customer )
 	{
@@ -20,11 +21,12 @@ angular.module( "Canteen.CustomersTable", ["ui.bootstrap", "Canteen.Services"] )
 
 		this.EditCustomer = ( customer ) =>
 		{
-			Customer.get( { id: customer.id }, ( c ) =>
+			Customer.get( { id: customer.id }, ( cust ) =>
 			{
-				c.starting_balance = customer.new_starting_balance;
-				c.balance = customer.new_balance;
-				c.$save( { id: c.id }, () => this.onUpdate() );
+				let currentCustomer = cust.customer;
+				currentCustomer.starting_balance = customer.new_starting_balance;
+				currentCustomer.balance = customer.new_balance;
+				Customer.save( { id: currentCustomer.id }, currentCustomer, () => this.onUpdate() );
 			} ).$promise
 			.then( () => customer.editing = false )
 			.catch( errorDetails =>
@@ -46,7 +48,7 @@ angular.module( "Canteen.CustomersTable", ["ui.bootstrap", "Canteen.Services"] )
 			this.newCustomerBalance = customer.balance;
 		};
 
-		this.DeleteCustomer = ( customer ) => Customer.get( { id: customer.id }, ( c ) => c.$delete( { id: c.id }, () => this.onUpdate() ) );
+		this.DeleteCustomer = ( customer ) => this.onDelete( customer );
 	} ]
 } )
 ;

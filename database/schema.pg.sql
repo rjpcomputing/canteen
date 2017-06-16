@@ -55,7 +55,8 @@ CREATE TABLE product (
 	name								TEXT NOT NULL,
 	description							TEXT DEFAULT NULL,
 	price								FLOAT NOT NULL,
-	stock								INTEGER DEFAULT 0
+	stock								INTEGER DEFAULT 0,
+	CONSTRAINT unique_product 			UNIQUE ( name, price )
 );
 
 CREATE TABLE customer (
@@ -113,7 +114,7 @@ INSERT INTO event ( description, start_date, end_date ) VALUES
 	( 'Day Camp II',			'2017-07-17 08:00:00',	'2017-07-21 20:00:00' ),
 	( 'Wilderness Week',		'2017-07-17 08:00:00',	'2017-07-21 20:00:00' );
 
-INSERT INTO product ( name, description, cost, stock ) VALUES
+INSERT INTO product ( name, description, price, stock ) VALUES
 	( 'Push Pops',	'Sucker like candy',	0.75,	24 ),
 	( 'Coke',	'Coca Cola',	0.75,	48 ),
 	( 'YooHoo',	'Chocolate drink',	1.00,	96 ),

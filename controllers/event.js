@@ -10,18 +10,18 @@ exports.Get = ( req, res ) =>
 	.catch( err =>
 	{
 		console.error( err );
-		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error requesting event by id", error: req.app.get( "env" ) === "development" ? err : {} } );
+		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error requesting event by id", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };
 
 exports.GetCustomers = ( req, res ) =>
 {
 	EventModel.GetCustomers( req.params.id )
-	.then( ( customers ) => res.send( {success: true, message: "Customers in event", customers: customers } ) )
+	.then( ( customers ) => res.send( {success: true, message: "Customers in event", customer: customers } ) )
 	.catch( err =>
 	{
 		console.error( err );
-		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error requesting customers for event", error: req.app.get( "env" ) === "development" ? err : {} } );
+		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error requesting customers for event", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };
 
@@ -32,7 +32,7 @@ exports.GetByDescription = ( req, res ) =>
 	.catch( err =>
 	{
 		console.error( err );
-		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error requesting event by description", error: req.app.get( "env" ) === "development" ? err : {} } );
+		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error requesting event by description", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };
 
@@ -43,7 +43,7 @@ exports.GetAll = ( req, res ) =>
 	.catch( err =>
 	{
 		console.error( err );
-		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error requesting all events", error: req.app.get( "env" ) === "development" ? err : {} } );
+		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error requesting all events", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };
 
@@ -54,20 +54,29 @@ exports.New = ( req, res ) =>
 	.catch( ( err ) =>
 	{
 		console.error( err );
-		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error creating event", error: req.app.get( "env" ) === "development" ? err : {} } );
+		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error creating event", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };
 
 exports.AddCustomer = ( req, res ) =>
 {
-	console.log( "[AddCustomer]", req.params );
-	
 	EventModel.AddCustomer( req.params.id, req.params.customerid )
 	.then( () => res.send( { success: true, message: "Customer added to event" } ) )
 	.catch( ( err ) =>
 	{
 		console.error( err );
-		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error adding customer to event", error: req.app.get( "env" ) === "development" ? err : {} } );
+		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error adding customer to event", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};
+
+exports.DeleteCustomer = ( req, res ) =>
+{
+	EventModel.DeleteCustomer( req.params.id, req.params.customerid )
+	.then( () => res.send( { success: true, message: "Customer removed from event" } ) )
+	.catch( ( err ) =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error removing customer from event", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };
 
@@ -78,7 +87,7 @@ exports.Update = ( req, res ) =>
 	.catch( ( err ) =>
 	{
 		console.error( err );
-		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error updating event", error: req.app.get( "env" ) === "development" ? err : {} } );
+		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error updating event", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };
 
@@ -92,6 +101,6 @@ exports.Delete = ( req, res ) =>
 	.catch( ( err ) =>
 	{
 		console.error( err );
-		return res.status( 500 ).send( { success: false, url: req.baseUrl, message: err.message, userMessage: "Error updating event", error: req.app.get( "env" ) === "development" ? err : {} } );
+		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error updating event", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };

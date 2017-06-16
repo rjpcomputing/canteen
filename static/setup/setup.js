@@ -13,7 +13,7 @@ function( $scope, $stateParams, Event, Customer )
 	$scope.customerToAdd = undefined;
 
 	let GetEvent = ( eventId ) => Event.get( { id: eventId }, ( data, headers ) => $scope.event = data ).$promise;
-	let GetEventsCustomers = ( eventId ) => Event.customers( { id: eventId }, {}, ( data, headers ) => $scope.customers = data.customers ).$promise;
+	let GetEventsCustomers = ( eventId ) => Event.customers( { id: eventId }, {}, ( data, headers ) => $scope.customers = data.customer ).$promise;
 	$scope.GetEventsCustomers = GetEventsCustomers;
 
 	$scope.IsObject = ( obj ) => angular.isObject( obj );
@@ -21,7 +21,7 @@ function( $scope, $stateParams, Event, Customer )
 	$scope.GetCustomersByName = ( name ) =>
 	{
 		return Customer.byname( { cmd: name } ).$promise
-		.then( ( data, headers ) => data.customers );
+		.then( ( data, headers ) => data.customer );
 	};
 	
 	$scope.AddCustomer = ( customer ) =>
@@ -29,6 +29,14 @@ function( $scope, $stateParams, Event, Customer )
 		Event.addcustomer( { id: $stateParams.id, opt: customer.id }, {}, ( data, headers ) =>
 		{
 			$scope.customerToAdd = undefined;
+			GetEventsCustomers( $stateParams.id );
+		} );
+	};
+
+	$scope.DeleteCustomer = ( customer ) =>
+	{
+		Event.deletecustomer( { id: $stateParams.id, opt: customer.id }, {}, ( data, headers ) =>
+		{
 			GetEventsCustomers( $stateParams.id );
 		} );
 	};
@@ -76,7 +84,7 @@ function( $scope, $state, Event )
 		}
 
 		console.log( "Error Occurred!" );
-		console.log( errorDetails.data || errorDetails );
+		console.log( errorDetails );
 	} );
 } ] )
 
@@ -87,7 +95,7 @@ function( $scope, $state, Customer )
 	// $scope.editing = false;
 	$scope.isAddCustomerFormCollapsed = true;
 
-	let GetAllCustomers = ( order ) => Customer.query( {}, ( data, headers ) => $scope.customers = data ).$promise;
+	let GetAllCustomers = ( order ) => Customer.query( {}, ( data, headers ) => $scope.customers = data.customer ).$promise;
 	$scope.GetAllCustomers = GetAllCustomers;
 
 	$scope.AddCustomer = () =>
@@ -95,9 +103,21 @@ function( $scope, $state, Customer )
 		Customer.save( { name: $scope.customerName, starting_balance: $scope.customerStartingBalance, balance: $scope.customerStartingBalance },
 			( customerId ) => GetAllCustomers() );
 	};
+	
+	$scope.DeleteCustomer = ( customer ) => Customer.get( { id: customer.id }, ( cust ) => cust.$delete( { id: cust.customer.id }, () => GetAllCustomers() ) );
 
 	GetAllCustomers()
-	.then( () => $scope.loading = false );
+	.then( () => $scope.loading = false )
+	.catch( ( errorDetails ) =>
+	{
+		if ( errorDetails )
+		{
+			$scope.errorMessage = "Error Occurred! " + errorDetails;
+		}
+
+		console.log( "Error Occurred!" );
+		console.log( errorDetails );
+	} );
 } ])
 
 // allow you to format a text input field.

@@ -21,14 +21,9 @@
 						<input ng-model="productName" type="text" class="form-control" name="productName" placeholder="Name" required>
 						<!--<span ng-class="productName ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
 					</div>
-					<div ng-class="productDescription ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
-						<label for="productDescription">Description</label>
-						<input ng-model="productDescription" type="date" class="form-control" name="productDescription" placeholder="Description">
-						<!--<span ng-class="productDescription ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
-					</div>
 					<div ng-class="productPrice ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
-						<label for="productPrice">End Date</label>
-						<input ng-model="productPrice" type="date" class="form-control" name="productPrice" placeholder="Price" required>
+						<label for="productPrice">Price</label>
+						<input ng-model="productPrice" type="text" class="form-control" name="productPrice" placeholder="$1.00" required>
 						<!--<span ng-class="productPrice ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
 					</div>
 					<!--<div ng-class="productCountInStock ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
@@ -42,5 +37,33 @@
 			</form>
 		</div>
 	</div>
-	<customers-table customers="products" filter="productFilter" on-update="GetAllProducts()"></customers-table>
+	<table ng-show="products.length > 0" class="table table-hover" style="margin-bottom: 0px;">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Price</th>
+			<th>In Stock</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="product in products | filter: productFilter as productFilterResults">
+			<td>{{product.name}}</td>
+			<td ng-hide="product.editing">{{product.price | currency}}</td>
+			<td ng-hide="product.editing">{{product.stock}}</td>
+			<td ng-show="product.editing"><input ng-model="product.new_price" type="text" class="form-control input-sm"></td>
+			<td ng-show="product.editing"><input ng-model="product.new_stock" type="text" class="form-control input-sm"></td>
+			<td>
+				<div ng-hide="product.editing" class="btn-group btn-group-xs">
+					<button ng-click="StartEditing( product )" title="Edit {{product.name}}" class="btn btn-default">Edit</button>
+					<button ng-click="DeleteProduct( product )" title="Delete" class="btn btn-danger">Delete</button>
+				</div>
+				<div ng-show="product.editing" class="btn-group btn-group-xs">
+					<button ng-click="EditProduct( product )" class="btn btn-primary">Ok</a>
+					<button ng-click="CancelEditing( product )" class="btn btn-warning">Cancel</a>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
 </div>
