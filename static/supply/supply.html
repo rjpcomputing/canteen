@@ -16,12 +16,12 @@
 			<hr>
 			<form name="addProductForm" novalidate>
 				<div class="row">
-					<div ng-class="productName ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
+					<div ng-class="productName ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-6">
 						<label for="productName">Name</label>
-						<input ng-model="productName" type="text" class="form-control" name="productName" placeholder="Name" required>
+						<input ng-model="productName" type="text" class="form-control" id="productName" name="productName" placeholder="Name" required>
 						<!--<span ng-class="productName ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
 					</div>
-					<div ng-class="productPrice ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
+					<div ng-class="productPrice ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-6">
 						<label for="productPrice">Price</label>
 						<input ng-model="productPrice" type="text" class="form-control" name="productPrice" placeholder="$1.00" required>
 						<!--<span ng-class="productPrice ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
@@ -33,7 +33,7 @@
 					</div>-->
 				</div>
 				<br>
-				<button type="submit" ng-click="AddProduct()" ng-disabled="addProductForm.$invalid" class="btn btn-default btn-sm pull-right">Add Product</button>
+				<button type="submit" ng-click="AddProduct()" ng-disabled="addProductForm.$invalid" event-focus="click" event-focus-id="productName" class="btn btn-default btn-sm pull-right">Add Product</button>
 			</form>
 		</div>
 	</div>

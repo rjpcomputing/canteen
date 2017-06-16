@@ -1,7 +1,7 @@
 angular.module( "Canteen.Supply", ["ui.bootstrap", "Canteen.Services"] )
 
 .controller( "SupplyCtrl", [ "$scope", "Product",
-function( $scope, Product )
+function ( $scope, Product )
 {
 	$scope.loading = true;
 	$scope.isAddProductFormCollapsed = true;

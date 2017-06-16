@@ -60,8 +60,6 @@ exports.New = ( req, res ) =>
 
 exports.Update = ( req, res ) =>
 {
-console.log( "[PRODUCT UPDATE]", req.body );
-
 	ProductModel.Update( req.body )
 	.then( () => res.send( { success: true, message: "Product updated" } ) )
 	.catch( ( err ) =>

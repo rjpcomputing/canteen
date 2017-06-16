@@ -2,14 +2,17 @@
 {
 	var appVersion = "17.06-dev";
 	//
-	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Setup", "Canteen.Supply", "Canteen.CustomersTable", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
+	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Store", "Canteen.Setup", "Canteen.Supply", "Canteen.CustomersTable", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
 
-	.config( ["$stateProvider", "$urlRouterProvider", function ( $stateProvider, $urlRouterProvider )
+	.config( ["$stateProvider", "$locationProvider", "$urlRouterProvider", function ( $stateProvider, $locationProvider, $urlRouterProvider )
 	{
+		$locationProvider.html5Mode( { enabled: true } );
+		// $locationProvider.hashPrefix( "" );
 		$stateProvider
 		.state( "store",
 		{
 			url: "/",
+			controller: "StoreCtrl",
 			templateUrl: "store/store.html"
 		} )
 		.state( "user-profile",

@@ -66,7 +66,14 @@ function( $scope, $state, Event )
 	
 	$scope.GotoEventDetails = ( eventId ) => $state.go( "event", { id: eventId } );
 
-	$scope.AddEvent = () => Event.save( { description: $scope.eventName, start_date: $scope.eventStartDate, end_date: $scope.eventEndDate }, ( eventId ) => GetAllEvents() );
+	$scope.AddEvent = () => Event.save( { description: $scope.eventName, start_date: $scope.eventStartDate, end_date: $scope.eventEndDate }, ( eventId ) =>
+	{
+		$scope.eventName = undefined;
+		$scope.eventStartDate = undefined;
+		$scope.eventEndDate = undefined;
+		
+		GetAllEvents();
+	} );
 
 	$scope.DeleteEvent = ( $event, newEvent ) =>
 	{
@@ -100,8 +107,12 @@ function( $scope, $state, Customer )
 
 	$scope.AddCustomer = () =>
 	{
-		Customer.save( { name: $scope.customerName, starting_balance: $scope.customerStartingBalance, balance: $scope.customerStartingBalance },
-			( customerId ) => GetAllCustomers() );
+		Customer.save( { name: $scope.customerName, starting_balance: $scope.customerStartingBalance, balance: $scope.customerStartingBalance }, ( customerId ) =>
+		{
+			$scope.customerName = undefined;
+			$scope.customerStartingBalance = undefined;
+			GetAllCustomers();
+		} );
 	};
 	
 	$scope.DeleteCustomer = ( customer ) => Customer.get( { id: customer.id }, ( cust ) => cust.$delete( { id: cust.customer.id }, () => GetAllCustomers() ) );

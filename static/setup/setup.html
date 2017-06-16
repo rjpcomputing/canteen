@@ -23,7 +23,7 @@
 						<div class="row">
 							<div ng-class="eventName ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
 								<label for="eventName">Name</label>
-								<input ng-model="eventName" type="text" class="form-control" name="eventName" placeholder="Name" required>
+								<input ng-model="eventName" type="text" class="form-control" id="eventName" name="eventName" placeholder="Name" required>
 								<!--<span ng-class="eventName ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
 							</div>
 							<div ng-class="eventStartDate ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
@@ -38,7 +38,7 @@
 							</div>
 						</div>
 						<br>
-						<button type="submit" ng-click="AddEvent()" ng-disabled="addEventForm.$invalid" class="btn btn-default btn-sm pull-right">Add Event</button>
+						<button type="submit" ng-click="AddEvent()" ng-disabled="addEventForm.$invalid" event-focus="click" event-focus-id="eventName" class="btn btn-default btn-sm pull-right">Add Event</button>
 					</form>
 				</div>
 			</div>
@@ -83,7 +83,7 @@
 						<div class="row">
 							<div ng-class="customerName ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-6">
 								<label for="customerName">Name</label>
-								<input ng-model="customerName" type="text" class="form-control" name="customerName" placeholder="Full Name" required>
+								<input ng-model="customerName" type="text" class="form-control" id="customerName" name="customerName" placeholder="Full Name" required>
 								<!--<span ng-class="customerName ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
 							</div>
 							<div ng-class="customerStartingBalance ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-6">
@@ -93,7 +93,7 @@
 							</div>
 						</div>
 						<br>
-						<button type="submit" ng-click="AddCustomer()" ng-disabled="addCustomerForm.$invalid" class="btn btn-default btn-sm pull-right">Add Customer</button>
+						<button type="submit" ng-click="AddCustomer()" ng-disabled="addCustomerForm.$invalid" event-focus="click" event-focus-id="customerName" class="btn btn-default btn-sm pull-right">Add Customer</button>
 					</form>
 				</div>
 			</div>
