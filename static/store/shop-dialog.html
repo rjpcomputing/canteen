@@ -1,0 +1,56 @@
+<!--<style>.modal-dialog {width: 1000px;} </style>-->
+<div class="modal-header">
+	<h3 class="modal-title">{{customer.name}} Shopping Experience</h3>
+</div>
+<div class="modal-body">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Products</h3>
+		</div>
+		<div class="panel-body">
+			<span ng-repeat="product in products" style="padding: 2px 0px;">
+				<button ng-click="AddProductToCart( product )" class="btn btn-xs btn-info">{{product.name}}</button>
+			</span>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Cart</h3>
+		</div>
+		<table ng-show="shoppingCart.length > 0" class="table table-hover" style="margin-bottom: 0px;">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Price</th>
+					<th></th>
+					<th><span class="pull-right">Actions</span></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in shoppingCart track by $index">
+					<td>{{item.name}}</td>
+					<td>{{item.price | currency}}</td>
+					<td></td>
+					<td><button ng-click="DeleteProductFromCart( $index )" class="btn btn-danger btn-xs pull-right">Delete</button></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td><span class="pull-right"><strong>Total: </strong>{{shoppingCartTotal | currency}}</span></td>
+				</tr>
+			</tfoot>
+		</table>
+		<div ng-show="shoppingCart.length > 0" class="panel-footer clearfix">
+			<span class="pull-left"><strong>Customers Balance: </strong>{{customer.balance | currency}}</span>
+			<span class="pull-right"><strong>Ending Balance: </strong>{{customersEndingBalance | currency}}</span>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-warning" type="button" ng-click="Cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-click="Checkout()">Checkout</button>
+</div>

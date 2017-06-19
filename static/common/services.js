@@ -18,7 +18,9 @@ canteenService.factory( "Customer", ["$resource", function( $resource )
 	{
 		query: { method: "GET", isArray: false },
 		byname: { method: "GET", params: { id: "byname" }, isArray: false },
-		post: { method:"POST", isArray: false, transformRequest: [], headers: { "Content-Type": undefined } },
+		purchases: { method: "GET", params: { cmd: "purchase" }, isArray: false },
+		addpurchase: { method:"POST", params: { cmd: "purchase" }, isArray: false },
+		post: { method:"POST", params: { cmd: "purchase" }, isArray: false, transformRequest: [], headers: { "Content-Type": undefined } },
 		update: { method:"POST", isArray: false, transformRequest: [], headers: { "Content-Type": undefined } }
 	} );
 } ]);
@@ -26,6 +28,14 @@ canteenService.factory( "Customer", ["$resource", function( $resource )
 canteenService.factory( "Product", ["$resource", function( $resource )
 {
 	return $resource( "api/product/:id/:cmd/:opt", {},
+	{
+		query: { method: "GET", isArray: false }
+	} );
+} ]);
+
+canteenService.factory( "Purchase", ["$resource", function( $resource )
+{
+	return $resource( "api/purchase/:id/:cmd/:opt", {},
 	{
 		query: { method: "GET", isArray: false }
 	} );

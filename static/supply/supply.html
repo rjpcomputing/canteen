@@ -43,7 +43,7 @@
 			<th>Name</th>
 			<th>Price</th>
 			<th>In Stock</th>
-			<th>Actions</th>
+			<th><span class="pull-right">Actions</span></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -54,11 +54,11 @@
 			<td ng-show="product.editing"><input ng-model="product.new_price" type="text" class="form-control input-sm"></td>
 			<td ng-show="product.editing"><input ng-model="product.new_stock" type="text" class="form-control input-sm"></td>
 			<td>
-				<div ng-hide="product.editing" class="btn-group btn-group-xs">
+				<div ng-hide="product.editing" class="btn-group btn-group-xs pull-right">
 					<button ng-click="StartEditing( product )" title="Edit {{product.name}}" class="btn btn-default">Edit</button>
 					<button ng-click="DeleteProduct( product )" title="Delete" class="btn btn-danger">Delete</button>
 				</div>
-				<div ng-show="product.editing" class="btn-group btn-group-xs">
+				<div ng-show="product.editing" class="btn-group btn-group-xs pull-right">
 					<button ng-click="EditProduct( product )" class="btn btn-primary">Ok</a>
 					<button ng-click="CancelEditing( product )" class="btn btn-warning">Cancel</a>
 				</div>

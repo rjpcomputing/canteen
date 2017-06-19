@@ -7,4 +7,6 @@ module.exports =
 	Customer: require( "./customer" )( db ),
 	Event: require( "./event" )( db ),
 	Product: require( "./product" )( db ),
+	Purchase: require( "./purchase" )( db ),
+	SaleItem: require( "./saleitem" )( db ),
 };

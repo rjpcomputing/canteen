@@ -15,12 +15,13 @@ DROP TABLE IF EXISTS event CASCADE;
 DROP TABLE IF EXISTS product CASCADE;
 DROP TABLE IF EXISTS customer CASCADE;
 DROP TABLE IF EXISTS event_customer CASCADE;
-DROP TABLE IF EXISTS sale CASCADE;
-DROP TABLE IF EXISTS sale_product CASCADE;
+DROP TABLE IF EXISTS purchase CASCADE;
+DROP TABLE IF EXISTS sale_item CASCADE;
 DROP TRIGGER IF EXISTS update_event_updated_at ON event;
 DROP TRIGGER IF EXISTS update_product_updated_at ON product;
 DROP TRIGGER IF EXISTS update_customer_updated_at ON customer;
-DROP TRIGGER IF EXISTS update_sale_updated_at ON customer;
+DROP TRIGGER IF EXISTS update_purchase_updated_at ON customer;
+DROP TRIGGER IF EXISTS update_sale_item_updated_at ON customer;
 
 -- FUNCTIONS ------------------------------------------------------------------
 --
@@ -76,11 +77,21 @@ CREATE TABLE event_customer (
 	CONSTRAINT unique_event_customer	UNIQUE ( event_id, customer_id )
 );
 
-CREATE TABLE sale (
+CREATE TABLE purchase (
 	id									BIGSERIAL PRIMARY KEY NOT NULL,
 	created_at							TIMESTAMP DEFAULT now(),
 	updated_at							TIMESTAMP DEFAULT now(),
 	customer_id							BIGINT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
+	amount								FLOAT DEFAULT 0.0,
+	CONSTRAINT unique_purchase			UNIQUE ( created_at, customer_id )
+);
+
+CREATE TABLE sale_item (
+	id									BIGSERIAL PRIMARY KEY NOT NULL,
+	created_at							TIMESTAMP DEFAULT now(),
+	updated_at							TIMESTAMP DEFAULT now(),
+	purchase_id							BIGINT NOT NULL REFERENCES purchase(id) ON DELETE CASCADE,
+	-- customer_id							BIGINT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
 	product_id							BIGINT NOT NULL REFERENCES product(id) ON DELETE CASCADE
 );
 
@@ -92,14 +103,16 @@ ALTER TABLE event OWNER TO canteen;
 ALTER TABLE product OWNER TO canteen;
 ALTER TABLE customer OWNER TO canteen;
 ALTER TABLE event_customer OWNER TO canteen;
-ALTER TABLE sale OWNER TO canteen;
+ALTER TABLE purchase OWNER TO canteen;
+ALTER TABLE sale_item OWNER TO canteen;
 
 -- TRIGGERS -------------------------------------------------------------------
 --
 CREATE TRIGGER update_event_updated_at BEFORE UPDATE ON event FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
 CREATE TRIGGER update_product_updated_at BEFORE UPDATE ON product FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
 CREATE TRIGGER update_customer_updated_at BEFORE UPDATE ON customer FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
-CREATE TRIGGER update_sale_updated_at BEFORE UPDATE ON sale FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
+CREATE TRIGGER update_purchase_updated_at BEFORE UPDATE ON purchase FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
+CREATE TRIGGER update_sale_item_updated_at BEFORE UPDATE ON sale_item FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
 
 -- DEFAULT DATA ---------------------------------------------------------------
 --
@@ -121,8 +134,29 @@ INSERT INTO product ( name, description, price, stock ) VALUES
 	( 'Slushie',	'Amazingly delicious frozen drink',	1.00,	NULL ),
 	( 'Pop',	NULL,	0.75,	192 );
 
-INSERT INTO customer ( name, starting_balance ) VALUES
-	( 'Ella Pusztai',	10.00 ),
-	( 'Aliz Pusztai',	20.00 ),
-	( 'Jacob Pusztai',	30.00 ),
-	( 'Lily Pusztai',	40.00 );
+INSERT INTO customer ( name, starting_balance, balance ) VALUES
+	( 'Ella Pusztai',	10.00,	10.00 ),
+	( 'Aliz Pusztai',	20.00,	20.00 ),
+	( 'Jacob Pusztai',	30.00,	30.00 ),
+	( 'Lily Pusztai',	40.00,	40.00 );
+
+INSERT INTO purchase ( created_at, customer_id, amount ) VALUES
+	( '2017-06-19 12:00:00',	1,	1.00 ),
+	( '2017-06-18 12:00:00',	1,	2.00 ),
+	( '2017-06-17 12:00:00',	2,	3.00 ),
+	( '2017-06-16 12:00:00',	1,	4.25 );
+
+INSERT INTO sale_item ( purchase_id, product_id ) VALUES
+	( 1,	3 ),
+	( 1,	4 ),
+	( 2,	3 ),
+	( 2,	4 ),
+	( 3,	1 ),
+	( 3,	2 ),
+	( 3,	1 ),
+	( 3,	2 ),
+	( 4,	1 ),
+	( 4,	2 ),
+	( 4,	3 ),
+	( 4,	4 ),
+	( 4,	5 );

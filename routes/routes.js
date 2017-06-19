@@ -9,8 +9,10 @@ const ProductController = require( "../controllers/product" );
 apiRouter.get( "/customer",  CustomerController.GetAll );
 apiRouter.get( "/customer/:id",  CustomerController.Get );
 apiRouter.get( "/customer/byname/:name",  CustomerController.GetAllByName );
+apiRouter.get( "/customer/:id/purchase",  CustomerController.GetPurchases );
 apiRouter.post( "/customer",  CustomerController.New );
 apiRouter.post( "/customer/:id",  CustomerController.Update );
+apiRouter.post( "/customer/:id/purchase",  CustomerController.AddPurchase );
 apiRouter.delete( "/customer/:id",  CustomerController.Delete );
 // Event
 apiRouter.get( "/event",  EventController.GetAll );

@@ -2,12 +2,12 @@
 {
 	var appVersion = "17.06-dev";
 	//
-	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Store", "Canteen.Setup", "Canteen.Supply", "Canteen.CustomersTable", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
+	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Store", "Canteen.ShopDialog", "Canteen.Setup", "Canteen.Supply", "Canteen.CustomersTable", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
 
 	.config( ["$stateProvider", "$locationProvider", "$urlRouterProvider", function ( $stateProvider, $locationProvider, $urlRouterProvider )
 	{
-		$locationProvider.html5Mode( { enabled: true } );
-		// $locationProvider.hashPrefix( "" );
+		// $locationProvider.html5Mode( { enabled: true } );
+		$locationProvider.hashPrefix( "" );
 		$stateProvider
 		.state( "store",
 		{
@@ -48,6 +48,7 @@
 		$scope.isCollapsed = true;
 		$scope.currentUser = { isLoggedIn: false };
 		$scope.userCookieName = "user";
+		$scope.displayCookieName = "display";
 
 		$scope.ShowAboutDialog = function()
 		{
@@ -56,7 +57,7 @@
 				templateUrl: "common/about/about-dialog.tpl.html",
 				controller: "AboutDialogCtrl",
 				backdrop: "static"
-			});
+			} );
 		};
 
 		$scope.ShowLoginDialog = function()
@@ -67,16 +68,9 @@
 				controller: "LoginDialogCtrl",
 				backdrop: "static",
 				keyboard: false
-			});
+			} );
 
-			modalInstance.result.then( function( userDetails )
-			{
-console.log( "[DEBUG]", "login complete" );
-				
-				// $scope.currentUser = userDetails;
-				// $cookies.putObject( $scope.userCookieName, $scope.currentUser );
-				$state.go( "shop" );
-			});
+			modalInstance.result.then( ( userDetails ) => $state.go( "shop" ) );
 		};
 
 		$scope.LoadUserDetails = function()
@@ -118,7 +112,9 @@ console.log( "[DEBUG]", "login complete" );
 			.then( () =>
 			{
 				$cookies.remove( $scope.userCookieName );
+				$cookies.remove( $scope.displayCookieName );
 				$scope.currentUser = { isLoggedIn: false };
+				$scope.display = {};
 				$scope.LoadUserDetails();
 			} )
 			.catch( error =>
@@ -165,6 +161,19 @@ console.log( "[DEBUG]", "login complete" );
 		else
 		{
 			//console.log( "|> App Initializing..." );
+			// Initialize display cookie
+			if ( !$cookies.getObject( $scope.displayCookieName ) )
+			{
+				var initialDisplayValues =
+				{
+					store:
+					{
+						selectedEvent: ""
+					}
+				};
+				$cookies.putObject( $scope.displayCookieName, initialDisplayValues );
+			}
+			$scope.display = $cookies.getObject( $scope.displayCookieName );
 			$scope.LoadUserDetails();
 		}
 	} ]);
