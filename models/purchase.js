@@ -11,12 +11,12 @@ module.exports = function ( db )
 
 	PurchaseModel.GetByCustomer = function( customerId )
 	{
-		return db.one( "SELECT * FROM purchase WHERE customer_id = $1", customerId );
+		return db.any( "SELECT * FROM purchase WHERE customer_id = $1", customerId );
 	};
 
 	PurchaseModel.GetByCustomerToday = function( customerId )
 	{
-		return db.one( "SELECT * FROM purchase WHERE customer_id = $1 AND DATE( created_at ) = CURRENT_DATE", customerId );
+		return db.any( "SELECT * FROM purchase WHERE customer_id = $1 AND DATE( created_at ) = CURRENT_DATE", customerId );
 	};
 
 	PurchaseModel.Create = function( customerId, amount )

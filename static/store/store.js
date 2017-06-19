@@ -1,13 +1,21 @@
 angular.module( "Canteen.Store", [ "ui.bootstrap", "Canteen.Services" ] )
 
-.controller( "StoreCtrl", [ "$scope", "$cookies", "$filter", "$uibModal", "Event", "Product",
-function( $scope, $cookies, $filter, $uibModal, Event, Product )
+.controller( "StoreCtrl", [ "$scope", "$cookies", "$filter", "$state", "$uibModal", "Event", "Product",
+function( $scope, $cookies, $filter, $state, $uibModal, Event, Product )
 {
 	$scope.loading = true;
 	let displayDetails = $cookies.getObject( $scope.displayCookieName );
 
 	let GetAllEvents = ( order ) => Event.query( {}, ( data, headers ) => $scope.events = data ).$promise;
 	let GetAllProducts = ( order ) => Product.query( {}, ( data, headers ) => $scope.products = data.product ).$promise;
+
+	$scope.FormatEventName = ( event ) => event.description + '  (' + $filter( "date" )( event.start_date ) + ' - ' + $filter( "date" )( event.end_date ) + ")";
+	
+	$scope.CustomerDetails = ( $event, customer ) =>
+	{
+		$event.stopPropagation();
+		$state.go( "customer", { id: customer.id } );
+	};
 
 	$scope.GetEventsCustomers = ( event ) =>
 	{
@@ -20,7 +28,6 @@ function( $scope, $cookies, $filter, $uibModal, Event, Product )
 		} );
 	};
 
-	$scope.FormatEventName = ( event ) => event.description + '  (' + $filter( "date" )( event.start_date ) + ' - ' + $filter( "date" )( event.end_date ) + ")";
 	$scope.Shop = ( $event, customer ) =>
 	{
 		$event.stopPropagation();

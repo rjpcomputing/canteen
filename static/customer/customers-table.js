@@ -2,7 +2,7 @@ angular.module( "Canteen.CustomersTable", ["ui.bootstrap", "Canteen.Services"] )
 
 .component( "customersTable",
 {
-	templateUrl: "setup/customers-table.html",
+	templateUrl: "customer/customers-table.html",
 	bindings:
 	{
 		customers: "=",

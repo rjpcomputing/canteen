@@ -52,7 +52,16 @@ exports.GetAllByName = ( req, res ) =>
 exports.GetPurchases = ( req, res ) =>
 {
 	PurchaseModel.GetByCustomer( req.params.id )
-	.then( ( purchase ) => res.send( { success: true, message: "Customer " + req.params.id + " purchases", purchase: purchase } ) )
+	// .then( ( purchases ) =>
+	// {
+	// 	for( let purchase in purchases ) {
+	// 		SaleItemModel.GetByPurchase( purchase.id )
+	// 		.then( ( saleItems ) => purchase.sale_item = saleItems );
+	// 	}
+
+	// 	return purchases;
+	// } )
+	.then( ( purchases ) => res.send( { success: true, message: "Customer " + req.params.id + " purchases", purchase: purchases } ) )
 	.catch( ( err ) =>
 	{
 		console.error( err );

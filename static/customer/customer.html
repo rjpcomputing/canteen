@@ -1,0 +1,42 @@
+<div ng-show="errorMessage">
+	<div class="alert alert-danger" role="alert">{{errorMessage}}</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<div class="row">
+				<div class="col-sm-8">
+					<h1 class="panel-title form-inline">{{customer.name}}'s Purchases &nbsp;</h1>
+				</div>
+				<div ng-show="purchases" class="col-sm-4">
+					<input ng-model="purchaseFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 4px 15px;"/>
+				</div>
+			</div>
+		</h3>
+	</div>
+	<!--<div class="panel-body">
+		<p>Select the event from the dropdown above, if one is not already selected, to open the store for that event. Then click on the purchase to start the purchase process.</p>
+	</div>-->
+	<table ng-show="purchases.length > 0" class="table table-hover" style="margin-bottom: 0px;">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Date</th>
+				<th>Amount</th>
+				<th><span class="pull-right">Actions</span></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="purchase in purchases | filter: purchaseFilter as purchaseFilterResults" ng-click="ShowPurchase( $event, purchase )" class="clickable">
+				<td>{{purchase.id}}</td>
+				<td>{{purchase.created_at | date:"medium"}}</td>
+				<td>{{purchase.amount | currency}}</td>
+				<td>
+					<div class="btn-group btn-group-xs pull-right">
+						<button ng-click="ShowPurchase( $event, purchase )" class="btn btn-primary">Details</button>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
