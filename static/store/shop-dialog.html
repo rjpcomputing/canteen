@@ -16,7 +16,7 @@
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h3 class="panel-title">Cart</h3>
+			<h3 class="panel-title">Cart ({{shoppingCart.length}})</h3>
 		</div>
 		<table ng-show="shoppingCart.length > 0" class="table table-hover" style="margin-bottom: 0px;">
 			<thead>
@@ -52,5 +52,5 @@
 </div>
 <div class="modal-footer">
 	<button class="btn btn-warning" type="button" ng-click="Cancel()">Cancel</button>
-	<button class="btn btn-primary" type="button" ng-click="Checkout()">Checkout</button>
+	<button ng-disabled="shoppingCart.length == 0" class="btn btn-primary" type="button" ng-click="Checkout()">Checkout</button>
 </div>
