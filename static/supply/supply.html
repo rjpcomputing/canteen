@@ -48,9 +48,10 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="product in products | filter: productFilter as productFilterResults">
-			<td>{{product.name}}</td>
+			<td ng-hide="product.editing">{{product.name}}</td>
 			<td ng-hide="product.editing">{{product.price | currency}}</td>
 			<td ng-hide="product.editing">{{product.stock}}</td>
+			<td ng-show="product.editing"><input ng-model="product.new_name" type="text" class="form-control input-sm"></td>
 			<td ng-show="product.editing"><input ng-model="product.new_price" type="text" class="form-control input-sm"></td>
 			<td ng-show="product.editing"><input ng-model="product.new_stock" type="text" class="form-control input-sm"></td>
 			<td>

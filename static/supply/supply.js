@@ -23,6 +23,7 @@ function ( $scope, Product )
 	$scope.StartEditing = ( product ) =>
 	{
 		product.editing = true;
+		product.new_name = product.name;
 		product.new_price = product.price;
 		product.new_stock = product.stock;
 	};
@@ -32,6 +33,7 @@ function ( $scope, Product )
 		Product.get( { id: product.id }, ( prod ) =>
 		{
 			let currentProduct = prod.product;
+			currentProduct.name = product.new_name;
 			currentProduct.price = product.new_price;
 			currentProduct.stock = product.new_stock;
 			Product.save( { id: currentProduct.id }, currentProduct, () => GetAllProducts() );
