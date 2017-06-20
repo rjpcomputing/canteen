@@ -13,7 +13,7 @@ module.exports = function ( db )
 
 	PurchaseModel.GetByCustomer = function( customerId )
 	{
-		return db.any( "SELECT * FROM purchase WHERE customer_id = $1", customerId )
+		return db.any( "SELECT * FROM purchase WHERE customer_id = $1 ORDER BY created_at DESC", customerId )
 	};
 
 	PurchaseModel.GetByCustomerToday = function( customerId )
