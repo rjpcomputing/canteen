@@ -29,5 +29,8 @@ apiRouter.get( "/product/:id",  ProductController.Get );
 apiRouter.post( "/product",  ProductController.New );
 apiRouter.post( "/product/:id",  ProductController.Update );
 apiRouter.delete( "/product/:id",  ProductController.Delete );
+// SaleItem
+// apiRouter.get( "/purchaseitem",  ProductController.GetAll );
+// apiRouter.get( "/purchaseitem/:id",  ProductController.Get );
 
 module.exports = apiRouter;

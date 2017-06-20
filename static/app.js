@@ -2,7 +2,7 @@
 {
 	var appVersion = "17.06-dev";
 	//
-	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Store", "Canteen.ShopDialog", "Canteen.Event", "Canteen.Customer", "Canteen.Setup", "Canteen.Supply", "Canteen.CustomersTable", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
+	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Store", "Canteen.ShopDialog", "Canteen.Event", "Canteen.Customer", "Canteen.PurchaseItemDialog", "Canteen.Setup", "Canteen.Supply", "Canteen.CustomersTable", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
 
 	.config( ["$stateProvider", "$locationProvider", "$urlRouterProvider", function ( $stateProvider, $locationProvider, $urlRouterProvider )
 	{

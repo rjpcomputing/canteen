@@ -8,7 +8,12 @@ function ( $scope, Product )
 	
 	let GetAllProducts = ( order ) => Product.query( {}, ( data, headers ) => $scope.products = data.product ).$promise;
 	
-	$scope.AddProduct = () => Product.save( { name: $scope.productName, price: $scope.productPrice, stock: $scope.productStock || 0 }, ( productId ) => GetAllProducts() );
+	$scope.AddProduct = () => Product.save( { name: $scope.productName, price: $scope.productPrice, stock: $scope.productStock || 0 }, ( productId ) =>
+	{
+		$scope.productName = undefined;
+		$scope.productPrice = undefined;
+		GetAllProducts();
+	} );
 
 	$scope.DeleteProduct = ( newProduct ) =>
 	{

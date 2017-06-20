@@ -1,5 +1,7 @@
 // let async = require( "async" );
 
+const SaleItemModel = require( "./index" ).SaleItem;
+
 module.exports = function ( db )
 {
 	let PurchaseModel = {};
@@ -11,7 +13,7 @@ module.exports = function ( db )
 
 	PurchaseModel.GetByCustomer = function( customerId )
 	{
-		return db.any( "SELECT * FROM purchase WHERE customer_id = $1", customerId );
+		return db.any( "SELECT * FROM purchase WHERE customer_id = $1", customerId )
 	};
 
 	PurchaseModel.GetByCustomerToday = function( customerId )

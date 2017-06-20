@@ -17,7 +17,7 @@ function( $scope, $uibModalInstance, customer, event, Product, Customer )
 		$scope.customersEndingBalance -= product.price;
 
 		$scope.shoppingCart.push( product );
-	}
+	};
 
 	$scope.DeleteProductFromCart = ( index ) =>
 	{

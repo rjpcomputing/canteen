@@ -6,7 +6,7 @@
 		<h3 class="panel-title">
 			<div class="row">
 				<div class="col-sm-8">
-					<h1 class="panel-title form-inline">{{customer.name}}'s Purchases &nbsp;</h1>
+					<h1 class="panel-title form-inline">{{customer.name}}'s Purchases ({{purchases.length}})&nbsp;</h1>
 				</div>
 				<div ng-show="purchases" class="col-sm-4">
 					<input ng-model="purchaseFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 4px 15px;"/>
@@ -14,9 +14,6 @@
 			</div>
 		</h3>
 	</div>
-	<!--<div class="panel-body">
-		<p>Select the event from the dropdown above, if one is not already selected, to open the store for that event. Then click on the purchase to start the purchase process.</p>
-	</div>-->
 	<table ng-show="purchases.length > 0" class="table table-hover" style="margin-bottom: 0px;">
 		<thead>
 			<tr>

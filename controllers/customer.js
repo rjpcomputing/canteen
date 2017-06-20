@@ -51,16 +51,23 @@ exports.GetAllByName = ( req, res ) =>
 
 exports.GetPurchases = ( req, res ) =>
 {
+	let purchases;
 	PurchaseModel.GetByCustomer( req.params.id )
-	// .then( ( purchases ) =>
-	// {
-	// 	for( let purchase in purchases ) {
-	// 		SaleItemModel.GetByPurchase( purchase.id )
-	// 		.then( ( saleItems ) => purchase.sale_item = saleItems );
-	// 	}
+	.then( ( customerPurchases ) =>
+	{
+		purchases = customerPurchases;
 
-	// 	return purchases;
-	// } )
+		return SaleItemModel.GetItemsForPurchases( customerPurchases );
+	} )
+	.then( ( purchasedItems ) =>
+	{
+		for ( var index = 0; index < purchases.length; ++index )
+		{
+			purchases[index].sale_item = purchasedItems[index];
+		}
+
+		return purchases;
+	} )
 	.then( ( purchases ) => res.send( { success: true, message: "Customer " + req.params.id + " purchases", purchase: purchases } ) )
 	.catch( ( err ) =>
 	{
@@ -83,13 +90,7 @@ exports.New = ( req, res ) =>
 exports.AddPurchase = ( req, res ) =>
 {
 	PurchaseModel.Create( req.params.id, req.body.amount )
-	.then( ( newPurchase ) =>
-	{
-		for( let item in req.body.purchase )
-		{
-			SaleItemModel.Create( newPurchase.id, item.id )
-		}
-	} )
+	.then( ( newPurchase ) => req.body.product.forEach( ( item ) => SaleItemModel.Create( newPurchase.id, item.id ) ) )
 	.then( () => CustomerModel.Get( req.params.id ) )
 	.then( ( cust ) =>
 	{
