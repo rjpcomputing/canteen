@@ -36,6 +36,17 @@ exports.GetAll = ( req, res ) =>
 	} );
 };
 
+exports.GetAllProductTypes = ( req, res ) =>
+{
+	ProductModel.GetAllProductTypes()
+	.then( ( productTypes ) => res.send( { success: true, message: "All product types", product_type: productTypes } ) )
+	.catch( ( err ) =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error requesting all product types", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};
+
 exports.GetAllByName = ( req, res ) =>
 {
 	ProductModel.GetAllByName( req.params.name )

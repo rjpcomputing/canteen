@@ -19,6 +19,11 @@ module.exports = function ( db )
 		return db.any( "SELECT * FROM product ORDER BY name ASC" );
 	};
 
+	ProductModel.GetAllProductTypes = function()
+	{
+		return db.any( "SELECT * FROM product_type ORDER BY type ASC" );
+	};
+
 	ProductModel.GetAllByName = function( name )
 	{
 		return db.any( "SELECT * FROM product WHERE name ILIKE $1", "%" + name + "%" );
