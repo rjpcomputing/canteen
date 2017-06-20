@@ -13,7 +13,8 @@ module.exports = function ( db )
 	{
 		let query =
 		`SELECT customer.id as id, customer.created_at as created_at, customer.updated_at as updated_at, customer.name as name, customer.starting_balance as starting_balance, customer.balance as balance,
-			(SELECT COUNT( * ) FROM purchase WHERE customer_id = customer.id AND DATE( created_at ) = CURRENT_DATE) as purchases_today
+			(SELECT COUNT( * ) FROM purchase WHERE customer_id = customer.id AND DATE( created_at ) = CURRENT_DATE) as purchases_today,
+			event_customer.type_id as type_id, (SELECT type FROM customer_type WHERE id = event_customer.type_id) as type
 		FROM event_customer, customer
 		WHERE event_customer.event_id = $1 AND event_customer.customer_id = customer.id
 		ORDER BY name ASC`;
@@ -36,9 +37,14 @@ module.exports = function ( db )
 		return db.one( "INSERT INTO event ( description, start_date, end_date ) VALUES( $(description), $(start_date), $(end_date) ) RETURNING id", event );
 	};
 
-	EventModel.AddCustomer = function( eventId, customerId )
+	EventModel.AddCustomer = function( eventId, customerId, typeId )
 	{
-		return db.one( "INSERT INTO event_customer ( event_id, customer_id ) VALUES( $1, $2 ) RETURNING id", [ eventId, customerId ] );
+		return db.one( "INSERT INTO event_customer ( event_id, customer_id, type_id ) VALUES( $1, $2, $3 ) RETURNING id", [ eventId, customerId, typeId ] );
+	};
+
+	EventModel.UpdateCustomer = function( eventCustomer )
+	{
+		return db.none( "UPDATE event_customer SET event_id = $(event_id), customer_id = $(customer_id), type_id = $(type_id) WHERE event_id = $(event_id) AND customer_id = $(customer_id)", eventCustomer );
 	};
 
 	EventModel.DeleteCustomer = function( eventId, customerId )

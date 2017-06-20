@@ -12,7 +12,9 @@
 -- RESET DB -------------------------------------------------------------------
 --
 DROP TABLE IF EXISTS event CASCADE;
+DROP TABLE IF EXISTS product_type CASCADE;
 DROP TABLE IF EXISTS product CASCADE;
+DROP TABLE IF EXISTS customer_type CASCADE;
 DROP TABLE IF EXISTS customer CASCADE;
 DROP TABLE IF EXISTS event_customer CASCADE;
 DROP TABLE IF EXISTS purchase CASCADE;
@@ -49,15 +51,29 @@ CREATE TABLE event (
 	CONSTRAINT unique_event 			UNIQUE ( description, start_date, end_date )
 );
 
+CREATE TABLE product_type (
+	id									BIGSERIAL PRIMARY KEY NOT NULL,
+	type								TEXT NOT NULL,
+	CONSTRAINT unique_product_type		UNIQUE ( type )
+);
+
 CREATE TABLE product (
 	id									BIGSERIAL PRIMARY KEY NOT NULL,
 	created_at							TIMESTAMP DEFAULT now(),
 	updated_at							TIMESTAMP DEFAULT now(),
 	name								TEXT NOT NULL,
 	description							TEXT DEFAULT NULL,
+	cost								FLOAT NOT NULL,
 	price								FLOAT NOT NULL,
 	stock								INTEGER DEFAULT 0,
+	type_id								BIGINT NOT NULL REFERENCES product_type(id) ON DELETE CASCADE,
 	CONSTRAINT unique_product 			UNIQUE ( name, price )
+);
+
+CREATE TABLE customer_type (
+	id									BIGSERIAL PRIMARY KEY NOT NULL,
+	type								TEXT NOT NULL,
+	CONSTRAINT unique_customer_type		UNIQUE ( type )
 );
 
 CREATE TABLE customer (
@@ -74,6 +90,7 @@ CREATE TABLE event_customer (
 	id									BIGSERIAL PRIMARY KEY NOT NULL,
 	event_id							BIGINT NOT NULL REFERENCES event(id) ON DELETE CASCADE,
 	customer_id							BIGINT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
+	type_id								BIGINT NOT NULL REFERENCES customer_type(id) ON DELETE CASCADE,
 	CONSTRAINT unique_event_customer	UNIQUE ( event_id, customer_id )
 );
 
@@ -101,7 +118,9 @@ ALTER SCHEMA public OWNER TO canteen;
 
 ALTER TABLE event OWNER TO canteen;
 ALTER TABLE product OWNER TO canteen;
+ALTER TABLE product_type OWNER TO canteen;
 ALTER TABLE customer OWNER TO canteen;
+ALTER TABLE customer_type OWNER TO canteen;
 ALTER TABLE event_customer OWNER TO canteen;
 ALTER TABLE purchase OWNER TO canteen;
 ALTER TABLE sale_item OWNER TO canteen;
@@ -116,6 +135,15 @@ CREATE TRIGGER update_sale_item_updated_at BEFORE UPDATE ON sale_item FOR EACH R
 
 -- DEFAULT DATA ---------------------------------------------------------------
 --
+INSERT INTO customer_type ( type ) VALUES
+	( 'Camper' ),
+	( 'Summer Staff' ),
+	( 'Permanent Staff' );
+
+INSERT INTO product_type ( type ) VALUES
+	( 'Canteen' ),
+	( 'Store' );
+
 INSERT INTO event ( description, start_date, end_date ) VALUES
 	( 'Day Camp I',				'2017-05-29 08:00:00',	'2017-06-02 20:00:00' ),
 	( 'Teen Week',				'2017-06-05 08:00:00',	'2017-06-09 20:00:00' ),
@@ -127,24 +155,28 @@ INSERT INTO event ( description, start_date, end_date ) VALUES
 	( 'Day Camp II',			'2017-07-17 08:00:00',	'2017-07-21 20:00:00' ),
 	( 'Wilderness Week',		'2017-07-17 08:00:00',	'2017-07-21 20:00:00' );
 
-INSERT INTO product ( name, description, price, stock ) VALUES
-	( 'Push Pops',	'Sucker like candy',	0.75,	24 ),
-	( 'Coke',	'Coca Cola',	0.75,	48 ),
-	( 'YooHoo',	'Chocolate drink',	1.00,	96 ),
-	( 'Slushie',	'Amazingly delicious frozen drink',	1.00,	NULL ),
-	( 'Pop',	NULL,	0.75,	192 );
+INSERT INTO product ( name, description, cost, price, stock, type_id ) VALUES
+	( 'Candy',				NULL,								0.75,	0.75,	NULL,	1 ),
+	( 'Water',				NULL,								0.75,	0.75,	NULL,	1 ),
+	( 'Slushie',			'Amazingly delicious frozen drink',	1.00,	1.00,	NULL,	1 ),
+	( 'Pop',				NULL,								0.75,	0.75,	NULL,	1 ),
+	( 'Tee Shirt',			NULL,								8.00,	10.00,	30,		2 ),
+	( 'Long Sleeve Shirt',	NULL,								12.00,	15.00,	30,		2 ),
+	( 'Sweat Shirt',		NULL,								14.00,	20.00,	30,		2 ),
+	( 'Water Bottle',		NULL,								5.00,	8.00,	45,		2 );
 
 INSERT INTO customer ( name, starting_balance, balance ) VALUES
+	( 'Jody Bolt',		50.00,	50.00 ),
 	( 'Ella Pusztai',	10.00,	10.00 ),
 	( 'Aliz Pusztai',	20.00,	20.00 ),
 	( 'Jacob Pusztai',	30.00,	30.00 ),
 	( 'Lily Pusztai',	40.00,	40.00 );
 
 INSERT INTO purchase ( created_at, customer_id, amount ) VALUES
-	( '2017-06-19 12:00:00',	1,	1.00 ),
-	( '2017-06-18 12:00:00',	1,	2.00 ),
-	( '2017-06-17 12:00:00',	2,	3.00 ),
-	( '2017-06-16 12:00:00',	1,	4.25 );
+	( '2017-06-19 12:00:00',	1,	1.75 ),
+	( '2017-06-18 12:00:00',	1,	1.75 ),
+	( '2017-06-17 12:00:00',	2,	1.75 ),
+	( '2017-06-16 12:00:00',	1,	13.25 );
 
 INSERT INTO sale_item ( purchase_id, product_id ) VALUES
 	( 1,	3 ),

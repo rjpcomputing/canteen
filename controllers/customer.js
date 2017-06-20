@@ -38,6 +38,17 @@ exports.GetAll = ( req, res ) =>
 	} );
 };
 
+exports.GetAllCustomerTypes = ( req, res ) =>
+{
+	CustomerModel.GetAllCustomerTypes()
+	.then( ( customerTypes ) => res.send( { success: true, message: "All customer types", customer_type: customerTypes } ) )
+	.catch( ( err ) =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error requesting all customer types", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};
+
 exports.GetAllByName = ( req, res ) =>
 {
 	CustomerModel.GetAllByName( req.params.name )

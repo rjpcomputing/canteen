@@ -60,12 +60,24 @@ exports.New = ( req, res ) =>
 
 exports.AddCustomer = ( req, res ) =>
 {
-	EventModel.AddCustomer( req.params.id, req.params.customerid )
+	EventModel.AddCustomer( req.params.id, req.params.customerid, req.body.type_id )
 	.then( () => res.send( { success: true, message: "Customer added to event" } ) )
 	.catch( ( err ) =>
 	{
 		console.error( err );
 		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error adding customer to event", error: req.app.get( "env" ) === "development" ? err : {} } );
+	} );
+};
+
+exports.UpdateCustomer = ( req, res ) =>
+{
+	let eventCustomer = { event_id: req.params.id, customer_id: req.params.customerid, type_id: req.body.type_id };
+	EventModel.UpdateCustomer( eventCustomer )
+	.then( () => res.send( { success: true, message: "Customer updated in event '" + req.params.id + "'" } ) )
+	.catch( ( err ) =>
+	{
+		console.error( err );
+		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error updating customer in event", error: req.app.get( "env" ) === "development" ? err : {} } );
 	} );
 };
 

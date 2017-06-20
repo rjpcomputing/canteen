@@ -20,22 +20,27 @@
 		<div uib-collapse="isAddCustomerFormCollapsed" class="collapse">
 			<hr>
 			<form name="addCustomerForm" novalidate>
-				<div ng-class="IsObject( customerToAdd ) ? 'has-success' : 'has-error'" class="form-group-sm has-feedback">
-					<label for="customerToAdd">
-						Name &nbsp;&nbsp;
-						<small>
-							<span ng-show="loadingLocations" class="glyphicon glyphicon-refresh text-muted"></span>
-							<span ng-show="noResults" class="text-muted"><i class="glyphicon glyphicon-remove text-danger"></i> No Results Found</span>
-						</small>
-					</label>
-					<input ng-model="customerToAdd" type="text" ng-model-options="{ debounce: { default: 400 } }" uib-typeahead="customer as customer.name for customer in GetCustomersByName( $viewValue )" typeahead-show-hint="true" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" name="customerToAdd" placeholder="Full Name" autocomplete="off" required>
-					<!--<span ng-class="customerToAdd ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+				<div class="row">
+					<div ng-class="IsObject( customerToAdd ) ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-6">
+						<label for="customerToAdd">
+							Name &nbsp;&nbsp;
+							<small>
+								<span ng-show="loadingLocations" class="glyphicon glyphicon-refresh text-muted"></span>
+								<span ng-show="noResults" class="text-muted"><i class="glyphicon glyphicon-remove text-danger"></i> No Results Found</span>
+							</small>
+						</label>
+						<input ng-model="customerToAdd" type="text" ng-model-options="{ debounce: { default: 400 } }" uib-typeahead="customer as customer.name for customer in GetCustomersByName( $viewValue )" typeahead-show-hint="true" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" name="customerToAdd" placeholder="Full Name" autocomplete="off" required>
+						<!--<span ng-class="customerToAdd ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+					</div>
+					<div ng-class="selectedCustomerType ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-6">
+						<label for="customerType">Type</label>
+						<select ng-model="selectedCustomerType" ng-options="customerType.type for customerType in customerTypes track by customerType.id" name="customerType" class="form-control input-sm"></select>
+					</div>
 				</div>
-
 				<br>
 				<button type="submit" ng-click="AddCustomer( customerToAdd )" ng-disabled="addCustomerForm.$invalid || !IsObject( customerToAdd )" class="btn btn-default btn-sm pull-right">Add Customer</button>
 			</form>
 		</div>
 	</div>
-	<customers-table customers="customers" filter="customerFilter" on-update="GetEventsCustomers( event.id )" on-delete="DeleteCustomer"></customers-table>
+	<customers-table customers="customers" filter="customerFilter" on-update="GetEventsCustomers( event.id )" on-delete="DeleteCustomer" event-id="event.id"></customers-table>
 </div>

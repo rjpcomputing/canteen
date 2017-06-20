@@ -22,6 +22,7 @@ apiRouter.post( "/event",  EventController.New );
 apiRouter.post( "/event/:id",  EventController.Update );
 apiRouter.delete( "/event/:id",  EventController.Delete );
 apiRouter.post( "/event/:id/customer/:customerid",  EventController.AddCustomer );
+apiRouter.post( "/event/:id/customer/:customerid/update",  EventController.UpdateCustomer );
 apiRouter.delete( "/event/:id/customer/:customerid",  EventController.DeleteCustomer );
 // Product
 apiRouter.get( "/product",  ProductController.GetAll );
@@ -29,6 +30,10 @@ apiRouter.get( "/product/:id",  ProductController.Get );
 apiRouter.post( "/product",  ProductController.New );
 apiRouter.post( "/product/:id",  ProductController.Update );
 apiRouter.delete( "/product/:id",  ProductController.Delete );
+// UI
+apiRouter.get( "/ui/customertypes",  CustomerController.GetAllCustomerTypes );
+apiRouter.get( "/ui/producttypes",  ProductController.GetAllProductTypes );
+
 // SaleItem
 // apiRouter.get( "/purchaseitem",  ProductController.GetAll );
 // apiRouter.get( "/purchaseitem/:id",  ProductController.Get );

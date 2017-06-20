@@ -19,6 +19,11 @@ module.exports = function ( db )
 		return db.any( "SELECT * FROM customer ORDER BY name ASC" );
 	};
 
+	CustomerModel.GetAllCustomerTypes = function()
+	{
+		return db.any( "SELECT * FROM customer_type ORDER BY type ASC" );
+	};
+
 	CustomerModel.GetAllByName = function( name )
 	{
 		return db.any( "SELECT * FROM customer WHERE name ILIKE $1", "%" + name + "%" );
