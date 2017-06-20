@@ -49,12 +49,7 @@ function ( $scope, Product )
 		} );
 	};
 
-	$scope.CancelEditing = ( product ) =>
-	{
-		product.editing = false;
-		$scope.newCustomerStartingBalance = product.starting_balance;
-		$scope.newCustomerBalance = product.balance;
-	};
+	$scope.CancelEditing = ( product ) => product.editing = false;
 
 	$scope.DeleteCustomer = ( product ) => Product.get( { id: product.id }, ( c ) => c.$delete( { id: c.id }, () => GetAllProducts() ) );
 
