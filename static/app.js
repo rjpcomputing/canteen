@@ -1,6 +1,6 @@
 ( function()
 {
-	var appVersion = "17.06-dev";
+	var appVersion = "17.06-01";
 	//
 	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Store", "Canteen.ShopDialog", "Canteen.Event", "Canteen.Customer", "Canteen.PurchaseItemDialog", "Canteen.Setup", "Canteen.Supply", "Canteen.CustomersTable", "Canteen.About", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
 
