@@ -12,7 +12,8 @@ module.exports = function ( db )
 	EventModel.GetCustomers = function( eventId )
 	{
 		let query =
-		`SELECT customer.id as id, customer.created_at as created_at, customer.updated_at as updated_at, customer.name as name, customer.starting_balance as starting_balance, customer.balance as balance
+		`SELECT customer.id as id, customer.created_at as created_at, customer.updated_at as updated_at, customer.name as name, customer.starting_balance as starting_balance, customer.balance as balance,
+			(SELECT COUNT( * ) FROM purchase WHERE customer_id = customer.id AND DATE( created_at ) = CURRENT_DATE) as purchases_today
 		FROM event_customer, customer
 		WHERE event_customer.event_id = $1 AND event_customer.customer_id = customer.id
 		ORDER BY name ASC`;
