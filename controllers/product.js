@@ -6,8 +6,8 @@ const ProductModel = require( "../models" ).Product;
 exports.Get = ( req, res ) =>
 {
 	ProductModel.Get( req.params.id )
-	.then( product => res.send( { success: true, message: "Product " + req.params.id + " details", product: product } ) )
-	.catch( err =>
+	.then( ( product ) => res.send( { success: true, message: "Product " + req.params.id + " details", product: product } ) )
+	.catch( ( err ) =>
 	{
 		console.error( err );
 		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error requesting product by id", error: req.app.get( "env" ) === "development" ? err : {} } );
@@ -17,8 +17,8 @@ exports.Get = ( req, res ) =>
 exports.GetByName = ( req, res ) =>
 {
 	ProductModel.GetByName( req.params.name )
-	.then( product => res.send( { success: true, message: "Product with name '" + req.params.name + "'", product: product } ) )
-	.catch( err =>
+	.then( ( product ) => res.send( { success: true, message: "Product with name '" + req.params.name + "'", product: product } ) )
+	.catch( ( err ) =>
 	{
 		console.error( err );
 		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error requesting product by name", error: req.app.get( "env" ) === "development" ? err : {} } );
@@ -28,8 +28,8 @@ exports.GetByName = ( req, res ) =>
 exports.GetAll = ( req, res ) =>
 {
 	ProductModel.GetAll()
-	.then( products => res.send( { success: true, message: "All products", product: products } ) )
-	.catch( err =>
+	.then( ( products ) => res.send( { success: true, message: "All products", product: products } ) )
+	.catch( ( err ) =>
 	{
 		console.error( err );
 		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error requesting all products", error: req.app.get( "env" ) === "development" ? err : {} } );
@@ -50,8 +50,8 @@ exports.GetAllProductTypes = ( req, res ) =>
 exports.GetAllByName = ( req, res ) =>
 {
 	ProductModel.GetAllByName( req.params.name )
-	.then( products => res.send( { success: true, message: "Products with name '" + req.params.name + "'", product: products } ) )
-	.catch( err =>
+	.then( ( products ) => res.send( { success: true, message: "Products with name '" + req.params.name + "'", product: products } ) )
+	.catch( ( err ) =>
 	{
 		console.error( err );
 		return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error requesting products by name", error: req.app.get( "env" ) === "development" ? err : {} } );

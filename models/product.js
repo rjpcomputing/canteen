@@ -6,17 +6,17 @@ module.exports = function ( db )
 
 	ProductModel.Get = function( productId )
 	{
-		return db.one( "SELECT * FROM product WHERE id = $1", productId );
+		return db.one( "SELECT *, (SELECT type FROM product_type WHERE id = product.type_id) as type FROM product WHERE id = $1", productId );
 	};
 
 	ProductModel.GetByName = function( name )
 	{
-		return db.one( "SELECT * FROM product WHERE name = $1", name );
+		return db.one( "SELECT *, (SELECT type FROM product_type WHERE id = product.type_id) as type FROM product WHERE name = $1", name );
 	};
 
 	ProductModel.GetAll = function()
 	{
-		return db.any( "SELECT * FROM product ORDER BY name ASC" );
+		return db.any( "SELECT *, (SELECT type FROM product_type WHERE id = product.type_id) as type FROM product ORDER BY name ASC" );
 	};
 
 	ProductModel.GetAllProductTypes = function()
@@ -26,17 +26,17 @@ module.exports = function ( db )
 
 	ProductModel.GetAllByName = function( name )
 	{
-		return db.any( "SELECT * FROM product WHERE name ILIKE $1", "%" + name + "%" );
+		return db.any( "SELECT *, (SELECT type FROM product_type WHERE id = product.type_id) as type FROM product WHERE name ILIKE $1", "%" + name + "%" );
 	};
 
 	ProductModel.Create = function( product )
 	{
-		return db.one( "INSERT INTO product ( name, price, stock ) VALUES( $(name), $(price), $(stock) ) RETURNING id", product );
+		return db.one( "INSERT INTO product ( name, price, stock, type_id ) VALUES( $(name), $(price), $(stock), $(type_id) ) RETURNING id", product );
 	};
 
 	ProductModel.Update = function( product )
 	{
-		return db.none( "UPDATE product SET name = $(name), price = $(price), stock = $(stock) WHERE id = $(id)", product );
+		return db.none( "UPDATE product SET name = $(name), price = $(price), stock = $(stock), type_id = $(type_id) WHERE id = $(id)", product );
 	};
 
 	ProductModel.UpdatePrice = function( product )

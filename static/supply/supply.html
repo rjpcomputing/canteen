@@ -16,12 +16,17 @@
 			<hr>
 			<form name="addProductForm" novalidate>
 				<div class="row">
-					<div ng-class="productName ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-6">
+					<div ng-class="productName ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-3">
 						<label for="productName">Name</label>
 						<input ng-model="productName" type="text" class="form-control" id="productName" name="productName" placeholder="Name" required>
 						<!--<span ng-class="productName ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
 					</div>
-					<div ng-class="productPrice ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-6">
+					<div ng-class="productCost ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-3">
+						<label for="productCost">Cost</label>
+						<input ng-model="productCost" type="text" class="form-control" name="productCost" placeholder="$1.00" required>
+						<!--<span ng-class="productCost ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+					</div>
+					<div ng-class="productPrice ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-3">
 						<label for="productPrice">Price</label>
 						<input ng-model="productPrice" type="text" class="form-control" name="productPrice" placeholder="$1.00" required>
 						<!--<span ng-class="productPrice ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
@@ -31,6 +36,10 @@
 						<input ng-model="productCountInStock" type="date" class="form-control" name="productCountInStock" placeholder="Amount in stock">
 						<span ng-class="productCountInStock ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>
 					</div>-->
+					<div ng-class="selectedProductType ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-3">
+						<label for="productType">Type</label>
+						<select ng-model="selectedProductType" ng-options="productType.type for productType in productTypes track by productType.id" name="productType" class="form-control input-sm"></select>
+					</div>
 				</div>
 				<br>
 				<button type="submit" ng-click="AddProduct()" ng-disabled="addProductForm.$invalid" event-focus="click" event-focus-id="productName" class="btn btn-default btn-sm pull-right">Add Product</button>
@@ -43,6 +52,7 @@
 			<th>Name</th>
 			<th>Price</th>
 			<th>In Stock</th>
+			<th>Type</th>
 			<th><span class="pull-right">Actions</span></th>
 		</tr>
 	</thead>
@@ -51,9 +61,11 @@
 			<td ng-hide="product.editing">{{product.name}}</td>
 			<td ng-hide="product.editing">{{product.price | currency}}</td>
 			<td ng-hide="product.editing">{{product.stock}}</td>
+			<td ng-hide="product.editing">{{product.type}}</td>
 			<td ng-show="product.editing"><input ng-model="product.new_name" type="text" class="form-control input-sm"></td>
 			<td ng-show="product.editing"><input ng-model="product.new_price" type="text" class="form-control input-sm"></td>
 			<td ng-show="product.editing"><input ng-model="product.new_stock" type="text" class="form-control input-sm"></td>
+			<td ng-show="product.editing"><select ng-model="product.new_type" ng-options="productType.type for productType in productTypes track by productType.id" class="form-control input-sm"></select></td>
 			<td>
 				<div ng-hide="product.editing" class="btn-group btn-group-xs pull-right">
 					<button ng-click="StartEditing( product )" title="Edit {{product.name}}" class="btn btn-default">Edit</button>

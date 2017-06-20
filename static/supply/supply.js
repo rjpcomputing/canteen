@@ -1,17 +1,24 @@
 angular.module( "Canteen.Supply", ["ui.bootstrap", "Canteen.Services"] )
 
-.controller( "SupplyCtrl", [ "$scope", "Product",
-function ( $scope, Product )
+.controller( "SupplyCtrl", [ "$scope", "Product", "UI",
+function ( $scope, Product, UI )
 {
 	$scope.loading = true;
 	$scope.isAddProductFormCollapsed = true;
 	
 	let GetAllProducts = ( order ) => Product.query( {}, ( data, headers ) => $scope.products = data.product ).$promise;
 	
+	let GetCustomerTypes = () => UI.producttypes( ( data, headers ) =>
+	{
+		$scope.productTypes = data.product_type;
+		$scope.selectedProductType = $scope.productTypes[0];
+	} ).$promise;
+
 	$scope.AddProduct = () => Product.save( { name: $scope.productName, price: $scope.productPrice, stock: $scope.productStock || 0 }, ( productId ) =>
 	{
 		$scope.productName = undefined;
 		$scope.productPrice = undefined;
+		$scope.selectedProductType = $scope.productTypes[0];
 		GetAllProducts();
 	} );
 
@@ -26,6 +33,7 @@ function ( $scope, Product )
 		product.new_name = product.name;
 		product.new_price = product.price;
 		product.new_stock = product.stock;
+		product.new_type = { id: product.type_id, type: product.type };
 	};
 
 	$scope.EditProduct = ( product ) =>
@@ -36,6 +44,8 @@ function ( $scope, Product )
 			currentProduct.name = product.new_name;
 			currentProduct.price = product.new_price;
 			currentProduct.stock = product.new_stock;
+			currentProduct.type_id = product.new_type.id;
+			currentProduct.type = product.new_type.type;
 			Product.save( { id: currentProduct.id }, currentProduct, () => GetAllProducts() );
 		} ).$promise
 		.then( () => product.editing = false )
@@ -56,6 +66,7 @@ function ( $scope, Product )
 	$scope.DeleteCustomer = ( product ) => Product.get( { id: product.id }, ( c ) => c.$delete( { id: c.id }, () => GetAllProducts() ) );
 
 	GetAllProducts()
+	.then( GetCustomerTypes )
 	.then( () => $scope.loading = false )
 	.catch( errorDetails =>
 	{
