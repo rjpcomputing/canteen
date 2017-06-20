@@ -15,6 +15,7 @@ angular.module( "Canteen.CustomersTable", ["ui.bootstrap", "Canteen.Services"] )
 		this.StartEditing = ( customer ) =>
 		{
 			customer.editing = true;
+			customer.new_name = customer.name;
 			customer.new_starting_balance = customer.starting_balance;
 			customer.new_balance = customer.balance;
 		};
@@ -24,6 +25,7 @@ angular.module( "Canteen.CustomersTable", ["ui.bootstrap", "Canteen.Services"] )
 			Customer.get( { id: customer.id }, ( cust ) =>
 			{
 				let currentCustomer = cust.customer;
+				currentCustomer.name = customer.new_name;
 				currentCustomer.starting_balance = customer.new_starting_balance;
 				currentCustomer.balance = customer.new_balance;
 				Customer.save( { id: currentCustomer.id }, currentCustomer, () => this.onUpdate() );
@@ -41,12 +43,7 @@ angular.module( "Canteen.CustomersTable", ["ui.bootstrap", "Canteen.Services"] )
 			} );
 		};
 
-		this.CancelEditing = ( customer ) =>
-		{
-			customer.editing = false;
-			this.newCustomerStartingBalance = customer.starting_balance;
-			this.newCustomerBalance = customer.balance;
-		};
+		this.CancelEditing = ( customer ) => customer.editing = false;
 
 		this.DeleteCustomer = ( customer ) => this.onDelete( customer );
 	} ]
