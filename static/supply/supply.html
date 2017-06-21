@@ -69,7 +69,7 @@
 			<td>
 				<div ng-hide="product.editing" class="btn-group btn-group-xs pull-right">
 					<button ng-click="StartEditing( product )" title="Edit {{product.name}}" class="btn btn-default">Edit</button>
-					<button ng-click="DeleteProduct( product )" title="Delete" class="btn btn-danger">Delete</button>
+					<button ng-click="DeleteProduct( product )" title="Delete" class="btn btn-danger" confirm>Delete</button>
 				</div>
 				<div ng-show="product.editing" class="btn-group btn-group-xs pull-right">
 					<button ng-click="EditProduct( product )" class="btn btn-primary">Ok</a>

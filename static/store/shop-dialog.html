@@ -32,7 +32,7 @@
 					<td>{{item.name}}</td>
 					<td>{{item.price | currency}}</td>
 					<td></td>
-					<td><button ng-click="DeleteProductFromCart( $index )" class="btn btn-danger btn-xs pull-right">Delete</button></td>
+					<td><button ng-click="DeleteProductFromCart( $index )" class="btn btn-danger btn-xs pull-right" confirm>Delete</button></td>
 				</tr>
 			</tbody>
 			<tfoot>

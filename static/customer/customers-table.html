@@ -22,7 +22,7 @@
 			<td>
 				<div ng-hide="customer.editing" class="btn-group btn-group-xs pull-right">
 					<button ng-click="$ctrl.StartEditing( customer )" title="Edit {{customer.name}}" class="btn btn-default">Edit</button>
-					<button ng-click="$ctrl.DeleteCustomer( customer )" title="Delete" class="btn btn-danger">Delete</button>
+					<button ng-click="$ctrl.DeleteCustomer( customer )" title="Delete" class="btn btn-danger" confirm>Delete</button>
 				</div>
 				<div ng-show="customer.editing" class="btn-group btn-group-xs pull-right">
 					<button ng-click="$ctrl.EditCustomer( customer )" title="Done" class="btn btn-primary">Ok</a>

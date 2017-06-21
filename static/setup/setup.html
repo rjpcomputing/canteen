@@ -56,7 +56,7 @@
 						<td>{{event.description}}</td>
 						<td>{{event.start_date | date}}</td>
 						<td>{{event.end_date | date}}</td>
-						<td><button ng-click="DeleteEvent( $event, event )" class="btn btn-danger btn-xs pull-right">Delete</button></td>
+						<td><button ng-click="DeleteEvent( $event, event )" class="btn btn-danger btn-xs pull-right" confirm>Delete</button></td>
 					</tr>
 				</tbody>
 			</table>
