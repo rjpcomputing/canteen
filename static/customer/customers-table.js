@@ -35,7 +35,13 @@ angular.module( "Canteen.CustomersTable", ["ui.bootstrap", "Canteen.Services"] )
 
 			Customer.get( { id: customer.id } ).$promise
 			.then( ( cust ) => Customer.save( { id: currentCustomer.id }, currentCustomer ).$promise )
-			.then( ( ret ) => Event.updatecustomer( { id: this.eventId, opt: currentCustomer.id }, { type_id: currentCustomer.type_id } ).$promise )
+			.then( ( ret ) =>
+			{
+				if( customer.type_id )
+				{
+					return Event.updatecustomer( { id: this.eventId, opt: currentCustomer.id }, { type_id: currentCustomer.type_id || customer.type_id } ).$promise;
+				}
+			} )
 			.then( ( ret ) => this.onUpdate() )
 			.then( () => customer.editing = false )
 			.catch( errorDetails =>
