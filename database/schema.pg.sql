@@ -19,11 +19,13 @@ DROP TABLE IF EXISTS customer CASCADE;
 DROP TABLE IF EXISTS event_customer CASCADE;
 DROP TABLE IF EXISTS purchase CASCADE;
 DROP TABLE IF EXISTS sale_item CASCADE;
+-- DROP TABLE IF EXISTS settings CASCADE;
 DROP TRIGGER IF EXISTS update_event_updated_at ON event;
 DROP TRIGGER IF EXISTS update_product_updated_at ON product;
 DROP TRIGGER IF EXISTS update_customer_updated_at ON customer;
 DROP TRIGGER IF EXISTS update_purchase_updated_at ON customer;
 DROP TRIGGER IF EXISTS update_sale_item_updated_at ON customer;
+-- DROP TRIGGER IF EXISTS update_settings_updated_at ON customer;
 
 -- FUNCTIONS ------------------------------------------------------------------
 --
@@ -99,7 +101,7 @@ CREATE TABLE purchase (
 	created_at							TIMESTAMP DEFAULT now(),
 	updated_at							TIMESTAMP DEFAULT now(),
 	customer_id							BIGINT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
-	amount								FLOAT DEFAULT 0.0,
+	amount								FLOAT NOT NULL,
 	CONSTRAINT unique_purchase			UNIQUE ( created_at, customer_id )
 );
 
@@ -108,9 +110,18 @@ CREATE TABLE sale_item (
 	created_at							TIMESTAMP DEFAULT now(),
 	updated_at							TIMESTAMP DEFAULT now(),
 	purchase_id							BIGINT NOT NULL REFERENCES purchase(id) ON DELETE CASCADE,
-	-- customer_id							BIGINT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
-	product_id							BIGINT NOT NULL REFERENCES product(id) ON DELETE CASCADE
+	product_id							BIGINT NOT NULL REFERENCES product(id) ON DELETE CASCADE,
+	sold_price							FLOAT NOT NULL
 );
+
+-- CREATE TABLE settings (
+-- 	id									BIGSERIAL PRIMARY KEY NOT NULL,
+-- 	created_at							TIMESTAMP DEFAULT now(),
+-- 	updated_at							TIMESTAMP DEFAULT now(),
+-- 	key									TEXT NOT NULL,
+-- 	value								TEXT NOT NULL,
+-- 	CONSTRAINT unique_setting			UNIQUE ( key )
+-- );
 
 -- PERMISSIONS ----------------------------------------------------------------
 --
@@ -124,6 +135,7 @@ ALTER TABLE customer_type OWNER TO canteen;
 ALTER TABLE event_customer OWNER TO canteen;
 ALTER TABLE purchase OWNER TO canteen;
 ALTER TABLE sale_item OWNER TO canteen;
+-- ALTER TABLE settings OWNER TO canteen;
 
 -- TRIGGERS -------------------------------------------------------------------
 --
@@ -132,9 +144,14 @@ CREATE TRIGGER update_product_updated_at BEFORE UPDATE ON product FOR EACH ROW E
 CREATE TRIGGER update_customer_updated_at BEFORE UPDATE ON customer FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
 CREATE TRIGGER update_purchase_updated_at BEFORE UPDATE ON purchase FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
 CREATE TRIGGER update_sale_item_updated_at BEFORE UPDATE ON sale_item FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
+-- CREATE TRIGGER update_settings_updated_at BEFORE UPDATE ON settings FOR EACH ROW EXECUTE PROCEDURE update_updated_at();
 
 -- DEFAULT DATA ---------------------------------------------------------------
 --
+-- INSERT INTO settings ( key, value ) VALUES
+-- 	( 'canteen_discount_percent', '50' ),
+-- 	( 'staff_above_cost', '0' );
+
 INSERT INTO customer_type ( type ) VALUES
 	( 'Camper' ),
 	( 'Summer Staff' ),
@@ -173,22 +190,22 @@ INSERT INTO customer ( name, starting_balance, balance ) VALUES
 	( 'Lily Pusztai',	40.00,	40.00 );
 
 INSERT INTO purchase ( created_at, customer_id, amount ) VALUES
-	( '2017-06-19 12:00:00',	1,	1.75 ),
-	( '2017-06-18 12:00:00',	1,	1.75 ),
+	( '2017-06-19 12:00:00',	1,	0.88 ),
+	( '2017-06-18 12:00:00',	1,	0.88 ),
 	( '2017-06-17 12:00:00',	2,	1.75 ),
-	( '2017-06-16 12:00:00',	1,	13.25 );
+	( '2017-06-16 12:00:00',	1,	9.64 );
 
-INSERT INTO sale_item ( purchase_id, product_id ) VALUES
-	( 1,	3 ),
-	( 1,	4 ),
-	( 2,	3 ),
-	( 2,	4 ),
-	( 3,	1 ),
-	( 3,	2 ),
-	( 3,	1 ),
-	( 3,	2 ),
-	( 4,	1 ),
-	( 4,	2 ),
-	( 4,	3 ),
-	( 4,	4 ),
-	( 4,	5 );
+INSERT INTO sale_item ( purchase_id, product_id, sold_price ) VALUES
+	( 1,	3,	0.50 ),
+	( 1,	4,	0.38 ),
+	( 2,	3,	0.50 ),
+	( 2,	4,	0.38 ),
+	( 3,	1,	0.75 ),
+	( 3,	2,	0.75 ),
+	( 3,	1,	0.75 ),
+	( 3,	2,	0.75 ),
+	( 4,	1,	0.38 ),
+	( 4,	2,	0.38 ),
+	( 4,	3,	0.50 ),
+	( 4,	4,	0.38 ),
+	( 4,	5,	8.00 );

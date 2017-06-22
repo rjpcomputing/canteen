@@ -1,8 +1,10 @@
 ( function()
 {
-	var appVersion = "17.06-01";
+	var appVersion = "17.06-02";
 	//
 	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Store", "Canteen.ShopDialog", "Canteen.Event", "Canteen.Customer", "Canteen.PurchaseItemDialog", "Canteen.Setup", "Canteen.Supply", "Canteen.CustomersTable", "Canteen.About", "Canteen.Directives", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
+
+	.constant( "CanteenSettings", { staffAboveCost: 0, canteenDiscount: 50 } )
 
 	.config( ["$stateProvider", "$locationProvider", "$urlRouterProvider", function ( $stateProvider, $locationProvider, $urlRouterProvider )
 	{
@@ -55,7 +57,7 @@
 		$scope.currentUser = { isLoggedIn: false };
 		$scope.userCookieName = "user";
 		$scope.displayCookieName = "display";
-
+		
 		$scope.ShowAboutDialog = function()
 		{
 			var modalInstance = $uibModal.open(

@@ -101,7 +101,7 @@ exports.New = ( req, res ) =>
 exports.AddPurchase = ( req, res ) =>
 {
 	PurchaseModel.Create( req.params.id, req.body.amount )
-	.then( ( newPurchase ) => req.body.product.forEach( ( item ) => SaleItemModel.Create( newPurchase.id, item.id ) ) )
+	.then( ( newPurchase ) => req.body.product.forEach( ( item ) => SaleItemModel.Create( newPurchase.id, item.id, item.sold_price ) ) )
 	.then( () => CustomerModel.Get( req.params.id ) )
 	.then( ( cust ) =>
 	{

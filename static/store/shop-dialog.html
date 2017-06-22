@@ -22,17 +22,17 @@
 			<thead>
 				<tr>
 					<th>Name</th>
+					<!--<th>Discount</th>-->
 					<th>Price</th>
-					<th></th>
 					<th><span class="pull-right">Actions</span></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in shoppingCart track by $index">
 					<td>{{item.name}}</td>
-					<td>{{item.price | currency}}</td>
-					<td></td>
-					<td><button ng-click="DeleteProductFromCart( $index )" class="btn btn-danger btn-xs pull-right" confirm>Delete</button></td>
+					<!--<td>{{item.price - item.sold_price | currency}}</td>-->
+					<td>{{item.sold_price | currency}}</td>
+					<td><button ng-click="DeleteProductFromCart( $index )" class="btn btn-danger btn-xs pull-right">Delete</button></td>
 				</tr>
 			</tbody>
 			<tfoot>
