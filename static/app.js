@@ -161,28 +161,18 @@
 			$scope.$digest(); // Deal with any Angular scope changes
 		} );
 
-		if( navigator.sayswho.search( "IE" ) != -1 )
+		if ( !$cookies.getObject( $scope.displayCookieName ) )
 		{
-			console.log( "IE found. Unsupported browser found.");
-			window.location =  "unsupportedBrowser.html";
-		}
-		else
-		{
-			//console.log( "|> App Initializing..." );
-			// Initialize display cookie
-			if ( !$cookies.getObject( $scope.displayCookieName ) )
+			var initialDisplayValues =
 			{
-				var initialDisplayValues =
+				store:
 				{
-					store:
-					{
-						selectedEvent: ""
-					}
-				};
-				$cookies.putObject( $scope.displayCookieName, initialDisplayValues );
-			}
-			$scope.display = $cookies.getObject( $scope.displayCookieName );
-			$scope.LoadUserDetails();
+					selectedEvent: ""
+				}
+			};
+			$cookies.putObject( $scope.displayCookieName, initialDisplayValues );
 		}
+		$scope.display = $cookies.getObject( $scope.displayCookieName );
+		$scope.LoadUserDetails();
 	} ]);
 } )();
