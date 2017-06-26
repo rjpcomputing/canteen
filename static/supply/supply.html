@@ -46,37 +46,39 @@
 			</form>
 		</div>
 	</div>
-	<table ng-show="products.length > 0" class="table table-hover" style="margin-bottom: 0px;">
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Price</th>
-			<th>In Stock</th>
-			<th>Type</th>
-			<th><span class="pull-right">Actions</span></th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="product in products | filter: productFilter as productFilterResults">
-			<td ng-hide="product.editing">{{product.name}}</td>
-			<td ng-hide="product.editing">{{product.price | currency}}</td>
-			<td ng-hide="product.editing">{{product.stock}}</td>
-			<td ng-hide="product.editing">{{product.type}}</td>
-			<td ng-show="product.editing"><input ng-model="product.new_name" type="text" class="form-control input-sm"></td>
-			<td ng-show="product.editing"><input ng-model="product.new_price" type="text" class="form-control input-sm"></td>
-			<td ng-show="product.editing"><input ng-model="product.new_stock" type="text" class="form-control input-sm"></td>
-			<td ng-show="product.editing"><select ng-model="product.new_type" ng-options="productType.type for productType in productTypes track by productType.id" class="form-control input-sm"></select></td>
-			<td>
-				<div ng-hide="product.editing" class="btn-group btn-group-xs pull-right">
-					<button ng-click="StartEditing( product )" title="Edit {{product.name}}" class="btn btn-default">Edit</button>
-					<button ng-click="DeleteProduct( product )" title="Delete" class="btn btn-danger" confirm>Delete</button>
-				</div>
-				<div ng-show="product.editing" class="btn-group btn-group-xs pull-right">
-					<button ng-click="EditProduct( product )" class="btn btn-primary">Ok</a>
-					<button ng-click="CancelEditing( product )" class="btn btn-warning">Cancel</a>
-				</div>
-			</td>
-		</tr>
-	</tbody>
-</table>
+	<div class="scrollable">
+		<table ng-show="products.length > 0" class="table table-hover" style="margin-bottom: 0px; border-top: 1px solid #dfd7ca;">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Price</th>
+					<th>In Stock</th>
+					<th>Type</th>
+					<th><span class="pull-right">Actions</span></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="product in products | filter: productFilter as productFilterResults">
+					<td ng-hide="product.editing">{{product.name}}</td>
+					<td ng-hide="product.editing">{{product.price | currency}}</td>
+					<td ng-hide="product.editing">{{product.stock}}</td>
+					<td ng-hide="product.editing">{{product.type}}</td>
+					<td ng-show="product.editing"><input ng-model="product.new_name" type="text" class="form-control input-sm"></td>
+					<td ng-show="product.editing"><input ng-model="product.new_price" type="text" class="form-control input-sm"></td>
+					<td ng-show="product.editing"><input ng-model="product.new_stock" type="text" class="form-control input-sm"></td>
+					<td ng-show="product.editing"><select ng-model="product.new_type" ng-options="productType.type for productType in productTypes track by productType.id" class="form-control input-sm"></select></td>
+					<td>
+						<div ng-hide="product.editing" class="btn-group btn-group-xs pull-right">
+							<button ng-click="StartEditing( product )" title="Edit {{product.name}}" class="btn btn-default">Edit</button>
+							<button ng-click="DeleteProduct( product )" title="Delete" class="btn btn-danger" confirm>Delete</button>
+						</div>
+						<div ng-show="product.editing" class="btn-group btn-group-xs pull-right">
+							<button ng-click="EditProduct( product )" class="btn btn-primary">Ok</a>
+							<button ng-click="CancelEditing( product )" class="btn btn-warning">Cancel</a>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

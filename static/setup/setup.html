@@ -42,24 +42,26 @@
 					</form>
 				</div>
 			</div>
-			<table ng-show="events" class="table table-hover">
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Start Date</th>
-						<th>End Date</th>
-						<th><span class="pull-right">Actions</span></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="event in events | filter: eventFilter as eventFilterResults" ng-click="GotoEventDetails( event.id )" class="clickable">
-						<td>{{event.description}}</td>
-						<td>{{event.start_date | date}}</td>
-						<td>{{event.end_date | date}}</td>
-						<td><button ng-click="DeleteEvent( $event, event )" class="btn btn-danger btn-xs pull-right" confirm>Delete</button></td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="scrollable">
+				<table ng-show="events" class="table table-hover" style="margin-bottom: 0px; border-top: 1px solid #dfd7ca;">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+							<th><span class="pull-right">Actions</span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="event in events | filter: eventFilter as eventFilterResults" ng-click="GotoEventDetails( event.id )" class="clickable">
+							<td>{{event.description}}</td>
+							<td>{{event.start_date | date}}</td>
+							<td>{{event.end_date | date}}</td>
+							<td><button ng-click="DeleteEvent( $event, event )" class="btn btn-danger btn-xs pull-right" confirm>Delete</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 	<div class="col-md-6">
@@ -97,7 +99,7 @@
 					</form>
 				</div>
 			</div>
-			<customers-table customers="customers" filter="customerFilter" on-update="GetAllCustomers()" on-delete="DeleteCustomer"></customers-table>
+			<customers-table customers="customers" filter="customerFilter" on-update="GetAllCustomers()" on-delete="DeleteCustomer" class="scrollable"></customers-table>
 		</div>
 	</div>
 </div>

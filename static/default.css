@@ -41,3 +41,10 @@ small, .small { font-size: 80%; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.scrollable {
+	display: inherit;
+    max-height: 60vh;
+    /*max-height: 480px;*/
+    overflow: auto;
+}

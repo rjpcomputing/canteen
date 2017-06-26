@@ -17,27 +17,29 @@
 	<div class="panel-body">
 		<p>Select the event from the dropdown above, if one is not already selected, to open the store for that event. Then click on the customer to start the purchase process.</p>
 	</div>
-	<table ng-show="customers.length > 0" class="table table-hover" style="margin-bottom: 0px;">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Balance</th>
-				<th>Purchases Today</th>
-				<th><span class="pull-right">Actions</span></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="customer in customers | filter: customerFilter as customerFilterResults" ng-click="Shop( $event, customer )" class="clickable">
-				<td>{{customer.name}}</td>
-				<td>{{customer.balance | currency}}</td>
-				<td>{{customer.purchases_today}}</td>
-				<td>
-					<div ng-hide="product.editing" class="btn-group btn-group-xs pull-right">
-						<button ng-click="CustomerDetails( $event, customer )" title="Purchase History" class="btn btn-info">History</button>
-						<button ng-click="Shop( $event, customer )" class="btn btn-primary">Shop</button>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<!--<div class="scrollable">-->
+		<table ng-show="customers.length > 0" class="table table-hover" style="margin-bottom: 0px; border-top: 1px solid #dfd7ca;">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Balance</th>
+					<th>Purchases Today</th>
+					<th><span class="pull-right">Actions</span></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="customer in customers | filter: customerFilter as customerFilterResults" ng-click="Shop( $event, customer )" class="clickable">
+					<td>{{customer.name}}</td>
+					<td>{{customer.balance | currency}}</td>
+					<td>{{customer.purchases_today}}</td>
+					<td>
+						<div ng-hide="product.editing" class="btn-group btn-group-xs pull-right">
+							<button ng-click="CustomerDetails( $event, customer )" title="Purchase History" class="btn btn-info">History</button>
+							<button ng-click="Shop( $event, customer )" class="btn btn-primary">Shop</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	<!--</div>-->
 </div>
