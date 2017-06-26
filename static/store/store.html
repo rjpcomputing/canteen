@@ -9,7 +9,10 @@
 					<h1 class="panel-title form-inline">Store &nbsp;<select name="selectedEvent" id="selectedEvent" ng-options="FormatEventName( event ) for event in events track by event.id" ng-model="currentEvent" ng-change="GetEventsCustomers( currentEvent )" class="form-control input-sm"></select></h1>
 				</div>
 				<div ng-show="customers" class="col-sm-4">
-					<input ng-model="customerFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 4px 15px;"/>
+					<div class="form-group has-feedback" style="margin-bottom: 0px;">
+						<input ng-model="customerFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 4px 15px;"/>
+						<span class="glyphicon glyphicon-remove-sign form-control-feedback has-clear" ng-click="customerFilter = ''"></span>
+					</div>
 				</div>
 			</div>
 		</h3>

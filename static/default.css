@@ -48,3 +48,13 @@ small, .small { font-size: 80%; }
     /*max-height: 480px;*/
     overflow: auto;
 }
+
+.has-clear {
+	top: 4px;
+	line-height: inherit;
+	width: 24px;
+	height: 24px;
+	pointer-events: auto;
+	text-decoration: none;
+	cursor: pointer;
+}

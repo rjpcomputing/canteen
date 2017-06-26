@@ -10,7 +10,10 @@
 						<h1 class="panel-title">Events &nbsp;<a href ng-click="isAddEventFormCollapsed = !isAddEventFormCollapsed"><span class="glyphicon glyphicon-plus-sign" title="Add Event"></span></a></h1>
 					</div>
 					<div ng-show="events" class="col-sm-4">
-						<input ng-model="eventFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 2px 15px;"/>
+						<div class="form-group has-feedback" style="margin-bottom: 0px;">
+							<input ng-model="eventFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 4px 15px;"/>
+							<span class="glyphicon glyphicon-remove-sign form-control-feedback has-clear" ng-click="eventFilter = ''"></span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -72,7 +75,10 @@
 						<h1 class="panel-title">Customers &nbsp;<a href ng-hide="isReadOnly" ng-click="isAddCustomerFormCollapsed = !isAddCustomerFormCollapsed"><span class="glyphicon glyphicon-plus-sign" title="Add Customer"></span></a></h1>
 					</div>
 					<div ng-show="customers" class="col-sm-4">
-						<input ng-model="customerFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 2px 15px;"/>
+						<div class="form-group has-feedback" style="margin-bottom: 0px;">
+							<input ng-model="customerFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 4px 15px;"/>
+							<span class="glyphicon glyphicon-remove-sign form-control-feedback has-clear" ng-click="customerFilter = ''"></span>
+						</div>
 					</div>
 				</div>
 			</div>

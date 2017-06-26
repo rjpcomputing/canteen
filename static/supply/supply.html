@@ -5,7 +5,10 @@
 				<h1 class="panel-title">Products &nbsp;<a href ng-click="isAddProductFormCollapsed = !isAddProductFormCollapsed"><span class="glyphicon glyphicon-plus-sign" title="Add Product"></span></a></h1>
 			</div>
 			<div class="col-sm-4">
-				<input ng-model="productFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 2px 15px;"/>
+				<div class="form-group has-feedback" style="margin-bottom: 0px;">
+					<input ng-model="productFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 4px 15px;"/>
+					<span class="glyphicon glyphicon-remove-sign form-control-feedback has-clear" ng-click="productFilter = ''"></span>
+				</div>
 			</div>
 		</div>
 	</div>
