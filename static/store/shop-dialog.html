@@ -9,7 +9,7 @@
 		</div>
 		<div class="panel-body">
 			<span ng-repeat="product in products" style="padding: 2px 0px;">
-				<button ng-click="AddProductToCart( product )" ng-class="{'btn-info': product.type === 'Canteen', 'btn-primary': product.type === 'Store'}" class="btn btn-xs">{{product.name}}</button>
+				<button ng-click="AddProductToCart( product )" ng-class="{'btn-info': product.type === 'Canteen', 'btn-primary': product.type === 'Store'}" class="btn btn-xs" style="margin-bottom: 2px;">{{product.name}}</button>
 			</span>
 		</div>
 	</div>
