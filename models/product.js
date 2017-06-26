@@ -16,7 +16,7 @@ module.exports = function ( db )
 
 	ProductModel.GetAll = function()
 	{
-		return db.any( "SELECT *, (SELECT type FROM product_type WHERE id = product.type_id) as type FROM product ORDER BY name ASC" );
+		return db.any( "SELECT *, (SELECT type FROM product_type WHERE id = product.type_id) as type FROM product ORDER BY type_id ASC, name ASC" );
 	};
 
 	ProductModel.GetAllProductTypes = function()
