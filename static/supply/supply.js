@@ -14,9 +14,10 @@ function ( $scope, Product, UI )
 		$scope.selectedProductType = $scope.productTypes[0];
 	} ).$promise;
 
-	$scope.AddProduct = () => Product.save( { name: $scope.productName, price: $scope.productPrice, stock: $scope.productStock || 0 }, ( productId ) =>
+	$scope.AddProduct = () => Product.save( { name: $scope.productName, cost: $scope.productCost, price: $scope.productPrice, stock: $scope.productStock || 0, type_id: $scope.selectedProductType.id }, ( productId ) =>
 	{
 		$scope.productName = undefined;
+		$scope.productCost = undefined;
 		$scope.productPrice = undefined;
 		$scope.selectedProductType = $scope.productTypes[0];
 		GetAllProducts();

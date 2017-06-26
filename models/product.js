@@ -31,7 +31,7 @@ module.exports = function ( db )
 
 	ProductModel.Create = function( product )
 	{
-		return db.one( "INSERT INTO product ( name, price, stock, type_id ) VALUES( $(name), $(price), $(stock), $(type_id) ) RETURNING id", product );
+		return db.one( "INSERT INTO product ( name, cost, price, stock, type_id ) VALUES( $(name), $(cost), $(price), $(stock), $(type_id) ) RETURNING id", product );
 	};
 
 	ProductModel.Update = function( product )
