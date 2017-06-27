@@ -18,7 +18,8 @@ module.exports = function ( db )
 
 	PurchaseModel.GetByCustomerToday = function( customerId )
 	{
-		return db.any( "SELECT * FROM purchase WHERE customer_id = $1 AND DATE( created_at ) = CURRENT_DATE", customerId );
+		let timeZone = new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1];
+		return db.any( "SELECT * FROM purchase WHERE customer_id = $1 AND DATE( created_at AT TIME ZONE 'UTC' AT TIME ZONE $2 ) = DATE( now() AT TIME ZONE $2 )", [customerId, timeZone] );
 	};
 
 	PurchaseModel.Create = function( customerId, amount )
