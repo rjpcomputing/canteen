@@ -1,6 +1,6 @@
 ( function()
 {
-	var appVersion = "17.06-12";
+	var appVersion = "17.06-13";
 	
 	angular.module( "CanteenApp", [ "Canteen.Login", "Canteen.Store", "Canteen.ShopDialog", "Canteen.Event", "Canteen.Customer", "Canteen.PurchaseItemDialog", "Canteen.Setup", "Canteen.Supply", "Canteen.CustomersTable", "Canteen.About", "Canteen.Directives", "ui.router", "ui.bootstrap", "angular-loading-bar", "ngAnimate", "ngCookies" ] )
 
@@ -52,6 +52,8 @@
 	.controller( "AppCtrl", [ "$scope", "$state", "$cookies", "$http", "$timeout", "$uibModal", 
 	function ( $scope, $state, $cookies, $http, $timeout, $uibModal )
 	{
+		let timeZone = new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1];
+console.log( "[DEBUG] timezone:", timeZone );
 		$scope.version = appVersion;
 		$scope.isCollapsed = true;
 		$scope.currentUser = { isLoggedIn: false };
