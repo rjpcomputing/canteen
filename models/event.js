@@ -12,6 +12,7 @@ module.exports = function ( db )
 	EventModel.GetCustomers = function( eventId )
 	{
 		let timeZone = new Date().toString().match(/\(([A-Za-z\s].*)\)/)[1];
+console.log( "[DEBUG] timezone:", timeZone );
 		let query =
 		`SELECT customer.id as id, customer.created_at as created_at, customer.updated_at as updated_at, customer.name as name, customer.starting_balance as starting_balance, customer.balance as balance,
 			(SELECT COUNT( * ) FROM purchase WHERE customer_id = customer.id AND DATE( created_at AT TIME ZONE 'UTC' AT TIME ZONE $2 ) = DATE( now() AT TIME ZONE $2 ) ) as purchases_today,
