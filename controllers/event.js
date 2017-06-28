@@ -17,7 +17,7 @@ exports.Get = ( req, res ) =>
 exports.GetCustomers = ( req, res ) =>
 {
 	EventModel.GetCustomers( req.params.id )
-	.then( ( customers ) => res.send( {success: true, message: "Customers in event", customer: customers } ) )
+	.then( ( customers ) => res.send( { success: true, message: "Customers in event", customer: customers } ) )
 	.catch( err =>
 	{
 		console.error( err );
