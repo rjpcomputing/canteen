@@ -58,3 +58,7 @@ small, .small { font-size: 80%; }
 	text-decoration: none;
 	cursor: pointer;
 }
+
+.table-responsive {
+	margin-bottom: 0px;
+}
