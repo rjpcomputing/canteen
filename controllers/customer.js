@@ -3,6 +3,7 @@
 const config = require( "../config" );
 const CustomerModel = require( "../models" ).Customer;
 const PurchaseModel = require( "../models" ).Purchase;
+const ProductModel = require( "../models" ).Product;
 const SaleItemModel = require( "../models" ).SaleItem;
 
 exports.Get = ( req, res ) =>
@@ -101,7 +102,11 @@ exports.New = ( req, res ) =>
 exports.AddPurchase = ( req, res ) =>
 {
 	PurchaseModel.Create( req.params.id, req.body.amount )
-	.then( ( newPurchase ) => req.body.product.forEach( ( item ) => SaleItemModel.Create( newPurchase.id, item.id, item.sold_price ) ) )
+	.then( ( newPurchase ) => req.body.product.forEach( ( item ) =>
+	{
+		return SaleItemModel.Create( newPurchase.id, item.id, item.sold_price )
+		.then( () => ProductModel.UpdateStock( item ) );
+	} ) )
 	.then( () => CustomerModel.Get( req.params.id ) )
 	.then( ( cust ) =>
 	{

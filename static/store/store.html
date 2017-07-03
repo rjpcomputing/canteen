@@ -8,12 +8,12 @@
 				<div class="col-sm-8">
 					<h1 class="panel-title form-inline">Store &nbsp;<select name="selectedEvent" id="selectedEvent" ng-options="FormatEventName( event ) for event in events track by event.id" ng-model="currentEvent" ng-change="GetEventsCustomers( currentEvent )" class="form-control input-sm"></select></h1>
 				</div>
-				<div ng-show="customers" class="col-sm-4">
+				<!--<div ng-show="customers" class="col-sm-4">
 					<div class="form-group has-feedback" style="margin-bottom: 0px;">
 						<input ng-model="customerFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 4px 15px;"/>
 						<span class="glyphicon glyphicon-remove-sign form-control-feedback has-clear" ng-click="customerFilter = ''"></span>
 					</div>
-				</div>
+				</div>-->
 			</div>
 		</h3>
 	</div>
@@ -24,7 +24,12 @@
 		<table ng-show="customers.length > 0" class="table table-hover" style="margin-bottom: 0px; border-top: 1px solid #dfd7ca;">
 			<thead>
 				<tr>
-					<th>Name</th>
+					<th class="form-inline">Name &nbsp;
+						<div class="form-group has-feedback" style="margin-bottom: 0px;">
+							<input ng-model="customerFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 4px 15px;"/>
+							<span class="glyphicon glyphicon-remove-sign form-control-feedback has-clear" ng-click="customerFilter = ''" style="margin-top: 5px;"></span>
+						</div>
+					</th>
 					<th>Balance</th>
 					<th>Purchases Today</th>
 					<th><span class="pull-right">Actions</span></th>

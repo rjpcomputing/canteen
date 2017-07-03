@@ -31,16 +31,26 @@ function( $scope, $uibModalInstance, customer, event, Product, Customer, Canteen
 			}
 		}
 
-		$scope.shoppingCartTotal += product.sold_price;
-		$scope.customersEndingBalance -= product.sold_price;
+		if ( $scope.customersEndingBalance - product.sold_price >= 0 )
+		{
+			$scope.shoppingCartTotal += product.sold_price;
+			$scope.customersEndingBalance -= product.sold_price;
+			product.stock -= 1;
 
-		$scope.shoppingCart.push( product );
+			$scope.shoppingCart.push( product );
+		}
+		else
+		{
+			alert( "Can't add item to cart. Account balance to low." );
+		}
 	};
 
 	$scope.DeleteProductFromCart = ( index ) =>
 	{
 		$scope.shoppingCartTotal -= $scope.shoppingCart[index].sold_price;
 		$scope.customersEndingBalance += $scope.shoppingCart[index].sold_price;
+		$scope.shoppingCart[index].stock += 1;
+		
 		$scope.shoppingCart.splice( index, 1 );
 	};
 
