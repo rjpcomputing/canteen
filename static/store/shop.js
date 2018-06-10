@@ -15,20 +15,17 @@ function( $scope, $uibModalInstance, customer, event, Product, Customer, Canteen
 	{
 		product.sold_price = product.price;		// Normal price. No discount
 		
-		if ( customer.type === "Summer Staff" || customer.type === "Permanent Staff" )
+		if ( customer.type === "Summer Staff" )
 		{
 			if ( product.type === "Canteen" )
 			{
-				product.sold_price = product.price * ( CanteenSettings.canteenDiscount / 100 );
+				product.sold_price = product.price - ( ( CanteenSettings.canteenDiscount / 100 ) * product.price );
 			}
 		}
 
 		if ( customer.type === "Permanent Staff" )
 		{
-			if ( product.type === "Store" )
-			{
-				product.sold_price = product.cost + CanteenSettings.staffAboveCost;
-			}
+			product.sold_price = product.cost + CanteenSettings.staffAboveCost;
 		}
 
 		if ( $scope.customersEndingBalance - product.sold_price >= 0 )
