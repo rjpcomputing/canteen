@@ -16,9 +16,9 @@ module.exports =
 	},
 	database:
 	{
-		host: "canteen-production.c1swmxb4odfq.us-east-2.rds.amazonaws.com",
-		port: 5432,
+		host: process.env.DATABASE_HOST || "tapawingo-canteen.com",
 		database: process.env.DATABASE || "canteen_sandbox",
+		port: 5432,
 		user: "canteen",
 		password: "c4nt33n1",
 	},

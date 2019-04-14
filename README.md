@@ -1,6 +1,6 @@
 # Canteen App
 Simple app for keeping track of people and how much money they have left to spend.
-The app is written in Node.js and can run on AWS Lambda.
+The app is written in Node.js and uses Postgresql for persistant storage.
 
 ## Features
 ### Themes
@@ -17,5 +17,20 @@ Installed themes include:
 
 ## Hosts
 * [Firebase](https://console.firebase.google.com/u/1/project/canteen-13d35/overview) - User management
-* [AWS](https://us-east-2.console.aws.amazon.com/elasticbeanstalk/home?region=us-east-2#/application/overview?applicationName=Canteen) - Node.js and Postgres hosting
-* [OpenShift](https://console.starter-us-west-2.openshift.com/console/project/canteen) - OBSOLETE - Node.js and Postgres hosting
+* [AWS Lightsail](https://lightsail.aws.amazon.com/ls/webapp/us-east-1/instances/Canteen-Production/connect) - Node.js and Postgres hosting
+
+### Stack Setup
+- Uses PM2 and repo stored `ecosystem.config.js`
+- Uses Lets Encrypt to make sure the connection is SSL (HTTPS)
+	- Uses cron for renewing cert
+- Uses locally installed Postgresql server
+
+### LightSail Initialization Script
+sudo apt-get update
+sudo apt-get install postgresql postgresql-contrib
+sudo -u postgres createuser -s dbadmin
+sudo -u postgres -H -- psql -d postgres -c "ALTER USER dbadmin WITH PASSWORD '<admin_password>'"
+sudo -u postgres createuser --createdb canteen
+sudo -u postgres -H -- psql -d postgres -c "ALTER USER canteen WITH PASSWORD '<password>'"
+sudo -u postgres createdb --owner=canteen canteen
+
