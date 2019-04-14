@@ -26,6 +26,7 @@ Installed themes include:
 - Uses locally installed Postgresql server
 
 ### LightSail Initialization Script
+```
 sudo apt-get update
 sudo apt-get install postgresql postgresql-contrib
 sudo -u postgres createuser -s dbadmin
@@ -33,4 +34,5 @@ sudo -u postgres -H -- psql -d postgres -c "ALTER USER dbadmin WITH PASSWORD '<a
 sudo -u postgres createuser --createdb canteen
 sudo -u postgres -H -- psql -d postgres -c "ALTER USER canteen WITH PASSWORD '<password>'"
 sudo -u postgres createdb --owner=canteen canteen
+```
 
