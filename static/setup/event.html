@@ -1,6 +1,8 @@
 <div class="page-header" style="margin-top: 0px;">
 	<h1>{{event.description}} <small>{{event.start_date | date}} - {{event.end_date | date}}</small>
-		<small><div href uib-tooltip="Create At: {{event.created_at | date}}" tooltip-placement="left" class="pull-right"><span class="glyphicon glyphicon-info-sign"></span></div></small>
+		<small>
+			<div href uib-tooltip="Create At: {{event.created_at | date}}" tooltip-placement="left" class="pull-right"><span class="glyphicon glyphicon-info-sign"></span></div>
+		</small>
 	</h1>
 </div>
 <div class="panel panel-default">
@@ -11,7 +13,7 @@
 			</div>
 			<div class="col-sm-4">
 				<div class="form-group has-feedback" style="margin-bottom: 0px;">
-					<input ng-model="customerFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 4px 15px;"/>
+					<input ng-model="customerFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 4px 15px;" />
 					<span class="glyphicon glyphicon-remove-sign form-control-feedback has-clear" ng-click="customerFilter = ''"></span>
 				</div>
 			</div>
@@ -24,24 +26,32 @@
 			<hr>
 			<form name="addCustomerForm" novalidate>
 				<div class="row">
-					<div ng-class="IsObject( customerToAdd ) ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-6">
+					<div ng-class="IsObject( customerToAdd ) ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
 						<label for="customerToAdd">
 							Name &nbsp;&nbsp;
 							<small>
-								<span ng-show="loadingLocations" class="glyphicon glyphicon-refresh text-muted"></span>
-								<span ng-show="noResults" class="text-muted"><i class="glyphicon glyphicon-remove text-danger"></i> No Results Found</span>
+								<span ng-show="loadingCustomers" class="glyphicon glyphicon-refresh text-muted"></span>
+								<span ng-show="noResults" class="text-muted">
+									<i class="glyphicon glyphicon-remove text-danger"></i> No Results Found &nbsp;&nbsp;
+									<button type="button" ng-click="AddCustomer( customerToAdd, customerBalance )" class="btn btn-success btn-xs" style="line-height: 12px;">
+										<span class="glyphicon glyphicon-plus-sign" uib-tooltip="Add New Customer"></span> Add New
+									</button>
+								</span>
 							</small>
 						</label>
-						<input ng-model="customerToAdd" type="text" ng-model-options="{ debounce: { default: 400 } }" uib-typeahead="customer as customer.name for customer in GetCustomersByName( $viewValue )" typeahead-show-hint="true" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" name="customerToAdd" placeholder="Full Name" autocomplete="off" required>
-						<!--<span ng-class="customerToAdd ? 'glyphicon-ok' : 'glyphicon-remove'" class="glyphicon form-control-feedback" aria-hidden="true"></span>-->
+						<input ng-model="customerToAdd" type="text" ng-model-options="{ debounce: { default: 400 } }" uib-typeahead="customer as customer.name for customer in GetCustomersByName( $viewValue )" typeahead-on-select="OnCustomerSelected( $item )" typeahead-show-hint="true" typeahead-loading="loadingCustomers" typeahead-no-results="noResults" class="form-control" name="customerToAdd" placeholder="Full Name" autocomplete="off" required>
 					</div>
-					<div ng-class="selectedCustomerType ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-6">
+					<div ng-class="customerBalance > 0? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
+						<label for="customerBalance">Balance</label>
+						<input ng-model="customerBalance" type="text" class="form-control" name="customerBalance" placeholder="Balance" required />
+					</div>
+					<div ng-class="selectedCustomerType ? 'has-success' : 'has-error'" class="form-group-sm has-feedback col-md-4">
 						<label for="customerType">Type</label>
 						<select ng-model="selectedCustomerType" ng-options="customerType.type for customerType in customerTypes track by customerType.id" name="customerType" class="form-control input-sm"></select>
 					</div>
 				</div>
 				<br>
-				<button type="submit" ng-click="AddCustomer( customerToAdd )" ng-disabled="addCustomerForm.$invalid || !IsObject( customerToAdd )" class="btn btn-default btn-sm pull-right">Add Customer</button>
+				<button type="submit" ng-click="AddCustomerToEvent( customerToAdd )" ng-disabled="addCustomerForm.$invalid || !IsObject( customerToAdd ) || customerBalance <= 0" class="btn btn-default btn-sm pull-right">Add Customer</button>
 			</form>
 		</div>
 	</div>

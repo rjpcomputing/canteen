@@ -3,7 +3,7 @@
 		<thead>
 			<tr>
 				<th>Name</th>
-				<th>Start Balance</th>
+				<!-- <th>Start Balance</th> -->
 				<th>Balance</th>
 				<th ng-show="$ctrl.customers[0].type">Type</th>
 				<th><span class="pull-right">Actions</span></th>
@@ -12,14 +12,13 @@
 		<tbody>
 			<tr ng-repeat="customer in $ctrl.customers | filter: $ctrl.filter as customerFilterResults">
 				<td ng-hide="customer.editing">{{customer.name}}</td>
-				<td ng-hide="customer.editing">{{customer.starting_balance | currency}}</td>
+				<!-- <td ng-hide="customer.editing">{{customer.starting_balance | currency}}</td> -->
 				<td ng-hide="customer.editing">{{customer.balance | currency}}</td>
 				<td ng-hide="customer.editing || !customer.type">{{customer.type}}</td>
 				<td ng-show="customer.editing"><input ng-model="customer.new_name" type="text" class="form-control input-sm"></td>
-				<td ng-show="customer.editing"><input ng-model="customer.new_starting_balance" type="text" class="form-control input-sm"></td>
+				<!-- <td ng-show="customer.editing"><input ng-model="customer.new_starting_balance" type="text" class="form-control input-sm"></td> -->
 				<td ng-show="customer.editing"><input ng-model="customer.new_balance" type="text" class="form-control input-sm"></td>
 				<td ng-show="customer.editing && customer.type"><select ng-model="customer.new_type" ng-options="customerType.type for customerType in $ctrl.customerTypes track by customerType.id" class="form-control input-sm"></select></td>
-
 				<td>
 					<div ng-hide="customer.editing" class="btn-group btn-group-xs pull-right">
 						<button ng-click="$ctrl.StartEditing( customer )" title="Edit {{customer.name}}" class="btn btn-default">Edit</button>
