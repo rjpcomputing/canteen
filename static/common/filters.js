@@ -1,5 +1,5 @@
 angular.module( "CanteenApp" )
-	.filter( "number_fixed_len", ["$filter", function( $filter ) {
+	.filter( "number_fixed_len", ["$filter", function() {
 		return function( n, len ) {
 			var num = parseInt( n, 10 );
 			len = parseInt( len, 10 );
@@ -13,7 +13,7 @@ angular.module( "CanteenApp" )
 			return num;
 		};
 	}] )
-	.filter( "title_case", ["$filter", function( $filter ) {
+	.filter( "title_case", ["$filter", function() {
 		return function( str ) {
 			var splitStr = str.toLowerCase().split( " " );
 			for ( var i = 0; i < splitStr.length; i++ ) {
@@ -22,15 +22,14 @@ angular.module( "CanteenApp" )
 				splitStr[i] = splitStr[i].charAt( 0 ).toUpperCase() + splitStr[i].substring( 1 );
 			}
 			// Directly return the joined string
-			return splitStr.join( ' ' );
-		}
+			return splitStr.join( " " );
+		};
 	}] )
 	.filter( "asyncFilter", ["$filter", function( $filter ) {
 		return function( array, expression, comparator ) {
 			if ( array && angular.isArray( array ) ) {
 				return $filter( "filter" )( array, expression, comparator );
-			}
-			else {
+			} else {
 				return [];
 			}
 		};
@@ -39,10 +38,9 @@ angular.module( "CanteenApp" )
 		return function( array, expression, comparator ) {
 			if ( array && angular.isArray( array ) ) {
 				return $filter( "orderBy" )( array, expression, comparator );
-			}
-			else {
+			} else {
 				return [];
 			}
 		};
 	}] )
-	;
+;

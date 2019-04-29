@@ -1,110 +1,114 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="CanteenApp">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="">
-		<meta name="author" content="RJP Computing">
-		<base href="/">
-		<link rel="shortcut icon" href="favicon.ico?v=1">
-		<link rel="stylesheet" href="vendor/bootstrap/css/jumbotron-narrow.css" />
-		<link rel="stylesheet" href="vendor/bootstrap/css/themes/sandstone/bootstrap.min.css" />
-		<link rel='stylesheet' href='vendor/angular-loading-bar/0.7.1/loading-bar.min.css' />
-		<link rel="stylesheet" href="default.css" />
-		<link rel="stylesheet" href="print-style.css" type="text/css" media="print" />
-		<title>Canteen</title>
 
-		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-		<!--[if lt IE 9]>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="RJP Computing">
+	<base href="/">
+	<link rel="shortcut icon" href="favicon.ico?v=1">
+	<link rel="stylesheet" href="vendor/bootstrap/css/jumbotron-narrow.css" />
+	<link rel="stylesheet" href="vendor/bootstrap/css/themes/sandstone/bootstrap.min.css" />
+	<link rel='stylesheet' href='vendor/angular-loading-bar/0.7.1/loading-bar.min.css' />
+	<link rel="stylesheet" href="default.css" />
+	<link rel="stylesheet" href="print-style.css" type="text/css" media="print" />
+	<title>Canteen</title>
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
 		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
-	</head>
-	<body ng-cloak>
-		<div ng-controller="AppCtrl">
-			<nav class="navbar navbar-default navbar-fixed-top">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<button type="button" ng-click="isCollapsed = !isCollapsed" class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<img class="pull-left" style="margin-top:6px; margin-right:5px;" src="images/canteen.64x64.png" width="48" height="48" alt="Canteen Logo"/>
-						<a class="navbar-brand" href="#">Canteen</a>
-					</div>
-					<div id="navbar"  uib-collapse="isCollapsed" class="navbar-collapse collapse">
-						<ul class="nav navbar-nav">
-							<li ui-sref-active="active"><a href ui-sref="store">Store</a></li>
-							<li ui-sref-active="active"><a href ui-sref="supply">Supply</a></li>
-							<li ui-sref-active="active"><a href ui-sref="setup">Setup</a></li>
-							<li ui-sref-active="active"><a href ng-click="ShowAboutDialog()">About</a></li>
-							<li ui-sref-active="active" ng-if="IsAdmin()"><a href ui-sref="admin">Admin</a></li>
-						</ul>
-						<div ng-if="currentUser.isLoggedIn" uib-dropdown class="navbar-form navbar-right">
-							<button type="button" class="btn btn-warning btn-user-options" style="margin-left: 15px;" uib-dropdown-toggle>
-								<span class="glyphicon glyphicon-user"></span>
-								<span> {{currentUser.displayName}} </span>
-							</button>
-							<ul class="dropdown-menu" role="menu">
-								<li><a ui-sref="user-profile( { id: currentUser.id } )">View Profile</a></li>
-								<li class="divider"></li>
-								<li ng-click="Logout()"><a href="#/">Sign out</a></li>
-							</ul>
-						</div>
-					</div><!--/.navbar-collapse -->
+</head>
+
+<body ng-cloak>
+	<div ng-controller="AppCtrl">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" ng-click="isCollapsed = !isCollapsed" class="navbar-toggle collapsed" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<img class="pull-left" style="margin-top:6px; margin-right:5px;" src="images/canteen.64x64.png" width="48" height="48" alt="Canteen Logo" />
+					<a class="navbar-brand" href="#">Canteen</a>
 				</div>
-			</nav>
-
-			<div class="container-fluid" style="margin-top: 30px">
-				<div ng-if="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
-				<!--<div ng-view ></div>-->
-				<ui-view ></ui-view>
+				<div id="navbar" uib-collapse="isCollapsed" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li ui-sref-active="active"><a href ui-sref="store">Store</a></li>
+						<li ui-sref-active="active"><a href ui-sref="supply">Supply</a></li>
+						<li ui-sref-active="active"><a href ui-sref="setup">Setup</a></li>
+						<li ui-sref-active="active"><a href ng-click="ShowAboutDialog()">About</a></li>
+						<li ui-sref-active="active" ng-if="IsAdmin()"><a href ui-sref="admin">Admin</a></li>
+					</ul>
+					<div ng-if="currentUser.isLoggedIn" uib-dropdown class="navbar-form navbar-right">
+						<button type="button" class="btn btn-warning btn-user-options" style="margin-left: 15px;" uib-dropdown-toggle>
+							<span class="glyphicon glyphicon-user"></span>
+							<span> {{currentUser.displayName}} </span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a ui-sref="user-profile( { id: currentUser.id } )">View Profile</a></li>
+							<li class="divider"></li>
+							<li ng-click="Logout()"><a href="#/">Sign out</a></li>
+						</ul>
+					</div>
+				</div>
+				<!--/.navbar-collapse -->
 			</div>
+		</nav>
 
-			<footer class="container-fluid footer">
-				<p><span class="pull-right" style="color: #DDD;">{{version}}</span></p>
-			</footer>
+		<div class="container-fluid" style="margin-top: 30px">
+			<div ng-if="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
+			<!--<div ng-view ></div>-->
+			<ui-view></ui-view>
 		</div>
 
-		<script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
-		<script>
-			// Initialize Firebase
-			var config =
-			{
-				apiKey: "AIzaSyDno25_gIAnJWJoM7oK-QCcM2w_zfFvXPs",
-				authDomain: "canteen-13d35.firebaseapp.com",
-				databaseURL: "https://canteen-13d35.firebaseio.com",
-				projectId: "canteen-13d35",
-				storageBucket: "canteen-13d35.appspot.com",
-				messagingSenderId: "835685886186"
-			};
-			firebase.initializeApp(config);
-		</script>
-		<script src="common/iecheck.js"></script>
-		<script src="vendor/angular/angular.min.js"></script>
-		<script src="vendor/angular/angular-resource.min.js"></script>
-		<!--<script src="vendor/angular/angular-route.min.js"></script>-->
-		<script src="vendor/angular/angular-cookies.min.js"></script>
-		<script src="vendor/angular/angular-animate.min.js"></script>
-		<script src="vendor/angular-ui/bootstrap/2.3.1/ui-bootstrap-tpls-2.3.1.min.js"></script>
-		<script src="vendor/angular-ui/router/1.0.3/angular-ui-router.min.js"></script>
-		<script src='vendor/angular-loading-bar/0.7.1/loading-bar.min.js'></script>
-		<script src="common/services.js"></script>
-		<script src="common/directives.js"></script>
-		<script src="store/store.js"></script>
-		<script src="store/shop.js"></script>
-		<script src="supply/supply.js"></script>
-		<script src="setup/event.js"></script>
-		<script src="setup/setup.js"></script>
-		<script src="customer/customer.js"></script>
-		<script src="customer/purchase-item-dialog.js"></script>
-		<script src="customer/customers-table.js"></script>
-		<script src="common/login/login.js"></script>
-		<script src="common/about/about.js"></script>
-		<script src="app.js"></script>
-	</body>
+		<footer class="container-fluid footer">
+			<p><span class="pull-right" style="color: #DDD;">{{version}}</span></p>
+		</footer>
+	</div>
+
+	<script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
+	<script>
+		// Initialize Firebase
+		var config =
+		{
+			apiKey: "AIzaSyDno25_gIAnJWJoM7oK-QCcM2w_zfFvXPs",
+			authDomain: "canteen-13d35.firebaseapp.com",
+			databaseURL: "https://canteen-13d35.firebaseio.com",
+			projectId: "canteen-13d35",
+			storageBucket: "canteen-13d35.appspot.com",
+			messagingSenderId: "835685886186"
+		};
+		firebase.initializeApp( config );
+	</script>
+	<script src="common/iecheck.js"></script>
+	<script src="vendor/angular/angular.min.js"></script>
+	<script src="vendor/angular/angular-resource.min.js"></script>
+	<!--<script src="vendor/angular/angular-route.min.js"></script>-->
+	<script src="vendor/angular/angular-cookies.min.js"></script>
+	<script src="vendor/angular/angular-animate.min.js"></script>
+	<script src="vendor/angular-ui/bootstrap/2.3.1/ui-bootstrap-tpls-2.3.1.min.js"></script>
+	<script src="vendor/angular-ui/router/1.0.3/angular-ui-router.min.js"></script>
+	<script src='vendor/angular-loading-bar/0.7.1/loading-bar.min.js'></script>
+	<script src="common/services.js"></script>
+	<script src="common/directives.js"></script>
+	<script src="store/store.js"></script>
+	<script src="store/shop.js"></script>
+	<script src="supply/supply.js"></script>
+	<script src="setup/event.js"></script>
+	<script src="setup/setup.js"></script>
+	<script src="customer/customer.js"></script>
+	<script src="customer/purchase-item-dialog.js"></script>
+	<script src="customer/customers-table.js"></script>
+	<script src="common/login/login.js"></script>
+	<script src="common/about/about.js"></script>
+	<script src="app.js"></script>
+</body>
+
 </html>

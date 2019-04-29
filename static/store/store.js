@@ -1,71 +1,66 @@
-angular.module( "Canteen.Store", [ "ui.bootstrap", "Canteen.Services" ] )
+angular.module( "Canteen.Store", ["ui.bootstrap", "Canteen.Services"] )
 
-.controller( "StoreCtrl", [ "$scope", "$cookies", "$filter", "$state", "$uibModal", "Event", "Product",
-function( $scope, $cookies, $filter, $state, $uibModal, Event, Product )
-{
-	$scope.loading = true;
-	let displayDetails = $cookies.getObject( $scope.displayCookieName );
+	.controller( "StoreCtrl", ["$scope", "$cookies", "$filter", "$state", "$uibModal", "Event", "Product",
+		function( $scope, $cookies, $filter, $state, $uibModal, Event, Product ) {
+			$scope.loading = true;
+			let displayDetails = $cookies.getObject( $scope.displayCookieName );
 
-	let GetAllEvents = ( order ) => Event.query( {}, ( data, headers ) => $scope.events = data ).$promise;
-	let GetAllProducts = ( order ) => Product.query( {}, ( data, headers ) => $scope.products = data.product ).$promise;
+			let GetAllEvents = ( _order ) => Event.query( {}, ( data ) => $scope.events = data ).$promise;
+			let GetAllProducts = ( _order ) => Product.query( {}, ( data ) => $scope.products = data.product ).$promise;
 
-	$scope.FormatEventName = ( event ) => event.description + '  (' + $filter( "date" )( event.start_date ) + ' - ' + $filter( "date" )( event.end_date ) + ")";
-	
-	$scope.CustomerDetails = ( $event, customer ) =>
-	{
-		$event.stopPropagation();
-		$state.go( "customer", { id: customer.id } );
-	};
+			$scope.FormatEventName = ( event ) => event.description + "  (" + $filter( "date" )( event.start_date ) + " - " + $filter( "date" )( event.end_date ) + ")";
 
-	$scope.GetEventsCustomers = ( event ) =>
-	{
-		Event.customers( { id: event.id }, {}, ( data, headers ) =>
-		{
-			displayDetails.store.selectedEvent = event;
-			$cookies.putObject( $scope.displayCookieName, displayDetails );
+			$scope.CustomerDetails = ( $event, customer ) => {
+				$event.stopPropagation();
+				$state.go( "customer", { id: customer.id } );
+			};
 
-			$scope.customers = data.customer;
-		} );
-	};
+			$scope.GetEventsCustomers = ( event ) => {
+				Event.customers( { id: event.id }, {}, ( data ) => {
+					displayDetails.store.selectedEvent = event;
+					$cookies.putObject( $scope.displayCookieName, displayDetails );
 
-	$scope.Shop = ( $event, customer ) =>
-	{
-		$event.stopPropagation();
-		var modalInstance = $uibModal.open(
-		{
-			templateUrl: "store/shop-dialog.html",
-			controller: "ShopDialogCtrl",
-			size: "lg",
-			backdrop: "static",
-			resolve:
-			{
-				customer: function() { return customer; },
-				event: function() { return $scope.currentEvent; }
-			}
-		} );
+					$scope.customers = data.customer;
+				} );
+			};
 
-		modalInstance.result.then( ( purchaseDetail ) => $scope.GetEventsCustomers( $scope.currentEvent ) );
-	};
-	
-	GetAllEvents()
-	.then( () =>
-	{
-		if( displayDetails.store.selectedEvent )
-		{
-			$scope.currentEvent = displayDetails.store.selectedEvent;
-		}
-		$scope.GetEventsCustomers( displayDetails.store.selectedEvent )
-	} )
-	.then( () => GetAllProducts() )
-	.then( () => $scope.loading = false )
-	.catch( errorDetails =>
-	{
-		if ( errorDetails )
-		{
-			$scope.errorMessage = "Error Occurred! " + errorDetails;
-		}
+			$scope.Shop = ( $event, customer ) => {
+				$event.stopPropagation();
+				var modalInstance = $uibModal.open(
+					{
+						templateUrl: "store/shop-dialog.html",
+						controller: "ShopDialogCtrl",
+						size: "lg",
+						backdrop: "static",
+						resolve:
+						{
+							customer: function() {
+								return customer;
+							},
+							event: function() {
+								return $scope.currentEvent;
+							}
+						}
+					} );
 
-		console.log( "Error Occurred!" );
-		console.log( errorDetails.data || errorDetails );
-	} );
-} ]);
+				modalInstance.result.then( ( _purchaseDetail ) => $scope.GetEventsCustomers( $scope.currentEvent ) );
+			};
+
+			GetAllEvents()
+				.then( () => {
+					if ( displayDetails.store.selectedEvent ) {
+						$scope.currentEvent = displayDetails.store.selectedEvent;
+					}
+					$scope.GetEventsCustomers( displayDetails.store.selectedEvent );
+				} )
+				.then( () => GetAllProducts() )
+				.then( () => $scope.loading = false )
+				.catch( errorDetails => {
+					if ( errorDetails ) {
+						$scope.errorMessage = "Error Occurred! " + errorDetails;
+					}
+
+					console.log( "Error Occurred!" );
+					console.log( errorDetails.data || errorDetails );
+				} );
+		}] );

@@ -1,12 +1,17 @@
 {
     "env": {
         "es6": true,
-        "node": true
+        "node": true,
+        "browser": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module"
+    },
+    "globals": {
+        "angular": true,
+        "firebase": true
     },
     "rules": {
         "space-in-parens": [

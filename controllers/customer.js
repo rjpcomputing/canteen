@@ -1,6 +1,4 @@
-//const _ = require( "lodash" );
-// const async = require( "async" );
-const config = require( "../config" );
+// const config = require( "../config" );
 const CustomerModel = require( "../models" ).Customer;
 const PurchaseModel = require( "../models" ).Purchase;
 const ProductModel = require( "../models" ).Product;
@@ -111,7 +109,7 @@ exports.Update = ( req, res ) => {
 
 exports.Delete = ( req, res ) => {
 	CustomerModel.Delete( req.params.id )
-		.then( ( data ) => {
+		.then( ( _data ) => {
 			res.send( { success: true, message: "Customer deleted" } );
 		} )
 		.catch( ( err ) => {

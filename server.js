@@ -1,8 +1,8 @@
-const firebase		= require( "firebase" );
-const express		= require( "express" );
-const bodyParser	= require( "body-parser" );
-const morgan		= require( "morgan" );
-const config		= require( "./config" );
+const firebase = require( "firebase" );
+const express = require( "express" );
+const bodyParser = require( "body-parser" );
+const morgan = require( "morgan" );
+const config = require( "./config" );
 
 firebase.initializeApp( config.firebase );
 
@@ -16,8 +16,7 @@ app.use( morgan( "dev" ) );		// use morgan to log requests to the console
 require( "./routes" )( app );
 
 // catch 404 and forward to error handler
-app.use( function ( req, res, next )
-{
+app.use( function( req, res, next ) {
 	let err = new Error( "Not Found" );
 	err.status = 404;
 
@@ -25,12 +24,11 @@ app.use( function ( req, res, next )
 } );
 
 // error handler
-app.use( function ( err, req, res, next )
-{
-console.log( "err", err );
-console.log( "err.message", err.message );
-console.log( "err.status", err.status );
-	
+app.use( function( err, req, res, _next ) {
+	console.log( "err", err );
+	console.log( "err.message", err.message );
+	console.log( "err.status", err.status );
+
 	// set locals, only providing error in development
 	res.locals.message = err.message;
 	res.locals.error = req.app.get( "env" ) === "development" ? err : {};
@@ -42,7 +40,6 @@ console.log( "err.status", err.status );
 	res.send( errorStucture );
 } );
 
-var server = app.listen( config.server.port, function ()
-{
-    console.log( "Listening on port %s...", server.address().port );
+var server = app.listen( config.server.port, function() {
+	console.log( "Listening on port %s...", server.address().port );
 } );

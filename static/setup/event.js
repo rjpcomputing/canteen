@@ -8,12 +8,12 @@ angular.module( "Canteen.Event", ["Canteen.Services"] )
 			$scope.customerBalance = 0;
 			$scope.selectedCustomerType = undefined;
 
-			let GetEvent = ( eventId ) => Event.get( { id: eventId }, ( data, headers ) => $scope.event = data ).$promise;
-			let GetEventsCustomers = ( eventId ) => Event.customers( { id: eventId }, {}, ( data, headers ) => $scope.customers = data.customer ).$promise;
+			let GetEvent = ( eventId ) => Event.get( { id: eventId }, ( data ) => $scope.event = data ).$promise;
+			let GetEventsCustomers = ( eventId ) => Event.customers( { id: eventId }, {}, ( data ) => $scope.customers = data.customer ).$promise;
 			$scope.GetEventsCustomers = GetEventsCustomers;
 			$scope.IsObject = angular.isObject;
 
-			let GetCustomerTypes = () => UI.customertypes( ( data, headers ) => {
+			let GetCustomerTypes = () => UI.customertypes( ( data ) => {
 				$scope.customerTypes = data.customer_type;
 				$scope.selectedCustomerType = $scope.customerTypes[0];
 			} ).$promise;
@@ -26,7 +26,7 @@ angular.module( "Canteen.Event", ["Canteen.Services"] )
 					splitStr[i] = splitStr[i].charAt( 0 ).toUpperCase() + splitStr[i].substring( 1 );
 				}
 				// Directly return the joined string
-				return splitStr.join( ' ' );
+				return splitStr.join( " " );
 			};
 
 			$scope.OnCustomerSelected = function( $item ) {
@@ -37,7 +37,7 @@ angular.module( "Canteen.Event", ["Canteen.Services"] )
 
 			$scope.GetCustomersByName = ( name ) => {
 				return Customer.byname( { cmd: name } ).$promise
-					.then( ( data, headers ) => data.customer );
+					.then( ( data ) => data.customer );
 			};
 
 			$scope.AddCustomer = ( customer, customerBalance ) => {
@@ -54,9 +54,9 @@ angular.module( "Canteen.Event", ["Canteen.Services"] )
 				customer.starting_balance = $scope.customerBalance;
 				Customer.save( { id: customer.id }, customer ).$promise
 					.then( () => {
-						return Event.addcustomer( { id: $stateParams.id, opt: customer.id }, { type_id: $scope.selectedCustomerType.id, type: $scope.selectedCustomerType.type } ).$promise
+						return Event.addcustomer( { id: $stateParams.id, opt: customer.id }, { type_id: $scope.selectedCustomerType.id, type: $scope.selectedCustomerType.type } ).$promise;
 					} )
-					.then( ( data, headers ) => {
+					.then( ( _data ) => {
 						$scope.customerToAdd = undefined;
 						$scope.customerBalance = 0;
 						$scope.selectedCustomerType = $scope.customerTypes[0];
@@ -65,7 +65,7 @@ angular.module( "Canteen.Event", ["Canteen.Services"] )
 			};
 
 			$scope.DeleteCustomer = ( customer ) => {
-				Event.deletecustomer( { id: $stateParams.id, opt: customer.id }, {}, ( data, headers ) => {
+				Event.deletecustomer( { id: $stateParams.id, opt: customer.id }, {}, ( _data ) => {
 					GetEventsCustomers( $stateParams.id );
 				} );
 			};
@@ -82,4 +82,4 @@ angular.module( "Canteen.Event", ["Canteen.Services"] )
 					console.log( "Error Occurred!" );
 					console.log( errorDetails.data || errorDetails );
 				} );
-		}] )
+		}] );
