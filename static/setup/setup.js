@@ -1,8 +1,8 @@
 angular.module( "Canteen.Setup", ["ui.bootstrap", "Canteen.Services"] )
 
-// .controller( "SetupCtrl", [ "$scope",
-// 	function( $scope ) {
-// 	} ] )
+	.controller( "SetupCtrl", ["$scope",
+		function( _$scope ) {
+		}] )
 
 	.controller( "EventsCtrl", ["$scope", "$state", "Event",
 		function( $scope, $state, Event ) {
