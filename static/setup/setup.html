@@ -2,16 +2,27 @@
 	<div class="alert alert-danger" role="alert">{{errorMessage}}</div>
 </div>
 <div ng-hide="errorMessage" class="row">
-	<div class="col-md-6">
+	<div class="col-md-12">
 		<div ng-controller="EventsCtrl" class="panel panel-default">
 			<div class="panel-heading">
 				<div class="row">
-					<div class="col-sm-8">
+					<div class="col-sm-4">
 						<h1 class="panel-title">Events &nbsp;<a href ng-click="isAddEventFormCollapsed = !isAddEventFormCollapsed"><span class="glyphicon glyphicon-plus-sign" title="Add Event"></span></a></h1>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group form-group-sm">
+							<div class="form-group" style="margin-bottom: 0px; padding-right: 0px;">
+								<label class="col-sm-2 control-label panel-title" for="selectedYear">Year:</label>
+								<div class="col-sm-4" style="padding-left: 0px;">
+									<select name="selectedYear" id="selectedYear" ng-options="year for year in availableYears" ng-model="selectedYear" ng-change="GetAllEvents( selectedYear )" class="form-control input-sm"></select>
+								</div>
+								<div class="col-sm-6"></div>
+							</div>
+						</div>
 					</div>
 					<div ng-show="events" class="col-sm-4">
 						<div class="form-group has-feedback" style="margin-bottom: 0px;">
-							<input ng-model="eventFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 4px 15px;"/>
+							<input ng-model="eventFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 4px 15px;" />
 							<span class="glyphicon glyphicon-remove-sign form-control-feedback has-clear" ng-click="eventFilter = ''"></span>
 						</div>
 					</div>
@@ -67,7 +78,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-12">
 		<div ng-controller="CustomersCtrl" class="panel panel-default">
 			<div class="panel-heading">
 				<div class="row">
@@ -76,7 +87,7 @@
 					</div>
 					<div ng-show="customers" class="col-sm-4">
 						<div class="form-group has-feedback" style="margin-bottom: 0px;">
-							<input ng-model="customerFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 4px 15px;"/>
+							<input ng-model="customerFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 4px 15px;" />
 							<span class="glyphicon glyphicon-remove-sign form-control-feedback has-clear" ng-click="customerFilter = ''"></span>
 						</div>
 					</div>

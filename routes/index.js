@@ -1,7 +1,6 @@
 let apiRouter = require( "./routes" );
 
-module.exports = function ( app )
-{
+module.exports = function( app ) {
 	/* GET home page. */
 	// app.get( "/", function ( req, res, next )
 	// {

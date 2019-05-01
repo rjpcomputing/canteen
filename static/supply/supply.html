@@ -6,7 +6,7 @@
 			</div>
 			<div class="col-sm-4">
 				<div class="form-group has-feedback" style="margin-bottom: 0px;">
-					<input ng-model="productFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 4px 15px;"/>
+					<input ng-model="productFilter" type="text" placeholder="Filter" class="form-control" style="height: inherit; padding: 4px 15px;" />
 					<span class="glyphicon glyphicon-remove-sign form-control-feedback has-clear" ng-click="productFilter = ''"></span>
 				</div>
 			</div>
@@ -76,8 +76,8 @@
 							<button ng-click="DeleteProduct( product )" title="Delete" class="btn btn-danger" confirm>Delete</button>
 						</div>
 						<div ng-show="product.editing" class="btn-group btn-group-xs pull-right">
-							<button ng-click="EditProduct( product )" class="btn btn-primary">Ok</a>
-							<button ng-click="CancelEditing( product )" class="btn btn-warning">Cancel</a>
+							<button ng-click="EditProduct( product )" class="btn btn-primary">Ok</button>
+							<button ng-click="CancelEditing( product )" class="btn btn-warning">Cancel</button>
 						</div>
 					</td>
 				</tr>

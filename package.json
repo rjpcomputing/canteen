@@ -1,17 +1,22 @@
 {
-  "name": "Canteen",
-  "version": "0.0.1",
+  "name": "canteen",
+  "version": "1.0.0",
   "private": true,
-  "dependencies": {
-    "body-parser": "^1.15.2",
-    "ejs": "latest",
-    "express": "^4.14.0",
-    "firebase": "^4.13.1",
-    "morgan": "^1.8.2",
-    "pg-promise": "^5.9.0",
-    "request-promise-lite": "^0.8.1"
-  },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "serve": "nodemon server.js",
+    "fixcode": "eslint . --fix"
+  },
+  "dependencies": {
+    "body-parser": "latest",
+    "ejs": "latest",
+    "express": "latest",
+    "firebase": "latest",
+    "morgan": "latest",
+    "pg-promise": "latest",
+    "request-promise-lite": "latest"
+  },
+  "devDependencies": {
+    "eslint": "latest"
   }
 }
