@@ -20,7 +20,7 @@ exports.GetCustomers = ( req, res ) => {
 };
 
 exports.GetByDescription = ( req, res ) => {
-	EventModel.GetAllByDescription( req.params.description )
+	EventModel.GetByDescription( req.params.description )
 		.then( ( event ) => res.send( event ) )
 		.catch( err => {
 			console.error( err );
@@ -29,11 +29,20 @@ exports.GetByDescription = ( req, res ) => {
 };
 
 exports.GetAll = ( req, res ) => {
-	EventModel.GetAll()
+	EventModel.GetAll( req.query.year )
 		.then( ( events ) => res.send( events ) )
 		.catch( err => {
 			console.error( err );
 			return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error requesting all events", error: req.app.get( "env" ) === "development" ? err : {} } );
+		} );
+};
+
+exports.GetAvailableYears = ( req, res ) => {
+	EventModel.GetDistinctYears()
+		.then( ( years ) => res.send( { success: true, message: "Distinct years", years: years } ) )
+		.catch( err => {
+			console.error( err );
+			return res.status( 500 ).send( { success: false, url: req.originalUrl, message: err.message, userMessage: "Error requesting customers for event", error: req.app.get( "env" ) === "development" ? err : {} } );
 		} );
 };
 

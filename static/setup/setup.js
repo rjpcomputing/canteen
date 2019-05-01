@@ -4,12 +4,25 @@ angular.module( "Canteen.Setup", ["ui.bootstrap", "Canteen.Services"] )
 		function( _$scope ) {
 		}] )
 
-	.controller( "EventsCtrl", ["$scope", "$state", "Event",
-		function( $scope, $state, Event ) {
+	.controller( "EventsCtrl", ["$scope", "$state", "Event", "UI",
+		function( $scope, $state, Event, UI ) {
 			$scope.loading = true;
 			$scope.isAddEventFormCollapsed = true;
+			$scope.selectedYear = new Date().getFullYear();
+			$scope.availableYears = [( new Date().getFullYear() )];
 
-			let GetAllEvents = ( _order ) => Event.query( {}, ( data ) => $scope.events = data ).$promise;
+			let GetAllEvents = ( _order ) => Event.query( { year: $scope.selectedYear }, ( data ) => $scope.events = data ).$promise;
+
+			let GetAvailableYears = () => UI.eventyears( ( data ) => {
+				const years = data.years;
+				let availableYears = [];
+				for ( var index = 0; index < years.length; ++index ) {
+					availableYears.push( years[index].year );
+				}
+				$scope.availableYears = availableYears;
+			} ).$promise;
+
+			$scope.GetAllEvents = GetAllEvents;
 
 			$scope.GotoEventDetails = ( eventId ) => $state.go( "event", { id: eventId } );
 
@@ -18,15 +31,19 @@ angular.module( "Canteen.Setup", ["ui.bootstrap", "Canteen.Services"] )
 				$scope.eventStartDate = undefined;
 				$scope.eventEndDate = undefined;
 
+				GetAvailableYears();
 				GetAllEvents();
 			} );
 
 			$scope.DeleteEvent = ( $event, newEvent ) => {
 				$event.stopPropagation();
 				Event.get( { id: newEvent.id }, ( ev ) => ev.$delete( { id: ev.id }, () => GetAllEvents() ) );
+				GetAvailableYears();
+				$scope.selectedYear = new Date().getFullYear();
 			};
 
 			GetAllEvents()
+				.then( () => GetAvailableYears() )
 				.then( () => $scope.loading = false )
 				.catch( errorDetails => {
 					if ( errorDetails ) {

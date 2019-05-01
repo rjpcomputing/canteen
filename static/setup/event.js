@@ -41,12 +41,22 @@ angular.module( "Canteen.Event", ["Canteen.Services"] )
 			};
 
 			$scope.AddCustomer = ( customer, customerBalance ) => {
-				if ( confirm( `Are you sure you want to add '${TitleCase( customer )}'.` ) ) {
-					Customer.save( { name: TitleCase( customer ), starting_balance: customerBalance, balance: customerBalance }, ( res ) => {
-						$scope.customerToAdd = { id: res.customer.id, name: TitleCase( customer ), starting_balance: customerBalance, balance: customerBalance };
-						$scope.noResults = false;
-					} );
-				}
+				// let shouldSave = true;
+				// if ( customerBalance <= 0 ) {
+				// 	shouldSave = confirm( `Are you sure you want to add '${TitleCase( customer )}' with a balance of $${customerBalance}.` );
+				// }
+
+				// if ( shouldSave ) {
+				// 	Customer.save( { name: TitleCase( customer ), starting_balance: customerBalance, balance: customerBalance }, ( res ) => {
+				// 		$scope.customerToAdd = { id: res.customer.id, name: TitleCase( customer ), starting_balance: customerBalance, balance: customerBalance };
+				// 		$scope.noResults = false;
+				// 	} );
+				// }
+
+				Customer.save( { name: TitleCase( customer ), starting_balance: customerBalance, balance: customerBalance }, ( res ) => {
+					$scope.customerToAdd = { id: res.customer.id, name: TitleCase( customer ), starting_balance: customerBalance, balance: customerBalance };
+					$scope.noResults = false;
+				} );
 			};
 
 			$scope.AddCustomerToEvent = ( customer ) => {

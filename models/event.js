@@ -20,12 +20,21 @@ module.exports = function( db ) {
 		return db.any( query, [eventId, timeZone || "EDT"] );
 	};
 
+	EventModel.GetDistinctYears = function() {
+		return db.any( "SELECT DISTINCT EXTRACT( year FROM start_date) AS year FROM event" );
+	};
+
 	EventModel.GetByDescription = function( description ) {
 		return db.one( "SELECT * FROM event WHERE description = $1", description );
 	};
 
-	EventModel.GetAll = function() {
-		return db.any( "SELECT * FROM event ORDER BY start_date ASC" );
+	EventModel.GetAll = function( year ) {
+		let whereClause = "";
+		if ( year ) {
+			whereClause = `WHERE EXTRACT(year FROM start_date) = ${year}`;
+		}
+
+		return db.any( `SELECT * FROM event ${whereClause} ORDER BY start_date ASC` );
 	};
 
 	EventModel.Create = function( event ) {

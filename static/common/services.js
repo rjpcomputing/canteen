@@ -43,5 +43,6 @@ canteenService.factory( "UI", ["$resource", function( $resource ) {
 		{
 			customertypes: { method: "GET", params: { id: "customertypes" }, isArray: false },
 			producttypes: { method: "GET", params: { id: "producttypes" }, isArray: false },
+			eventyears: { method: "GET", params: { id: "eventyears" }, isArray: false },
 		} );
 }] );

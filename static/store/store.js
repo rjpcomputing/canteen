@@ -3,10 +3,20 @@ angular.module( "Canteen.Store", ["ui.bootstrap", "Canteen.Services"] )
 	.controller( "StoreCtrl", ["$scope", "$cookies", "$filter", "$state", "$uibModal", "Event", "Product",
 		function( $scope, $cookies, $filter, $state, $uibModal, Event, Product ) {
 			$scope.loading = true;
+			$scope.showAllEvents = false;
 			let displayDetails = $cookies.getObject( $scope.displayCookieName );
 
-			let GetAllEvents = ( _order ) => Event.query( {}, ( data ) => $scope.events = data ).$promise;
+			let GetAllEvents = ( _order ) => {
+				if ( $scope.showAllEvents ) {
+					return Event.query( {}, ( data ) => $scope.events = data ).$promise;
+				} else {
+					return Event.query( { year: new Date().getFullYear() }, ( data ) => $scope.events = data ).$promise;
+				}
+			};
+
 			let GetAllProducts = ( _order ) => Product.query( {}, ( data ) => $scope.products = data.product ).$promise;
+
+			$scope.UpdateAllEvents = GetAllEvents;
 
 			$scope.FormatEventName = ( event ) => event.description + "  (" + $filter( "date" )( event.start_date ) + " - " + $filter( "date" )( event.end_date ) + ")";
 
@@ -46,7 +56,7 @@ angular.module( "Canteen.Store", ["ui.bootstrap", "Canteen.Services"] )
 				modalInstance.result.then( ( _purchaseDetail ) => $scope.GetEventsCustomers( $scope.currentEvent ) );
 			};
 
-			GetAllEvents()
+			$scope.UpdateAllEvents()
 				.then( () => {
 					if ( displayDetails.store.selectedEvent ) {
 						$scope.currentEvent = displayDetails.store.selectedEvent;

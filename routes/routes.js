@@ -33,6 +33,7 @@ apiRouter.delete( "/product/:id", ProductController.Delete );
 // UI
 apiRouter.get( "/ui/customertypes", CustomerController.GetAllCustomerTypes );
 apiRouter.get( "/ui/producttypes", ProductController.GetAllProductTypes );
+apiRouter.get( "/ui/eventyears", EventController.GetAvailableYears );
 
 // SaleItem
 // apiRouter.get( "/purchaseitem",  ProductController.GetAll );

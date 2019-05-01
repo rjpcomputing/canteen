@@ -5,15 +5,18 @@
 	<div class="panel-heading">
 		<h3 class="panel-title">
 			<div class="row">
-				<div class="col-sm-8">
-					<h1 class="panel-title form-inline">Store &nbsp;<select name="selectedEvent" id="selectedEvent" ng-options="FormatEventName( event ) for event in events track by event.id" ng-model="currentEvent" ng-change="GetEventsCustomers( currentEvent )" class="form-control input-sm"></select></h1>
+				<div class="col-sm-12">
+					<h1 class="panel-title form-inline">
+						Store &nbsp;
+						<select name="selectedEvent" id="selectedEvent" ng-options="FormatEventName( event ) for event in events track by event.id" ng-model="currentEvent" ng-change="GetEventsCustomers( currentEvent )" class="form-control input-sm"></select>
+						&nbsp;
+						<div class="checkbox text-right" uib-tooltip="Show Events From All Years">
+							<label for="showAllEvents" class="checkbox-inline">
+								<input type="checkbox" id="showAllEvents" ng-model="showAllEvents" ng-change="UpdateAllEvents()" /> Show All
+							</label>
+						</div>
+					</h1>
 				</div>
-				<!--<div ng-show="customers" class="col-sm-4">
-					<div class="form-group has-feedback" style="margin-bottom: 0px;">
-						<input ng-model="customerFilter" type="text" placeholder="Filter By Name" class="form-control" style="height: inherit; padding: 4px 15px;"/>
-						<span class="glyphicon glyphicon-remove-sign form-control-feedback has-clear" ng-click="customerFilter = ''"></span>
-					</div>
-				</div>-->
 			</div>
 		</h3>
 	</div>
